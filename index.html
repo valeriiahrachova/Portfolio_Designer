@@ -32,9 +32,9 @@
   @media (prefers-reduced-motion: reduce) { #site-header .hdr-nav, #mobile-menu { transition: none !important; animation: none !important; } }
   .btn-dark { background: linear-gradient(180deg, #2b2b2b 0%, #0d0d0d 100%); border: 1px solid rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -6px 12px rgba(0,0,0,.5), 0 12px 30px rgba(0,0,0,.28); transition: transform .25s ease, box-shadow .25s ease, filter .25s ease; }
   .btn-dark:hover { transform: scale(1.03); filter: brightness(1.12); }
-  .glass-dot { position: relative; overflow: hidden; background: linear-gradient(145deg, rgba(254,238,40,1) 0%, rgba(254,230,0,.82) 100%); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.55); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(255,190,0,.3), 0 0 18px rgba(254,230,0,.35); transition: transform .3s ease; }
-  .glass-dot::before { content: ''; position: absolute; left: 12%; right: 12%; top: 0; height: 48%; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,0)); pointer-events: none; }
-  .btn-dark:hover .glass-dot { transform: rotate(-45deg); }
+  .glass-dot { background: rgba(254,230,0,.96); border: 1px solid rgba(255,255,255,.4); box-shadow: none; }
+  .glass-dot svg { transition: transform .3s ease; }
+  .btn-dark:hover .glass-dot svg { transform: translate(2px,-2px); }
   .animated-arrow { animation: arrow-pulse 1.4s ease-in-out infinite; }
   @keyframes sculpture-spin { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(-360deg); } }
   @keyframes arrow-pulse { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
@@ -125,7 +125,7 @@
       <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
       <a id="explore-btn" href="#work" class="btn-dark flex items-center gap-5 rounded-full py-2 pl-8 pr-2 text-base font-semibold text-white">
         <span class="en">Explore my work</span><span class="uk">Переглянути роботи</span>
-        <span class="glass-dot grid h-11 w-11 place-items-center rounded-full text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="animated-arrow relative z-[1] h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></span>
+        <span class="glass-dot grid h-11 w-11 place-items-center rounded-full text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none"><path d="M5.5 14.5l9-9M7 5.5h7.5V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
       <a href="https://www.linkedin.com/in/valeriia-hrachova-466953234/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
         <span>LinkedIn</span>
