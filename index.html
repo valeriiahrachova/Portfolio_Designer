@@ -116,6 +116,29 @@
     .work-photo { top: 12px; height: calc(100% - 62px); }
     .work-card:hover .work-photo { transform: translateX(-50%) scale(1.14); }
   }
+  /* Desktop: the whole "about" block (photo + heading + buttons + text + tags) fits one screen.
+     Text widths are in em so line counts stay the same at every size; the photo takes whatever height is left. */
+  @media (min-width: 1024px) {
+    #about {
+      --f1: clamp(15px, 2.4vh, 24px);
+      --f2: clamp(13px, 1.9vh, 18px);
+      --f3: clamp(12px, 1.5vh, 14px);
+      --pv: clamp(5px, .85vh, 8px);
+      --m1: clamp(12px, 2.4vh, 30px);
+      --m2: clamp(8px, 1.6vh, 20px);
+      --m3: clamp(12px, 2.2vh, 28px);
+      --S: calc(16px + 60px + var(--m1) + var(--f1) * 4.5 + var(--m2) + var(--f2) * 3.1 + var(--m3) + 2 * (var(--f3) * 1.4 + 2 * var(--pv) + 2px) + var(--pv) + 2px);
+      --W: clamp(300px, calc((100vh - 104px - var(--S)) / .6493), 720px);
+    }
+    #about .about-col { gap: 0; }
+    #about .about-photo { width: var(--W); }
+    #about .about-text { margin-top: 16px; max-width: none; }
+    #about .about-cta { margin-bottom: var(--m1); }
+    #about .about-p1 { font-size: var(--f1); line-height: 1.5; max-width: 32em; margin-inline: auto; }
+    #about .about-p2 { font-size: var(--f2); line-height: 1.55; max-width: 42.7em; margin: var(--m2) auto 0; }
+    #about .about-tags { font-size: var(--f3); margin: var(--m3) auto 0; gap: calc(var(--pv) + 2px); max-width: 55em; }
+    #about .about-tags li { padding: var(--pv) calc(var(--pv) * 2); line-height: 1.4; }
+  }
   .acc-body { display: grid; grid-template-rows: 0fr; padding-top: 0; transition: grid-template-rows .5s ease, padding-top .5s ease; }
   .acc-item.open .acc-body { grid-template-rows: 1fr; padding-top: 1.5rem; }
   .acc-icon { transition: transform .3s ease, background-color .3s ease, color .3s ease; }
@@ -190,17 +213,17 @@
   <!-- ABOUT -->
   <section id="about" class="px-5 pb-0 pt-0 sm:px-9">
     <div class="mx-auto max-w-[1380px]">
-      <div class="flex flex-col items-center gap-12 text-center">
-        <div data-reveal="photo" class="relative z-10 mx-auto w-full max-w-[720px] [container-type:inline-size]">
+      <div class="about-col flex flex-col items-center gap-12 text-center">
+        <div data-reveal="photo" class="about-photo relative z-10 mx-auto w-full max-w-[720px] [container-type:inline-size]">
           <img src="me-arch-3.webp" alt="Valeriia Hrachova" width="1400" height="909" data-ring="0.0014 0.9912 0.9964 0.0138" loading="lazy" class="block h-auto w-full">
           <h2 class="pointer-events-none absolute inset-x-0 top-[3%] z-10 whitespace-nowrap text-center text-[10cqw] font-medium leading-none tracking-[-.05em]">
             <span class="en">Hi, I’m Valeriia</span>
             <span class="uk">Привіт, я Валерія</span>
           </h2>
         </div>
-        <div data-reveal class="mx-auto -mt-8 w-full max-w-3xl">
+        <div data-reveal class="about-text mx-auto -mt-8 w-full max-w-3xl">
           <div class="w-full">
-            <div class="mb-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            <div class="about-cta mb-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
               <a href="#directions" class="inline-flex items-center gap-3 rounded-full bg-[#111] py-2.5 pl-8 pr-2.5 text-base font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,.25)] transition hover:scale-[1.03] hover:gap-5 hover:bg-[#2a2a2a]">
                 <span class="en">View my work</span><span class="uk">Переглянути роботи</span>
                 <span class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
@@ -210,15 +233,15 @@
                 <svg viewBox="0 0 20 20" class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg>
               </button>
             </div>
-            <p class="text-lg leading-relaxed text-black/70 sm:text-xl lg:text-2xl">
+            <p class="about-p1 text-lg leading-relaxed text-black/70 sm:text-xl lg:text-2xl">
               <span class="en">Graphic and web designer with 7 years of experience. I develop brand identities, design for digital platforms and print, and bring visual ideas to life with AI.</span>
               <span class="uk">Графічна та веб-дизайнерка із 7-річним досвідом. Розробляю айдентику, створюю дизайн для цифрових платформ і друку та втілюю візуальні ідеї за допомогою AI.</span>
             </p>
-            <p class="mt-6 text-base leading-relaxed text-black/55 lg:text-lg">
+            <p class="about-p2 mt-6 text-base leading-relaxed text-black/55 lg:text-lg">
               <span class="en">I enjoy creating <mark class="hl">convenient, stylish design</mark> that meets users’ needs.</span>
               <span class="uk">Мені подобається створювати <mark class="hl">зручний і стильний дизайн</mark>, що відповідає потребам користувачів.</span>
             </p>
-            <ul class="mt-8 flex flex-wrap justify-center gap-2.5 text-sm">
+            <ul class="about-tags mt-8 flex flex-wrap justify-center gap-2.5 text-sm">
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">Photoshop</span><span class="uk">Photoshop</span></li>
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">Illustrator</span><span class="uk">Illustrator</span></li>
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">InDesign</span><span class="uk">InDesign</span></li>
@@ -447,13 +470,18 @@
   <script>
     (function () {
       var b = document.getElementById('to-top');
-      var gridEl = document.querySelector('#work .grid');
+      var guards = ['#about .about-tags', '#work .grid'];
       var wide = window.matchMedia('(min-width: 1024px)');
-      /* on desktop the 9 cards fill the screen: don't let the floating button cover them */
+      /* on desktop the about block and the 9 cards fill the screen: don't let the floating button cover them */
       function overCards() {
-        if (!gridEl || !wide.matches) return false;
-        var g = gridEl.getBoundingClientRect(), vh = window.innerHeight;
-        return g.top < vh - 8 && g.bottom > vh - 28 - b.offsetHeight;
+        if (!wide.matches) return false;
+        var vh = window.innerHeight, zt = vh - 28 - b.offsetHeight, zb = vh - 8;
+        return guards.some(function (s) {
+          var e = document.querySelector(s);
+          if (!e) return false;
+          var g = e.getBoundingClientRect();
+          return g.top < zb && g.bottom > zt;
+        });
       }
       function upd() {
         var on = window.scrollY > window.innerHeight * 0.4 && !overCards();
@@ -606,7 +634,11 @@
     var H=window.innerHeight, y0=window.scrollY;
     var ir=img.getBoundingClientRect(), imgTop=ir.top+y0;
     var g=(img.getAttribute('data-ring')||'0 1 1 0.016').split(' ').map(parseFloat);
-    var yT=Math.max(0,Math.min(imgTop+ir.height/2-H/2, root.scrollHeight-H));
+    var desk=window.matchMedia&&window.matchMedia('(min-width: 1024px)').matches;
+    var pad=parseFloat(getComputedStyle(root).scrollPaddingTop)||76;
+    /* desktop: land with the top of the about block just under the menu, so the whole block is on screen */
+    var yT=desk ? Math.max(0,Math.min(target.getBoundingClientRect().top+y0-pad, root.scrollHeight-H))
+                : Math.max(0,Math.min(imgTop+ir.height/2-H/2, root.scrollHeight-H));
     var endS=g[2]*ir.width, endX=ir.left+g[0]*ir.width, endY=(imgTop-yT)+g[1]*ir.height-endS;
     var r0=dot.getBoundingClientRect(), x0=r0.left, yy0=r0.top, s0=r0.width;
     var ringT=Math.max(2,g[3]*ir.width);
