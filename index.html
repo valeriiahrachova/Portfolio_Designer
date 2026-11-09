@@ -84,16 +84,20 @@
     #reviews-modal .rv-grid img:nth-child(7) { --w: 72%; --x: 24%; --y: 12px;  --r: 2.6deg; }
     #reviews-modal .rv-grid img:nth-child(8) { --w: 80%; --x: 3%;  --y: 8px;   --r: -2deg; }
   }
-  #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 16px; padding: 22px 10px 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: pointer; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
+  #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: default; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
   @media (min-width: 1024px) { #scroll-cue { display: flex; } }
   #scroll-cue:hover { background: #fff; }
   #scroll-cue.is-off { opacity: 0; pointer-events: none; transform: translate(12px, -50%); }
   #scroll-cue .cue-text { writing-mode: vertical-rl; font-size: 15px; font-weight: 600; letter-spacing: .08em; text-transform: none; }
-  #scroll-cue .cue-dot { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 999px; background: #fee600; animation: cue-bob 2.2s cubic-bezier(.45,0,.55,1) infinite; }
+  #scroll-cue .cue-dot { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 999px; background: #fee600; color: #111; cursor: pointer; animation: cue-bob 2.2s cubic-bezier(.45,0,.55,1) infinite; transition: opacity .25s ease, box-shadow .2s ease; }
+  #scroll-cue .cue-up { animation-name: cue-bob-up; }
+  #scroll-cue .cue-dot:hover, #scroll-cue .cue-dot:focus-visible { box-shadow: 0 0 0 4px rgba(254,230,0,.35); outline: none; }
+  #scroll-cue .cue-dot[disabled] { opacity: .3; cursor: default; animation: none; box-shadow: none; }
   #scroll-cue .cue-tip { position: absolute; right: calc(100% + 14px); top: 50%; width: max-content; max-width: 250px; padding: 11px 16px; border-radius: 14px; background: #111; color: #fff; font-size: 13px; font-weight: 500; line-height: 1.4; text-align: left; box-shadow: 0 10px 28px rgba(0,0,0,.22); opacity: 0; pointer-events: none; transform: translate(8px, -50%); transition: opacity .25s ease, transform .25s ease; }
   #scroll-cue .cue-tip::after { content: ''; position: absolute; left: 100%; top: 50%; margin-top: -6px; border: 6px solid transparent; border-left-color: #111; }
   #scroll-cue:hover .cue-tip, #scroll-cue:focus-visible .cue-tip { opacity: 1; transform: translate(0, -50%); }
   @keyframes cue-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+  @keyframes cue-bob-up { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
   .work-art { overflow: visible; filter: drop-shadow(0 0 .45px rgba(43,34,48,.95)) drop-shadow(0 0 .45px rgba(43,34,48,.95)); position: absolute; left: 24px; top: calc(46px + (100% - 300px) / 2); width: calc(100% - 48px); height: 144px; transition: transform .4s ease; }
   .work-art ellipse { opacity: .05; }
   .work-card:hover .work-art { transform: scale(1.04) rotate(-1deg); }
@@ -458,11 +462,12 @@
       </div>
     </div>
   </div>
-  <button id="scroll-cue" type="button" aria-label="Scroll down" aria-describedby="cue-tip">
-    <span id="cue-tip" class="cue-tip" role="tooltip"><span class="en">This button is here because sometimes scrolling with the mouse is just too much effort</span><span class="uk">Ця кнопка тут, бо іноді ліньки скролити мишкою</span></span>
+  <div id="scroll-cue" role="group" aria-label="Scroll" aria-describedby="cue-tip">
+    <span id="cue-tip" class="cue-tip" role="tooltip"><span class="en">These buttons are here because sometimes scrolling with the mouse is just too much effort</span><span class="uk">Ці кнопки тут, бо іноді ліньки скролити мишкою</span></span>
+    <button type="button" class="cue-dot cue-up" data-cue="up" aria-label="Scroll up"><svg aria-hidden="true" viewBox="0 0 20 20" width="22" height="22" fill="none"><path d="M10 17V4m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></button>
     <span class="cue-text"><span class="en">Scroll</span><span class="uk">Гортати</span></span>
-    <span class="cue-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="22" height="22" fill="none"><path d="M10 3v13m-5-5 5 5 5-5" stroke="currentColor" stroke-width="1.8"/></svg></span>
-  </button>
+    <button type="button" class="cue-dot cue-down" data-cue="down" aria-label="Scroll down"><svg aria-hidden="true" viewBox="0 0 20 20" width="22" height="22" fill="none"><path d="M10 3v13m-5-5 5 5 5-5" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  </div>
   <button id="to-top" type="button" aria-hidden="true" tabindex="-1">
     <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none"><path d="M10 17V3m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.8"/></svg>
     <span class="en">Back to home</span><span class="uk">На головну</span>
@@ -510,13 +515,17 @@
         var left = vw - 28 - cue.offsetWidth - 8, half = cue.offsetHeight / 2 + 8;
         return g.right > left && g.top < vh / 2 + half && g.bottom > vh / 2 - half;
       }
+      var ids = ['about', 'directions', 'possibilities', 'features', 'studio', 'contact'];
+      var upBtn = cue.querySelector('[data-cue="up"]'), downBtn = cue.querySelector('[data-cue="down"]');
       function upd() {
         var end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
-        var off = end || overCards();
+        var off = overCards();
         cue.classList.toggle('is-off', off);
-        cue.tabIndex = off ? -1 : 0;
+        upBtn.disabled = window.scrollY < 80;
+        downBtn.disabled = end;
+        upBtn.tabIndex = downBtn.tabIndex = off ? -1 : 0;
       }
-      cue.addEventListener('click', function () {
+      function goDown() {
         var now = Date.now();
         if (now < lock) return;
         var y = window.scrollY, vh = window.innerHeight;
@@ -524,13 +533,28 @@
           var ex = document.getElementById('explore-btn');
           if (ex) { lock = now + 2200; ex.click(); return; }
         }
-        var ids = ['about', 'directions', 'possibilities', 'features', 'studio', 'contact'];
         for (var i = 0; i < ids.length; i++) {
           var el = document.getElementById(ids[i]);
           if (!el) continue;
           if (el.getBoundingClientRect().top > vh * 0.5) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
         }
         window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      }
+      function goUp() {
+        if (Date.now() < lock) return;
+        var pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 76;
+        for (var i = ids.length - 1; i >= 0; i--) {
+          var el = document.getElementById(ids[i]);
+          if (!el) continue;
+          var aligned = pad + (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+          if (el.getBoundingClientRect().top < aligned - 8) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      cue.addEventListener('click', function (e) {
+        var btn = e.target.closest ? e.target.closest('[data-cue]') : null;
+        if (!btn || btn.disabled) return;
+        if (btn.getAttribute('data-cue') === 'up') goUp(); else goDown();
       });
       window.addEventListener('scroll', upd, { passive: true });
       window.addEventListener('resize', upd);
