@@ -49,6 +49,13 @@
   #to-top { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 24px); transition: opacity .3s ease, transform .3s ease, background-color .2s ease; }
   #to-top.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
   #to-top:hover { background: #1456ff; }
+  #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 18px 8px 8px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: pointer; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
+  @media (min-width: 1024px) { #scroll-cue { display: flex; } }
+  #scroll-cue:hover { background: #fff; }
+  #scroll-cue.is-off { opacity: 0; pointer-events: none; transform: translate(12px, -50%); }
+  #scroll-cue .cue-text { writing-mode: vertical-rl; font-size: 11px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
+  #scroll-cue .cue-dot { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: #fee600; animation: cue-bob 2.2s cubic-bezier(.45,0,.55,1) infinite; }
+  @keyframes cue-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
   .work-art { position: absolute; left: 24px; top: 52px; width: calc(100% - 48px); height: calc(100% - 144px); transition: transform .4s ease; }
   .work-card:hover .work-art { transform: scale(1.04) rotate(-1deg); }
   .work-card { position: relative; display: flex; min-height: 300px; flex-direction: column; justify-content: flex-end; overflow: hidden; padding: 24px; transition: transform .3s ease; }
@@ -354,6 +361,10 @@
       <div class="flex flex-col justify-between gap-4 pt-7 text-xs text-white/35 sm:flex-row"><span>© 2026 Forma Studio</span><span><span class="en">Made with room to explore.</span><span class="uk">Створено з простором для пошуку.</span></span></div>
     </div>
   </footer>
+  <button id="scroll-cue" type="button" aria-label="Scroll down">
+    <span class="cue-text"><span class="en">Scroll</span><span class="uk">Гортати</span></span>
+    <span class="cue-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M10 3v13m-5-5 5 5 5-5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+  </button>
   <button id="to-top" type="button" aria-hidden="true" tabindex="-1">
     <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none"><path d="M10 17V3m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.8"/></svg>
     <span class="en">Back to home</span><span class="uk">На головну</span>
@@ -371,6 +382,37 @@
       window.addEventListener('scroll', upd, { passive: true });
       window.addEventListener('resize', upd);
       b.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      upd();
+    })();
+  </script>
+  <script>
+    (function () {
+      var cue = document.getElementById('scroll-cue');
+      if (!cue) return;
+      var lock = 0;
+      function upd() {
+        var end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
+        cue.classList.toggle('is-off', end);
+        cue.tabIndex = end ? -1 : 0;
+      }
+      cue.addEventListener('click', function () {
+        var now = Date.now();
+        if (now < lock) return;
+        var y = window.scrollY, vh = window.innerHeight;
+        if (y < 80) {
+          var ex = document.getElementById('explore-btn');
+          if (ex) { lock = now + 2200; ex.click(); return; }
+        }
+        var ids = ['about', 'work', 'possibilities', 'features', 'studio', 'contact'];
+        for (var i = 0; i < ids.length; i++) {
+          var el = document.getElementById(ids[i]);
+          if (!el) continue;
+          if (el.getBoundingClientRect().top > vh * 0.5) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        }
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      });
+      window.addEventListener('scroll', upd, { passive: true });
+      window.addEventListener('resize', upd);
       upd();
     })();
   </script>
