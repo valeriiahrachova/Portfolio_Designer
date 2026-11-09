@@ -564,16 +564,31 @@
 <script>
   (function () {
     var app = document.getElementById('app');
-    document.documentElement.lang = 'uk';
+    // Language comes from the link: ?lang=en / ?lang=uk (also #en / #uk). Default: Ukrainian.
+    function setLang(l, sync) {
+      var en = l === 'en';
+      app.setAttribute('data-lang', en ? 'en' : 'uk');
+      document.documentElement.lang = en ? 'en' : 'uk';
+      document.querySelectorAll('.lang-btn').forEach(function (x) {
+        x.textContent = en ? 'UA' : 'EN';
+        x.setAttribute('aria-label', en ? 'Switch language' : 'Перемкнути мову');
+      });
+      if (sync) {
+        try {
+          var u = new URL(location.href);
+          u.searchParams.set('lang', en ? 'en' : 'uk');
+          if (u.hash === '#en' || u.hash === '#uk') u.hash = '';
+          history.replaceState(null, '', u.toString());
+        } catch (e) {}
+      }
+    }
+    var want = '';
+    try { want = (new URLSearchParams(location.search).get('lang') || '').toLowerCase(); } catch (e) {}
+    if (want !== 'en' && want !== 'uk') { var hh = (location.hash || '').slice(1).toLowerCase(); want = (hh === 'en' || hh === 'uk') ? hh : ''; }
+    setLang(want === 'en' ? 'en' : 'uk', !!want);
     document.querySelectorAll('[data-lang-toggle]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var uk = app.getAttribute('data-lang') === 'uk';
-        app.setAttribute('data-lang', uk ? 'en' : 'uk');
-        document.documentElement.lang = uk ? 'en' : 'uk';
-        document.querySelectorAll('.lang-btn').forEach(function (x) {
-          x.textContent = uk ? 'UA' : 'EN';
-          x.setAttribute('aria-label', uk ? 'Switch language' : 'Перемкнути мову');
-        });
+        setLang(app.getAttribute('data-lang') === 'uk' ? 'en' : 'uk', true);
       });
     });
     var menu = document.getElementById('mobile-menu'), mb = document.getElementById('menu-btn');
