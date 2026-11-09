@@ -60,9 +60,7 @@
   #reviews-modal .rv-back { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; height: 64px; border: 0; border-radius: 999px; background: #111; color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 28px rgba(0,0,0,.25); transition: transform .25s ease, background-color .25s ease, gap .25s ease; }
   #reviews-modal .rv-back:hover { transform: scale(1.02); background: #2a2a2a; gap: 18px; }
   #reviews-modal .rv-back .rv-dot { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: #fee600; color: #111; }
-  #reviews-modal .rv-close { position: absolute; top: 12px; right: 12px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 999px; background: #111; color: #fff; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2); transition: transform .2s ease, background-color .2s ease, color .2s ease; }
-  #reviews-modal .rv-close:hover { background: #fee600; color: #111; transform: rotate(90deg); }
-  #reviews-modal .rv-title { margin: 0 0 26px; padding-right: 44px; font-size: clamp(22px, 5.6vw, 34px); font-weight: 500; line-height: 1.06; letter-spacing: -.04em; }
+  #reviews-modal .rv-title { margin: 0 0 26px; text-align: center; font-size: clamp(22px, 5.6vw, 34px); font-weight: 500; line-height: 1.06; letter-spacing: -.04em; }
   #reviews-modal .rv-title .rv-soft { display: block; color: rgba(17,17,17,.38); }
   #reviews-modal .rv-title .rv-line { display: block; }
   #reviews-modal .rv-grid { display: flex; flex-direction: column; padding-bottom: 6px; }
@@ -76,7 +74,7 @@
   #reviews-modal .rv-grid img:nth-child(6) { --w: 94%; --x: 2%;  --y: 4px;   --r: 1.3deg; }
   #reviews-modal .rv-grid img:nth-child(7) { --w: 80%; --x: 10%; --y: 14px;  --r: -2.4deg; }
   #reviews-modal .rv-grid img:nth-child(8) { --w: 88%; --x: 4%;  --y: 6px;   --r: 2.2deg; }
-  @media (min-width: 640px) { #reviews-modal .rv-scroll { padding: 34px 32px 38px; } #reviews-modal .rv-footer { padding: 6px 32px 28px; } #reviews-modal .rv-close { top: 16px; right: 16px; } #reviews-modal .rv-grid img { border-radius: 16px; }
+  @media (min-width: 640px) { #reviews-modal .rv-scroll { padding: 34px 32px 38px; } #reviews-modal .rv-footer { padding: 6px 32px 28px; } #reviews-modal .rv-grid img { border-radius: 16px; }
     #reviews-modal .rv-grid img:nth-child(1) { --w: 78%; --x: 2%;  --y: 0px;   --r: -2.4deg; }
     #reviews-modal .rv-grid img:nth-child(2) { --w: 70%; --x: 28%; --y: 0px;   --r: 3deg; }
     #reviews-modal .rv-grid img:nth-child(3) { --w: 74%; --x: 6%;  --y: 12px;  --r: -1.6deg; }
@@ -403,9 +401,6 @@
   </footer>
   <div id="reviews-modal" role="dialog" aria-modal="true" aria-labelledby="reviews-title" hidden>
     <div class="rv-panel">
-      <button type="button" class="rv-close" data-reviews-close aria-label="Close">
-        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
       <div class="rv-scroll">
       <h2 id="reviews-title" class="rv-title">
         <span class="rv-soft"><span class="en">And many more.</span><span class="uk">Та багато інших.</span></span>
