@@ -65,6 +65,8 @@
   #reviews-modal .rv-title .rv-line { display: block; }
   #reviews-modal .rv-grid { display: flex; flex-direction: column; padding-bottom: 6px; }
   #reviews-modal .rv-grid img { display: block; height: auto; width: var(--w); margin-left: var(--x); margin-top: var(--y); border-radius: 14px; transform: rotate(var(--r)); box-shadow: 0 10px 26px rgba(0,0,0,.16); transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease; position: relative; }
+  #reviews-modal .rv-grid img.rv-wait { background: #e4e2db; animation: rv-pulse 1.3s ease-in-out infinite; }
+  @keyframes rv-pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
   #reviews-modal .rv-grid img:hover { transform: rotate(0deg) scale(1.025); box-shadow: 0 16px 36px rgba(0,0,0,.24); z-index: 2; }
   #reviews-modal .rv-grid img:nth-child(1) { --w: 90%; --x: 0%;  --y: 0px;   --r: -2.2deg; }
   #reviews-modal .rv-grid img:nth-child(2) { --w: 80%; --x: 10%; --y: 10px;  --r: 2.8deg; }
@@ -569,7 +571,30 @@
       var closeBtn = closeBtns[0];
       var sc = modal.querySelector('.rv-scroll');
       var opener = null, timer = 0;
+      /* The modal is display:none, so lazy images would only start downloading when it opens (slow on mobile).
+         Warm them up in the background once the page has loaded, or earlier if the visitor reaches for the button. */
+      var rvImgs = Array.prototype.slice.call(modal.querySelectorAll('.rv-grid img')), warmed = false;
+      rvImgs.forEach(function (im) {
+        if (im.complete) return;
+        im.classList.add('rv-wait');
+        var done = function () { im.classList.remove('rv-wait'); };
+        im.addEventListener('load', done); im.addEventListener('error', done);
+      });
+      function warm() {
+        if (warmed) return; warmed = true;
+        rvImgs.forEach(function (im) { im.loading = 'eager'; });
+      }
+      function warmLater() {
+        /* a short pause so the hero video gets the bandwidth first */
+        setTimeout(function () {
+          if (window.requestIdleCallback) window.requestIdleCallback(warm, { timeout: 2500 });
+          else warm();
+        }, 900);
+      }
+      if (document.readyState === 'complete') warmLater(); else window.addEventListener('load', warmLater);
       function open(from) {
+        warm();
+        opener = from || null;
         opener = from || null;
         clearTimeout(timer);
         modal.hidden = false;
@@ -587,6 +612,7 @@
       }
       document.querySelectorAll('[data-reviews-open]').forEach(function (b) {
         b.addEventListener('click', function () { open(b); });
+        ['pointerenter', 'touchstart', 'focus'].forEach(function (ev) { b.addEventListener(ev, warm, { passive: true, once: true }); });
       });
       closeBtns.forEach(function (b) { b.addEventListener('click', close); });
       modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
