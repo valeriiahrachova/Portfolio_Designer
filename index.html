@@ -54,7 +54,12 @@
   #reviews-modal.is-open { opacity: 1; }
   #reviews-modal .rv-panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 560px; max-height: min(80vh, 700px); border-radius: 26px; background: #f1f0eb; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1); }
   #reviews-modal.is-open .rv-panel { transform: none; }
-  #reviews-modal .rv-scroll { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; touch-action: pan-y; border-radius: 26px; padding: 26px 22px 30px; }
+  #reviews-modal .rv-scroll { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; touch-action: pan-y; border-radius: 26px 26px 0 0; padding: 26px 22px 34px; }
+  #reviews-modal .rv-footer { position: relative; flex: none; padding: 6px 22px 22px; border-radius: 0 0 26px 26px; background: #f1f0eb; }
+  #reviews-modal .rv-footer::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 34px; background: linear-gradient(to top, #f1f0eb, rgba(241,240,235,0)); pointer-events: none; }
+  #reviews-modal .rv-back { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; height: 64px; border: 0; border-radius: 999px; background: #111; color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 28px rgba(0,0,0,.25); transition: transform .25s ease, background-color .25s ease, gap .25s ease; }
+  #reviews-modal .rv-back:hover { transform: scale(1.02); background: #2a2a2a; gap: 18px; }
+  #reviews-modal .rv-back .rv-dot { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: #fee600; color: #111; }
   #reviews-modal .rv-close { position: absolute; top: 12px; right: 12px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 999px; background: #111; color: #fff; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2); transition: transform .2s ease, background-color .2s ease, color .2s ease; }
   #reviews-modal .rv-close:hover { background: #fee600; color: #111; transform: rotate(90deg); }
   #reviews-modal .rv-title { margin: 0 0 26px; padding-right: 44px; font-size: clamp(22px, 5.6vw, 34px); font-weight: 500; line-height: 1.06; letter-spacing: -.04em; }
@@ -71,7 +76,7 @@
   #reviews-modal .rv-grid img:nth-child(6) { --w: 94%; --x: 2%;  --y: 4px;   --r: 1.3deg; }
   #reviews-modal .rv-grid img:nth-child(7) { --w: 80%; --x: 10%; --y: 14px;  --r: -2.4deg; }
   #reviews-modal .rv-grid img:nth-child(8) { --w: 88%; --x: 4%;  --y: 6px;   --r: 2.2deg; }
-  @media (min-width: 640px) { #reviews-modal .rv-scroll { padding: 34px 32px 36px; } #reviews-modal .rv-close { top: 16px; right: 16px; } #reviews-modal .rv-grid img { border-radius: 16px; }
+  @media (min-width: 640px) { #reviews-modal .rv-scroll { padding: 34px 32px 38px; } #reviews-modal .rv-footer { padding: 6px 32px 28px; } #reviews-modal .rv-close { top: 16px; right: 16px; } #reviews-modal .rv-grid img { border-radius: 16px; }
     #reviews-modal .rv-grid img:nth-child(1) { --w: 78%; --x: 2%;  --y: 0px;   --r: -2.4deg; }
     #reviews-modal .rv-grid img:nth-child(2) { --w: 70%; --x: 28%; --y: 0px;   --r: 3deg; }
     #reviews-modal .rv-grid img:nth-child(3) { --w: 74%; --x: 6%;  --y: 12px;  --r: -1.6deg; }
@@ -417,6 +422,12 @@
         <img src="review-8.webp" width="998" height="410" alt="Client feedback in a chat" loading="lazy" decoding="async">
       </div>
       </div>
+      <div class="rv-footer">
+        <button type="button" class="rv-back" data-reviews-close>
+          <span class="rv-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
     </div>
   </div>
   <button id="scroll-cue" type="button" aria-label="Scroll down" aria-describedby="cue-tip">
@@ -479,7 +490,8 @@
     (function () {
       var modal = document.getElementById('reviews-modal');
       if (!modal) return;
-      var closeBtn = modal.querySelector('[data-reviews-close]');
+      var closeBtns = modal.querySelectorAll('[data-reviews-close]');
+      var closeBtn = closeBtns[0];
       var sc = modal.querySelector('.rv-scroll');
       var opener = null, timer = 0;
       function open(from) {
@@ -501,13 +513,18 @@
       document.querySelectorAll('[data-reviews-open]').forEach(function (b) {
         b.addEventListener('click', function () { open(b); });
       });
-      closeBtn.addEventListener('click', close);
+      closeBtns.forEach(function (b) { b.addEventListener('click', close); });
       modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
       modal.addEventListener('wheel', function (e) { if (!sc.contains(e.target)) e.preventDefault(); }, { passive: false });
       document.addEventListener('keydown', function (e) {
         if (modal.hidden) return;
         if (e.key === 'Escape') { e.preventDefault(); close(); }
-        else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus({ preventScroll: true }); }
+        else if (e.key === 'Tab') {
+          e.preventDefault();
+          var list = Array.prototype.slice.call(closeBtns), i = list.indexOf(document.activeElement);
+          i = e.shiftKey ? (i <= 0 ? list.length - 1 : i - 1) : (i + 1) % list.length;
+          list[i].focus({ preventScroll: true });
+        }
       });
     })();
   </script>
