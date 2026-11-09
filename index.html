@@ -414,7 +414,7 @@
 <script>
 (function(){
   var btn=document.getElementById('explore-btn'), target=document.getElementById('about'); if(!btn||!target) return;
-  var dot=btn.querySelector('[data-dot]'), img=target.querySelector('img'), h2=target.querySelector('h2'), items=target.querySelectorAll('[data-reveal]');
+  var dot=btn.querySelector('[data-dot]'), img=target.querySelector('img'), h2=target.querySelector('h2'), items=target.querySelectorAll('[data-reveal]'), txt=items[1]||null;
   var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches, busy=false;
   function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
   btn.addEventListener('click',function(e){
@@ -434,7 +434,7 @@
     var arrow=dot.querySelector('svg').cloneNode(true); arrow.classList.remove('animated-arrow');
     arrow.style.cssText='position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;color:#111;';
     ring.appendChild(arrow); document.body.appendChild(ring);
-    dot.style.visibility='hidden'; img.style.opacity='0'; if(h2) h2.style.opacity='0';
+    dot.style.visibility='hidden'; img.style.opacity='0'; if(h2) h2.style.opacity='0'; if(txt){ txt.style.opacity='0'; txt.style.transform='translateY(24px)'; }
     var dur=1300, t0=null, shown=false;
     function frame(ts){
       if(t0===null) t0=ts;
@@ -447,13 +447,13 @@
       arrow.style.opacity=String(Math.max(0,1-t*4));
       if(t>=.82 && !shown){
         shown=true;
-        img.style.transition='opacity .5s ease'; img.style.opacity='1';
-        if(h2){ h2.style.transition='opacity .5s ease .15s'; h2.style.opacity='1'; }
+        img.style.transition='opacity .6s ease'; img.style.opacity='1';
+        if(h2){ h2.style.transition='opacity .6s ease'; h2.style.opacity='1'; }
+        if(txt){ txt.style.transition='opacity .6s ease, transform .7s cubic-bezier(.22,1,.36,1)'; txt.style.opacity='1'; txt.style.transform='none'; }
       }
       if(t<1){ requestAnimationFrame(frame); return; }
       window.scrollTo(0,yT); root.style.scrollBehavior=prevSB;
-      items.forEach(function(el,i){ if(i>0) el.animate([{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],{duration:800,delay:i*120,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}); });
-      setTimeout(function(){ ring.remove(); dot.style.visibility=''; img.style.transition=''; if(h2) h2.style.transition=''; busy=false; },520);
+      setTimeout(function(){ ring.remove(); dot.style.visibility=''; img.style.transition=''; if(h2) h2.style.transition=''; if(txt){ txt.style.transition=''; txt.style.transform=''; txt.style.opacity=''; } busy=false; },720);
     }
     requestAnimationFrame(frame);
   });
