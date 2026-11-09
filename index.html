@@ -23,7 +23,7 @@
 
   .grid-pattern { background-image: linear-gradient(rgba(0,0,0,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.055) 1px, transparent 1px); background-size: 20px 20px; }
   .hero-display { font-family: 'Inter Tight', sans-serif; }
-  .hero-sculpture { transform: translateY(-50%); }
+  .hero-sculpture { transform: translate(-50%, -50%); }
   #site-header .hdr-nav { width: 100%; max-width: 1440px; margin-top: 0; background: rgba(255,255,255,0); border-radius: 0; box-shadow: 0 0 0 rgba(0,0,0,0);
     transition: max-width .55s cubic-bezier(.22,1,.36,1), height .45s cubic-bezier(.22,1,.36,1), margin-top .45s cubic-bezier(.22,1,.36,1), border-radius .45s ease, background-color .35s ease, box-shadow .45s ease, backdrop-filter .35s ease; }
   #site-header.scrolled .hdr-nav { max-width: 1120px; height: 58px; margin-top: 12px; border-radius: 999px; background: rgba(255,255,255,.78); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); box-shadow: 0 8px 30px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.06); }
@@ -81,7 +81,7 @@
   <div class="flex min-h-[100svh] flex-col">
   <!-- HERO -->
   <section class="relative flex min-h-[540px] flex-1 flex-col overflow-hidden bg-white pb-8 pt-[76px] text-[#111]">
-    <img src="sculpture.webp" alt="" aria-hidden="true" class="hero-sculpture pointer-events-none absolute right-[-80%] top-[58%] z-0 w-[970px] max-w-none opacity-70 sm:right-[-45%] sm:w-[1170px] sm:opacity-90 lg:right-[-24%] lg:top-[56%] lg:w-[1260px] lg:opacity-100">
+    <img src="sculpture.webp" alt="" aria-hidden="true" class="hero-sculpture pointer-events-none absolute left-1/2 top-1/2 z-0 w-[970px] max-w-none opacity-70 sm:w-[1170px] sm:opacity-90 lg:w-[1260px] lg:opacity-100">
 
     <header id="site-header" class="fixed inset-x-0 top-0 z-[95] px-0 sm:px-4">
     <nav class="hdr-nav relative mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 sm:px-9">
