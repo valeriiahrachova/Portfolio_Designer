@@ -120,7 +120,7 @@
       <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
       <a id="explore-btn" href="#about" class="flex items-center gap-3 rounded-full bg-[#111] py-2.5 pl-8 pr-2.5 text-base font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,.25)] transition hover:scale-[1.03] hover:gap-5 hover:bg-[#2a2a2a]">
         <span class="en">Explore my work</span><span class="uk">Переглянути роботи</span>
-        <span class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <span data-dot class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
       </a>
       <a href="https://www.linkedin.com/in/valeriia-hrachova-466953234/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
         <span>LinkedIn</span>
@@ -478,28 +478,48 @@
 <script>
 (function(){
   var btn=document.getElementById('explore-btn'), target=document.getElementById('about'); if(!btn||!target) return;
+  var dot=btn.querySelector('[data-dot]'), img=target.querySelector('img'), h2=target.querySelector('h2'), items=target.querySelectorAll('[data-reveal]');
   var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches, busy=false;
+  function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
   btn.addEventListener('click',function(e){
     e.preventDefault();
-    if(rm||!Element.prototype.animate){ target.scrollIntoView({behavior:'smooth'}); return; }
+    if(rm||!dot||!img){ target.scrollIntoView({behavior:'smooth'}); return; }
     if(busy) return; busy=true;
-    var r=btn.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, W=window.innerWidth, H=window.innerHeight;
-    var maxR=Math.hypot(Math.max(cx,W-cx),Math.max(cy,H-cy))+24;
-    var ov=document.createElement('div'); ov.setAttribute('aria-hidden','true');
-    ov.style.cssText='position:fixed;inset:0;z-index:94;background:#fee600;pointer-events:none;will-change:clip-path;';
-    document.body.appendChild(ov);
-    var ease='cubic-bezier(.76,0,.24,1)';
-    var open=ov.animate([{clipPath:'circle(0px at '+cx+'px '+cy+'px)'},{clipPath:'circle('+maxR+'px at '+cx+'px '+cy+'px)'}],{duration:620,easing:ease,fill:'forwards'});
-    open.onfinish=function(){
-      var root=document.documentElement, prev=root.style.scrollBehavior;
-      root.style.scrollBehavior='auto';
-      window.scrollTo(0,Math.max(0,target.getBoundingClientRect().top+window.scrollY-60));
-      root.style.scrollBehavior=prev;
-      var items=target.querySelectorAll('[data-reveal]');
-      items.forEach(function(el,i){ el.animate([{opacity:0,transform:'translateY(40px) scale(.94)'},{opacity:1,transform:'none'}],{duration:800,delay:260+i*140,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}); });
-      var close=ov.animate([{clipPath:'circle('+maxR+'px at 50% 45%)'},{clipPath:'circle(0px at 50% 45%)'}],{duration:700,delay:120,easing:ease,fill:'forwards'});
-      close.onfinish=function(){ ov.remove(); busy=false; };
-    };
+    img.loading='eager';
+    var root=document.documentElement, prevSB=root.style.scrollBehavior; root.style.scrollBehavior='auto';
+    var H=window.innerHeight, y0=window.scrollY;
+    var ir=img.getBoundingClientRect(), imgTop=ir.top+y0;
+    var yT=Math.max(0,Math.min(imgTop-(H-ir.height)/2, root.scrollHeight-H));
+    var endX=ir.left, endY=imgTop-yT, endS=ir.width;
+    var r0=dot.getBoundingClientRect(), x0=r0.left, yy0=r0.top, s0=r0.width;
+    var ringT=Math.max(2,endS*0.016);
+    var ring=document.createElement('div'); ring.setAttribute('aria-hidden','true');
+    ring.style.cssText='position:fixed;z-index:94;box-sizing:border-box;border-radius:50%;border-style:solid;border-color:#fee600;pointer-events:none;will-change:transform,width,height;';
+    var arrow=dot.querySelector('svg').cloneNode(true); arrow.classList.remove('animated-arrow');
+    arrow.style.cssText='position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;color:#111;';
+    ring.appendChild(arrow); document.body.appendChild(ring);
+    dot.style.visibility='hidden'; img.style.opacity='0'; if(h2) h2.style.opacity='0';
+    var dur=1300, t0=null, shown=false;
+    function frame(ts){
+      if(t0===null) t0=ts;
+      var t=Math.min(1,(ts-t0)/dur), p=ease(t);
+      window.scrollTo(0,y0+(yT-y0)*p);
+      var s=s0+(endS-s0)*p, x=x0+(endX-x0)*p, y=yy0+(endY-yy0)*p;
+      var q=Math.min(1,Math.max(0,(t-.3)/.55)); q=ease(q);
+      var bw=(s/2)*(1-q)+ringT*q;
+      ring.style.left=x+'px'; ring.style.top=y+'px'; ring.style.width=s+'px'; ring.style.height=s+'px'; ring.style.borderWidth=bw+'px';
+      arrow.style.opacity=String(Math.max(0,1-t*4));
+      if(t>=.82 && !shown){
+        shown=true;
+        img.style.transition='opacity .5s ease'; img.style.opacity='1';
+        if(h2){ h2.style.transition='opacity .5s ease .15s'; h2.style.opacity='1'; }
+      }
+      if(t<1){ requestAnimationFrame(frame); return; }
+      window.scrollTo(0,yT); root.style.scrollBehavior=prevSB;
+      items.forEach(function(el,i){ if(i>0) el.animate([{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],{duration:800,delay:i*120,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}); });
+      setTimeout(function(){ ring.remove(); dot.style.visibility=''; img.style.transition=''; if(h2) h2.style.transition=''; busy=false; },520);
+    }
+    requestAnimationFrame(frame);
   });
 })();
 </script>
