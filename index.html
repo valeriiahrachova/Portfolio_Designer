@@ -42,9 +42,9 @@
   .footer-link:hover { color: #fff; }
 
   .icon3d { filter: drop-shadow(0 6px 10px rgba(0,0,0,.12)); overflow: visible; }
-  #to-top { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 24px); transition: opacity .3s ease, transform .3s ease, background-color .2s ease; }
+  #to-top { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 24px); transition: opacity .3s ease, transform .3s ease, background-color .2s ease, color .2s ease, box-shadow .25s ease; }
   #to-top.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
-  #to-top:hover { background: #1456ff; }
+  #to-top:hover, #to-top:active { background: #fee600; color: #111; box-shadow: 0 0 0 4px rgba(254,230,0,.35), 0 10px 30px rgba(254,230,0,.5); }
   #reviews-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center; overflow: hidden; overscroll-behavior: contain; touch-action: none; padding: 16px; background: rgba(17,17,17,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s ease; }
   #reviews-modal[hidden] { display: none; }
   #reviews-modal.is-open { opacity: 1; }
