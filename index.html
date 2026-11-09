@@ -564,7 +564,7 @@
 <script>
   (function () {
     var app = document.getElementById('app');
-    // Language comes from the link: ?lang=en / ?lang=uk (also #en / #uk). Default: Ukrainian.
+    // Language comes from the link: ?lang=ua (or uk) / ?lang=en (also #ua / #en). Default: Ukrainian.
     function setLang(l, sync) {
       var en = l === 'en';
       app.setAttribute('data-lang', en ? 'en' : 'uk');
@@ -576,15 +576,15 @@
       if (sync) {
         try {
           var u = new URL(location.href);
-          u.searchParams.set('lang', en ? 'en' : 'uk');
-          if (u.hash === '#en' || u.hash === '#uk') u.hash = '';
+          u.searchParams.set('lang', en ? 'en' : 'ua');
+          if (u.hash === '#en' || u.hash === '#ua' || u.hash === '#uk') u.hash = '';
           history.replaceState(null, '', u.toString());
         } catch (e) {}
       }
     }
     var want = '';
     try { want = (new URLSearchParams(location.search).get('lang') || '').toLowerCase(); } catch (e) {}
-    if (want !== 'en' && want !== 'uk') { var hh = (location.hash || '').slice(1).toLowerCase(); want = (hh === 'en' || hh === 'uk') ? hh : ''; }
+    if (want !== 'en' && want !== 'ua' && want !== 'uk') { var hh = (location.hash || '').slice(1).toLowerCase(); want = (hh === 'en' || hh === 'ua' || hh === 'uk') ? hh : ''; }
     setLang(want === 'en' ? 'en' : 'uk', !!want);
     document.querySelectorAll('[data-lang-toggle]').forEach(function (b) {
       b.addEventListener('click', function () {
