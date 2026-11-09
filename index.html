@@ -49,6 +49,19 @@
   #to-top { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 24px); transition: opacity .3s ease, transform .3s ease, background-color .2s ease; }
   #to-top.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
   #to-top:hover { background: #1456ff; }
+  #reviews-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; overscroll-behavior: contain; padding: 20px 12px; background: rgba(17,17,17,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; transition: opacity .3s ease; }
+  #reviews-modal[hidden] { display: none; }
+  #reviews-modal.is-open { opacity: 1; }
+  #reviews-modal .rv-panel { position: relative; width: 100%; max-width: 1080px; margin: auto; border-radius: 28px; background: #f1f0eb; padding: 56px 18px 22px; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.98); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+  #reviews-modal.is-open .rv-panel { transform: none; }
+  #reviews-modal .rv-close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; border: 0; border-radius: 999px; background: #111; color: #fff; cursor: pointer; transition: transform .2s ease, background-color .2s ease, color .2s ease; }
+  #reviews-modal .rv-close:hover { background: #fee600; color: #111; transform: rotate(90deg); }
+  #reviews-modal .rv-title { max-width: 760px; margin: 0 0 28px 6px; font-size: clamp(25px, 5.2vw, 56px); font-weight: 500; line-height: 1.04; letter-spacing: -.045em; }
+  #reviews-modal .rv-title .rv-line { display: block; }
+  #reviews-modal .rv-title .rv-soft { display: block; color: rgba(17,17,17,.38); }
+  #reviews-modal .rv-grid { columns: 1; column-gap: 16px; }
+  #reviews-modal .rv-grid img { display: block; width: 100%; height: auto; margin: 0 0 16px; break-inside: avoid; border-radius: 18px; }
+  @media (min-width: 640px) { #reviews-modal { padding: 32px 24px; } #reviews-modal .rv-panel { padding: 72px 36px 28px; } #reviews-modal .rv-title { margin-left: 0; } #reviews-modal .rv-grid { columns: 2; column-gap: 20px; } #reviews-modal .rv-grid img { margin-bottom: 20px; } #reviews-modal .rv-close { top: 22px; right: 22px; } }
   #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 16px; padding: 22px 10px 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: pointer; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
   @media (min-width: 1024px) { #scroll-cue { display: flex; } }
   #scroll-cue:hover { background: #fff; }
@@ -156,10 +169,10 @@
                 <span class="en">View my work</span><span class="uk">Переглянути роботи</span>
                 <span class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
               </a>
-              <a href="https://www.linkedin.com/in/valeriia-hrachova-466953234/details/recommendations/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
+              <button type="button" data-reviews-open aria-haspopup="dialog" aria-controls="reviews-modal" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
                 <span><span class="en">View reviews</span><span class="uk">Переглянути відгуки</span></span>
                 <svg viewBox="0 0 20 20" class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg>
-              </a>
+              </button>
             </div>
             <p class="text-lg leading-relaxed text-black/70 sm:text-xl lg:text-2xl">
               <span class="en">Graphic and web designer with 7 years of experience. I develop brand identities, design for digital platforms and print, and bring visual ideas to life with AI.</span>
@@ -364,6 +377,27 @@
       <div class="flex flex-col justify-between gap-4 pt-7 text-xs text-white/35 sm:flex-row"><span>© 2026 Forma Studio</span><span><span class="en">Made with room to explore.</span><span class="uk">Створено з простором для пошуку.</span></span></div>
     </div>
   </footer>
+  <div id="reviews-modal" role="dialog" aria-modal="true" aria-labelledby="reviews-title" hidden>
+    <div class="rv-panel">
+      <button type="button" class="rv-close" data-reviews-close aria-label="Close">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="reviews-title" class="rv-title">
+        <span class="rv-soft"><span class="en">And many more.</span><span class="uk">Та багато інших.</span></span>
+        <span class="en"><span class="rv-line">Reviews are about humanity.</span><span class="rv-line">Design is about respect.</span></span><span class="uk"><span class="rv-line">Відгуки — про людяність.</span><span class="rv-line">Дизайн — про повагу.</span></span>
+      </h2>
+      <div class="rv-grid">
+        <img src="review-1.webp" width="826" height="674" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-2.webp" width="924" height="474" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-3.webp" width="823" height="486" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-4.webp" width="962" height="780" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-5.webp" width="822" height="412" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-6.webp" width="970" height="246" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-7.webp" width="826" height="300" alt="Client feedback in a chat" loading="lazy" decoding="async">
+        <img src="review-8.webp" width="998" height="410" alt="Client feedback in a chat" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </div>
   <button id="scroll-cue" type="button" aria-label="Scroll down" aria-describedby="cue-tip">
     <span id="cue-tip" class="cue-tip" role="tooltip"><span class="en">This button is here because sometimes scrolling with the mouse is just too much effort</span><span class="uk">Ця кнопка тут, бо іноді ліньки скролити мишкою</span></span>
     <span class="cue-text"><span class="en">Scroll</span><span class="uk">Гортати</span></span>
@@ -418,6 +452,40 @@
       window.addEventListener('scroll', upd, { passive: true });
       window.addEventListener('resize', upd);
       upd();
+    })();
+  </script>
+  <script>
+    (function () {
+      var modal = document.getElementById('reviews-modal');
+      if (!modal) return;
+      var closeBtn = modal.querySelector('[data-reviews-close]');
+      var opener = null, timer = 0;
+      function open(from) {
+        opener = from || null;
+        clearTimeout(timer);
+        modal.hidden = false;
+        modal.scrollTop = 0;
+        void modal.offsetWidth;
+        modal.classList.add('is-open');
+        closeBtn.focus({ preventScroll: true });
+      }
+      function close() {
+        if (modal.hidden) return;
+        modal.classList.remove('is-open');
+        clearTimeout(timer);
+        timer = setTimeout(function () { modal.hidden = true; }, 320);
+        if (opener && opener.focus) opener.focus({ preventScroll: true });
+      }
+      document.querySelectorAll('[data-reviews-open]').forEach(function (b) {
+        b.addEventListener('click', function () { open(b); });
+      });
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+      document.addEventListener('keydown', function (e) {
+        if (modal.hidden) return;
+        if (e.key === 'Escape') { e.preventDefault(); close(); }
+        else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus({ preventScroll: true }); }
+      });
     })();
   </script>
 </main>
