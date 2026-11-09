@@ -18,7 +18,6 @@
 
   #app[data-lang="en"] .uk, #app[data-lang="uk"] .en { display: none; }
 
-  .grid-pattern { background-image: linear-gradient(rgba(0,0,0,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.055) 1px, transparent 1px); background-size: 20px 20px; }
   .hero-display { font-family: 'Inter Tight', sans-serif; }
   .hero-sculpture { transform: translate(-50%, -50%); }
   #site-header .hdr-nav { width: 100%; max-width: 1440px; margin-top: 0; background: rgba(255,255,255,0); border-radius: 0; box-shadow: 0 0 0 rgba(0,0,0,0);
@@ -36,9 +35,6 @@
   .nav-link::after { position: absolute; right: 0; bottom: -5px; left: 0; height: 1px; content: ''; background: currentColor; transform: scaleX(0); transition: transform .2s ease; transform-origin: right; }
   .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
 
-  .feature-card { display: flex; min-height: 480px; flex-direction: column; justify-content: space-between; padding: 28px; }
-  .feature-card h3 { margin-bottom: 14px; font-size: clamp(28px, 3vw, 43px); line-height: 1; letter-spacing: -.04em; }
-  .feature-card p { max-width: 290px; font-size: 14px; line-height: 1.6; opacity: .62; }
   .feature-number { font-size: 11px; opacity: .5; }
 
   .footer-title { margin-bottom: 18px; font-size: 11px; color: rgba(255,255,255,.35); letter-spacing: .12em; text-transform: uppercase; }
@@ -174,7 +170,6 @@
   .ct-pill:hover, .ct-pill:focus-visible { transform: translateY(-4px); background: #fff; color: #111; box-shadow: 0 16px 30px rgba(17,17,17,.22); outline: none; }
   .ct-pill:hover .ct-ico, .ct-pill:focus-visible .ct-ico { background: #111; color: #fff; transform: rotate(-10deg) scale(1.06); }
   @media (prefers-reduced-motion: reduce) { .ct-stk svg { animation: none; } .ct-stk { transition: none; } }
-  @media (max-width: 767px) { .feature-card { min-height: 390px; } }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -194,8 +189,6 @@
       <div class="hidden items-center gap-5 whitespace-nowrap text-sm lg:absolute lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:gap-9">
         <a href="#directions" class="nav-link"><span class="en">Work</span><span class="uk">Роботи</span></a>
         <a href="#possibilities" class="nav-link"><span class="en">Contact</span><span class="uk">Контакти</span></a>
-        <a href="#features" class="nav-link"><span class="en">Features</span><span class="uk">Можливості</span></a>
-        <a href="#studio" class="nav-link"><span class="en">Studio</span><span class="uk">Студія</span></a>
         <a href="#about" class="nav-link"><span class="en">About</span><span class="uk">Про нас</span></a>
         <button data-lang-toggle class="lang-btn -ml-2 rounded-full bg-[#fee600] px-4 py-2.5 text-xs font-semibold tracking-[.1em] text-[#111] shadow-[0_5px_18px_rgba(254,230,0,.45)] transition hover:scale-105 hover:bg-[#ffee33]" aria-label="Перемкнути мову">EN</button>
       </div>
@@ -209,8 +202,6 @@
     <div id="mobile-menu" hidden class="fixed inset-x-4 top-[72px] z-[96] rounded-2xl bg-[#0c0c0c] p-6 text-lg text-white shadow-2xl lg:hidden">
       <a href="#directions" class="block border-b border-white/10 py-3"><span class="en">Work</span><span class="uk">Роботи</span></a>
       <a href="#possibilities" class="block border-b border-white/10 py-3"><span class="en">Contact</span><span class="uk">Контакти</span></a>
-      <a href="#features" class="block border-b border-white/10 py-3"><span class="en">Features</span><span class="uk">Можливості</span></a>
-      <a href="#studio" class="block border-b border-white/10 py-3"><span class="en">Studio</span><span class="uk">Студія</span></a>
       <a href="#about" class="block border-b border-white/10 py-3"><span class="en">About</span><span class="uk">Про нас</span></a>
       </div>
 
@@ -337,71 +328,6 @@
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features" class="bg-[#111] px-5 py-24 text-white sm:px-9 sm:py-36">
-    <div class="mx-auto max-w-[1380px]">
-      <div class="grid gap-16 lg:grid-cols-2 lg:items-end">
-        <div class="min-w-0">
-          <p class="mb-8 text-xs uppercase tracking-[.18em] text-white/40"><span class="en">Built for your rhythm</span><span class="uk">Створено для вашого ритму</span></p>
-          <h2 class="text-[15vw] font-medium leading-[.8] tracking-[-.075em] sm:text-[96px] lg:text-[112px]">
-            <span class="en">Your work.<br><span class="font-serif font-normal italic">Your space.</span></span>
-            <span class="uk">Ваша робота.<br><span class="font-serif font-normal italic">Ваш простір.</span></span>
-          </h2>
-        </div>
-        <p class="max-w-md pb-2 text-lg leading-relaxed text-white/50"><span class="en">Real files, flexible tools, and a workspace that adapts to the way you think—not the other way around.</span><span class="uk">Реальні файли, гнучкі інструменти та робочий простір, що адаптується до вашого способу мислення, а не навпаки.</span></p>
-      </div>
-      <div class="mt-20 grid gap-3 md:grid-cols-3">
-        <article class="feature-card bg-[#ff5a36] text-white">
-          <span class="feature-number">01</span>
-          <div>
-            <svg class="icon3d block h-24 w-24" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff58a"/><stop offset="1" stop-color="#ffb000"/></linearGradient><filter id="ab" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter><filter id="ah" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter></defs><ellipse cx="60" cy="114" rx="30" ry="5" fill="#000" opacity="0.28" filter="url(#ab)"/><path d="M60 8C66 38 82 52 112 58C82 64 66 78 60 108C54 78 38 64 8 58C38 52 54 38 60 8Z" fill="#d98100" stroke="#d98100" stroke-width="12" stroke-linejoin="round" transform="translate(0 4)"/><path d="M60 8C66 38 82 52 112 58C82 64 66 78 60 108C54 78 38 64 8 58C38 52 54 38 60 8Z" fill="url(#ag)" stroke="url(#ag)" stroke-width="10" stroke-linejoin="round"/><ellipse cx="49" cy="40" rx="10" ry="5" fill="#fff" opacity="0.85" transform="rotate(-40 49 40)" filter="url(#ah)"/><ellipse cx="78" cy="70" rx="5" ry="2.5" fill="#fff" opacity="0.5" transform="rotate(-40 78 70)" filter="url(#ah)"/></svg>
-            <h3 class="mt-9"><span class="en">Stay in flow.</span><span class="uk">Не втрачайте ритм.</span></h3>
-            <p><span class="en">Draw, arrange, write, and iterate without switching contexts.</span><span class="uk">Малюйте, компонуйте, пишіть та вдосконалюйте без перемикання контексту.</span></p>
-          </div>
-        </article>
-        <article class="feature-card bg-[#d7e7a4] text-black">
-          <span class="feature-number">02</span>
-          <div>
-            <svg class="icon3d block h-24 w-24" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="ba" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9d2ff"/></linearGradient><linearGradient id="bc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efff7a"/><stop offset="1" stop-color="#a6dc12"/></linearGradient><filter id="bb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter><filter id="bh" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.4"/></filter></defs><ellipse cx="62" cy="114" rx="38" ry="5" fill="#000" opacity="0.28" filter="url(#bb)"/><path d="M26 14h42a20 20 0 0 1 20 20v8a20 20 0 0 1-20 20H48l-16 12v-12h-6a16 16 0 0 1-16-16V34A20 20 0 0 1 26 14Z" fill="#9a8be0" stroke="#9a8be0" stroke-width="8" stroke-linejoin="round" transform="translate(0 4)"/><path d="M26 14h42a20 20 0 0 1 20 20v8a20 20 0 0 1-20 20H48l-16 12v-12h-6a16 16 0 0 1-16-16V34A20 20 0 0 1 26 14Z" fill="url(#ba)" stroke="url(#ba)" stroke-width="6" stroke-linejoin="round"/><ellipse cx="30" cy="28" rx="8" ry="3.5" fill="#fff" opacity="0.9" transform="rotate(-20 30 28)" filter="url(#bh)"/><path d="M56 50h40a18 18 0 0 1 18 18v10a18 18 0 0 1-18 18h-4v14l-18-14H56a18 18 0 0 1-18-18V68a18 18 0 0 1 18-18Z" fill="#6f9a00" stroke="#6f9a00" stroke-width="8" stroke-linejoin="round" transform="translate(0 4)"/><path d="M56 50h40a18 18 0 0 1 18 18v10a18 18 0 0 1-18 18h-4v14l-18-14H56a18 18 0 0 1-18-18V68a18 18 0 0 1 18-18Z" fill="url(#bc)" stroke="url(#bc)" stroke-width="6" stroke-linejoin="round"/><ellipse cx="52" cy="62" rx="8" ry="3.5" fill="#fff" opacity="0.9" transform="rotate(-20 52 62)" filter="url(#bh)"/><circle cx="62" cy="76" r="4.5" fill="#2b2230"/><circle cx="77" cy="76" r="4.5" fill="#2b2230"/><circle cx="92" cy="76" r="4.5" fill="#2b2230"/></svg>
-            <h3><span class="en">Invite people in.</span><span class="uk">Працюйте разом.</span></h3>
-            <p><span class="en">Share early. Comment together. Keep the energy moving.</span><span class="uk">Діліться ідеями відразу. Обговорюйте разом. Зберігайте творчу енергію.</span></p>
-          </div>
-        </article>
-        <article class="feature-card bg-[#7054ee] text-white">
-          <span class="feature-number">03</span>
-          <div>
-            <svg class="icon3d block h-24 w-24" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9b9ff"/><stop offset="1" stop-color="#6a4bff"/></linearGradient><filter id="cb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter><filter id="ch" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter></defs><ellipse cx="62" cy="114" rx="38" ry="5" fill="#000" opacity="0.28" filter="url(#cb)"/><rect x="18" y="20" width="84" height="84" rx="26" fill="#3d22b8"/><rect x="18" y="12" width="84" height="84" rx="26" fill="url(#cg)"/><rect x="20" y="14" width="80" height="80" rx="24" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/><ellipse cx="38" cy="26" rx="12" ry="5" fill="#fff" opacity="0.8" transform="rotate(-30 38 26)" filter="url(#ch)"/><text x="61.5" y="69" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="52" text-anchor="middle" fill="#2a1580" opacity=".45">Aa</text><text x="60" y="66" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="52" text-anchor="middle" fill="#fff">Aa</text></svg>
-            <h3><span class="en">Make it yours.</span><span class="uk">Зробіть по-своєму.</span></h3>
-            <p><span class="en">Give every project its own voice, system, and point of view.</span><span class="uk">Надайте кожному проєкту власний голос, систему та точку зору.</span></p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- STUDIO -->
-  <section id="studio" class="relative min-h-[820px] overflow-hidden bg-[#cbdc92] px-5 py-24 sm:px-9 sm:py-36">
-    <div class="grid-pattern absolute inset-0 opacity-50"></div>
-    <div class="relative z-10 mx-auto max-w-[1380px]">
-      <div class="flex items-start justify-between">
-        <p class="text-xs uppercase tracking-[.18em]"><span class="en">A study in possibility</span><span class="uk">Дослідження можливостей</span></p>
-        <p class="text-xs">02 / 26</p>
-      </div>
-      <h2 class="mt-20 max-w-[1000px] text-[16vw] font-medium leading-[.78] tracking-[-.08em] sm:text-[115px] lg:text-[154px]">
-        <span class="en">A different<br><span class="font-serif font-normal italic">perspective.</span></span>
-        <span class="uk">Інший<br><span class="font-serif font-normal italic">погляд.</span></span>
-      </h2>
-      <div class="absolute -right-[8%] top-[43%] h-[440px] w-[62%] rotate-[-7deg] bg-[#f25e3d] shadow-[0_35px_80px_rgba(0,0,0,.18)] sm:w-[48%]">
-        <div class="absolute inset-5 border border-white/35 p-5 text-white">
-          <span class="text-[10px] uppercase tracking-[.2em]"><span class="en">What if?</span><span class="uk">А що, як?</span></span>
-          <div class="absolute bottom-6 right-6 h-28 w-28 rounded-full bg-[#121212] sm:h-40 sm:w-40"></div>
-          <div class="absolute bottom-14 right-14 h-12 w-12 rounded-full bg-[#cbdc92] sm:bottom-[72px] sm:right-[72px] sm:h-16 sm:w-16"></div>
-        </div>
-      </div>
-      <div class="absolute bottom-16 left-[8%] max-w-xs border-t border-black/30 pt-4 text-sm leading-relaxed text-black/60"><span class="en">Leave room for a little unexpected. The best direction is not always the first one.</span><span class="uk">Залиште місце для несподіваного. Найкращий напрямок не завжди той, що з’явився першим.</span></div>
-    </div>
-  </section>
-
 <!-- FOOTER -->
   <footer id="contact" class="bg-[#111] px-5 pb-8 pt-16 text-white sm:px-9">
     <div class="mx-auto max-w-[1380px]">
@@ -422,8 +348,8 @@
         </div>
         <div>
           <p class="footer-title"><span class="en">Company</span><span class="uk">Компанія</span></p>
-          <a href="#studio" class="footer-link"><span class="en">About</span><span class="uk">Про нас</span></a>
-          <a href="#studio" class="footer-link"><span class="en">Journal</span><span class="uk">Журнал</span></a>
+          <a href="#about" class="footer-link"><span class="en">About</span><span class="uk">Про нас</span></a>
+          <a href="#about" class="footer-link"><span class="en">Journal</span><span class="uk">Журнал</span></a>
           <a href="#about" class="footer-link"><span class="en">Careers</span><span class="uk">Вакансії</span></a>
           <a href="#possibilities" class="footer-link"><span class="en">Contact</span><span class="uk">Контакти</span></a>
         </div>
@@ -510,7 +436,7 @@
         var left = vw - 28 - cue.offsetWidth - 8, half = cue.offsetHeight / 2 + 8;
         return g.right > left && g.top < vh / 2 + half && g.bottom > vh / 2 - half;
       }
-      var ids = ['about', 'directions', 'possibilities', 'features', 'studio', 'contact'];
+      var ids = ['about', 'directions', 'possibilities', 'contact'];
       var upBtn = cue.querySelector('[data-cue="up"]'), downBtn = cue.querySelector('[data-cue="down"]');
       function upd() {
         var end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
