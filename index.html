@@ -49,19 +49,38 @@
   #to-top { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 24px); transition: opacity .3s ease, transform .3s ease, background-color .2s ease; }
   #to-top.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
   #to-top:hover { background: #1456ff; }
-  #reviews-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; overscroll-behavior: contain; padding: 20px 12px; background: rgba(17,17,17,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; transition: opacity .3s ease; }
+  #reviews-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center; overflow: hidden; overscroll-behavior: contain; touch-action: none; padding: 16px; background: rgba(17,17,17,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s ease; }
   #reviews-modal[hidden] { display: none; }
   #reviews-modal.is-open { opacity: 1; }
-  #reviews-modal .rv-panel { position: relative; width: 100%; max-width: 1080px; margin: auto; border-radius: 28px; background: #f1f0eb; padding: 56px 18px 22px; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.98); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+  #reviews-modal .rv-panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 560px; max-height: min(80vh, 700px); border-radius: 26px; background: #f1f0eb; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1); }
   #reviews-modal.is-open .rv-panel { transform: none; }
-  #reviews-modal .rv-close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; border: 0; border-radius: 999px; background: #111; color: #fff; cursor: pointer; transition: transform .2s ease, background-color .2s ease, color .2s ease; }
+  #reviews-modal .rv-scroll { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; touch-action: pan-y; border-radius: 26px; padding: 26px 22px 30px; }
+  #reviews-modal .rv-close { position: absolute; top: 12px; right: 12px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 999px; background: #111; color: #fff; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2); transition: transform .2s ease, background-color .2s ease, color .2s ease; }
   #reviews-modal .rv-close:hover { background: #fee600; color: #111; transform: rotate(90deg); }
-  #reviews-modal .rv-title { max-width: 760px; margin: 0 0 28px 6px; font-size: clamp(25px, 5.2vw, 56px); font-weight: 500; line-height: 1.04; letter-spacing: -.045em; }
-  #reviews-modal .rv-title .rv-line { display: block; }
+  #reviews-modal .rv-title { margin: 0 0 26px; padding-right: 44px; font-size: clamp(22px, 5.6vw, 34px); font-weight: 500; line-height: 1.06; letter-spacing: -.04em; }
   #reviews-modal .rv-title .rv-soft { display: block; color: rgba(17,17,17,.38); }
-  #reviews-modal .rv-grid { columns: 1; column-gap: 16px; }
-  #reviews-modal .rv-grid img { display: block; width: 100%; height: auto; margin: 0 0 16px; break-inside: avoid; border-radius: 18px; }
-  @media (min-width: 640px) { #reviews-modal { padding: 32px 24px; } #reviews-modal .rv-panel { padding: 72px 36px 28px; } #reviews-modal .rv-title { margin-left: 0; } #reviews-modal .rv-grid { columns: 2; column-gap: 20px; } #reviews-modal .rv-grid img { margin-bottom: 20px; } #reviews-modal .rv-close { top: 22px; right: 22px; } }
+  #reviews-modal .rv-title .rv-line { display: block; }
+  #reviews-modal .rv-grid { display: flex; flex-direction: column; padding-bottom: 6px; }
+  #reviews-modal .rv-grid img { display: block; height: auto; width: var(--w); margin-left: var(--x); margin-top: var(--y); border-radius: 14px; transform: rotate(var(--r)); box-shadow: 0 10px 26px rgba(0,0,0,.16); transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease; position: relative; }
+  #reviews-modal .rv-grid img:hover { transform: rotate(0deg) scale(1.025); box-shadow: 0 16px 36px rgba(0,0,0,.24); z-index: 2; }
+  #reviews-modal .rv-grid img:nth-child(1) { --w: 90%; --x: 0%;  --y: 0px;   --r: -2.2deg; }
+  #reviews-modal .rv-grid img:nth-child(2) { --w: 80%; --x: 10%; --y: 10px;  --r: 2.8deg; }
+  #reviews-modal .rv-grid img:nth-child(3) { --w: 86%; --x: 3%;  --y: 14px;  --r: -1.4deg; }
+  #reviews-modal .rv-grid img:nth-child(4) { --w: 92%; --x: 6%;  --y: 6px;   --r: 1.9deg; }
+  #reviews-modal .rv-grid img:nth-child(5) { --w: 76%; --x: 12%; --y: 16px;  --r: -3deg; }
+  #reviews-modal .rv-grid img:nth-child(6) { --w: 94%; --x: 2%;  --y: 4px;   --r: 1.3deg; }
+  #reviews-modal .rv-grid img:nth-child(7) { --w: 80%; --x: 10%; --y: 14px;  --r: -2.4deg; }
+  #reviews-modal .rv-grid img:nth-child(8) { --w: 88%; --x: 4%;  --y: 6px;   --r: 2.2deg; }
+  @media (min-width: 640px) { #reviews-modal .rv-scroll { padding: 34px 32px 36px; } #reviews-modal .rv-close { top: 16px; right: 16px; } #reviews-modal .rv-grid img { border-radius: 16px; }
+    #reviews-modal .rv-grid img:nth-child(1) { --w: 78%; --x: 2%;  --y: 0px;   --r: -2.4deg; }
+    #reviews-modal .rv-grid img:nth-child(2) { --w: 70%; --x: 28%; --y: 0px;   --r: 3deg; }
+    #reviews-modal .rv-grid img:nth-child(3) { --w: 74%; --x: 6%;  --y: 12px;  --r: -1.6deg; }
+    #reviews-modal .rv-grid img:nth-child(4) { --w: 84%; --x: 14%; --y: 4px;   --r: 1.8deg; }
+    #reviews-modal .rv-grid img:nth-child(5) { --w: 66%; --x: 4%;  --y: 14px;  --r: -3.2deg; }
+    #reviews-modal .rv-grid img:nth-child(6) { --w: 88%; --x: 10%; --y: 4px;   --r: -1.2deg; }
+    #reviews-modal .rv-grid img:nth-child(7) { --w: 72%; --x: 24%; --y: 12px;  --r: 2.6deg; }
+    #reviews-modal .rv-grid img:nth-child(8) { --w: 80%; --x: 3%;  --y: 8px;   --r: -2deg; }
+  }
   #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 16px; padding: 22px 10px 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: pointer; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
   @media (min-width: 1024px) { #scroll-cue { display: flex; } }
   #scroll-cue:hover { background: #fff; }
@@ -382,6 +401,7 @@
       <button type="button" class="rv-close" data-reviews-close aria-label="Close">
         <svg viewBox="0 0 20 20" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
+      <div class="rv-scroll">
       <h2 id="reviews-title" class="rv-title">
         <span class="rv-soft"><span class="en">And many more.</span><span class="uk">Та багато інших.</span></span>
         <span class="en"><span class="rv-line">Reviews are about humanity.</span><span class="rv-line">Design is about respect.</span></span><span class="uk"><span class="rv-line">Відгуки — про людяність.</span><span class="rv-line">Дизайн — про повагу.</span></span>
@@ -395,6 +415,7 @@
         <img src="review-6.webp" width="970" height="246" alt="Client feedback in a chat" loading="lazy" decoding="async">
         <img src="review-7.webp" width="826" height="300" alt="Client feedback in a chat" loading="lazy" decoding="async">
         <img src="review-8.webp" width="998" height="410" alt="Client feedback in a chat" loading="lazy" decoding="async">
+      </div>
       </div>
     </div>
   </div>
@@ -459,12 +480,13 @@
       var modal = document.getElementById('reviews-modal');
       if (!modal) return;
       var closeBtn = modal.querySelector('[data-reviews-close]');
+      var sc = modal.querySelector('.rv-scroll');
       var opener = null, timer = 0;
       function open(from) {
         opener = from || null;
         clearTimeout(timer);
         modal.hidden = false;
-        modal.scrollTop = 0;
+        sc.scrollTop = 0;
         void modal.offsetWidth;
         modal.classList.add('is-open');
         closeBtn.focus({ preventScroll: true });
@@ -481,6 +503,7 @@
       });
       closeBtn.addEventListener('click', close);
       modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+      modal.addEventListener('wheel', function (e) { if (!sc.contains(e.target)) e.preventDefault(); }, { passive: false });
       document.addEventListener('keydown', function (e) {
         if (modal.hidden) return;
         if (e.key === 'Escape') { e.preventDefault(); close(); }
