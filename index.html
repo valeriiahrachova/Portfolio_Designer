@@ -13,6 +13,7 @@
   button, a { cursor: pointer; }
   ::selection { background: #fee600; color: #111; }
   ::-moz-selection { background: #fee600; color: #111; }
+  .hl { background: #fee600; color: #111; font-weight: 600; padding: .02em .22em; margin: 0 -.04em; border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 
   #app[data-lang="en"] .uk, #app[data-lang="uk"] .en { display: none; }
@@ -147,12 +148,12 @@
               <span class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
             </a>
             <p class="text-lg leading-relaxed text-black/70 sm:text-xl lg:text-2xl">
-              <span class="en">Graphic and web designer with 7 years of experience. I develop brand identities, design for digital platforms and print, and bring visual ideas to life with AI.</span>
-              <span class="uk">Графічна та веб-дизайнерка із 7-річним досвідом. Розробляю айдентику, створюю дизайн для цифрових платформ і друку та втілюю візуальні ідеї за допомогою AI.</span>
+              <span class="en">Graphic and web designer with 7 years of experience. I develop brand identities, design for digital platforms and print, and <mark class="hl">bring visual ideas to life with AI</mark>.</span>
+              <span class="uk">Графічна та веб-дизайнерка із 7-річним досвідом. Розробляю айдентику, створюю дизайн для цифрових платформ і друку та <mark class="hl">втілюю візуальні ідеї за допомогою AI</mark>.</span>
             </p>
             <p class="mt-6 text-base leading-relaxed text-black/55 lg:text-lg">
-              <span class="en">I enjoy creating convenient, stylish design that meets users’ needs.</span>
-              <span class="uk">Мені подобається створювати зручний і стильний дизайн, що відповідає потребам користувачів.</span>
+              <span class="en">I enjoy creating <mark class="hl">convenient, stylish design</mark> that meets users’ needs.</span>
+              <span class="uk">Мені подобається створювати <mark class="hl">зручний і стильний дизайн</mark>, що відповідає потребам користувачів.</span>
             </p>
             <ul class="mt-8 flex flex-wrap justify-center gap-2.5 text-sm">
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">Brand identity</span><span class="uk">Айдентика</span></li>
