@@ -344,6 +344,19 @@
     </div>
   </section>
 
+  <!-- CONTACTS -->
+  <section id="contacts" class="px-5 pb-24 pt-2 sm:px-9 sm:pb-36 sm:pt-4">
+    <div class="mx-auto max-w-[1380px] border-t border-black/15 pt-16 text-center sm:pt-24">
+      <h2 class="hero-display mx-auto max-w-[16ch] text-balance text-center text-[10.8vw] font-medium leading-[.95] tracking-[-.03em] sm:max-w-none sm:text-[6.9vw] lg:text-[88px]">
+        <span class="en">Contact for collaboration</span><span class="uk">Контакти для співпраці</span>
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-black/55 sm:mt-8 sm:text-xl">
+        <span class="en">Have a project or an idea? Write to me, and we’ll talk through the details.</span>
+        <span class="uk">Маєте проєкт чи ідею? Напишіть мені — обговоримо деталі.</span>
+      </p>
+    </div>
+  </section>
+
   <!-- FEATURES -->
   <section id="features" class="bg-[#111] px-5 py-24 text-white sm:px-9 sm:py-36">
     <div class="mx-auto max-w-[1380px]">
@@ -432,7 +445,7 @@
           <a href="#studio" class="footer-link"><span class="en">About</span><span class="uk">Про нас</span></a>
           <a href="#studio" class="footer-link"><span class="en">Journal</span><span class="uk">Журнал</span></a>
           <a href="#about" class="footer-link"><span class="en">Careers</span><span class="uk">Вакансії</span></a>
-          <a href="#about" class="footer-link"><span class="en">Contact</span><span class="uk">Контакти</span></a>
+          <a href="#contacts" class="footer-link"><span class="en">Contact</span><span class="uk">Контакти</span></a>
         </div>
       </div>
       <div class="flex flex-col justify-between gap-4 pt-7 text-xs text-white/35 sm:flex-row"><span>© 2026 Forma Studio</span><span><span class="en">Made with room to explore.</span><span class="uk">Створено з простором для пошуку.</span></span></div>
@@ -517,7 +530,7 @@
         var left = vw - 28 - cue.offsetWidth - 8, half = cue.offsetHeight / 2 + 8;
         return g.right > left && g.top < vh / 2 + half && g.bottom > vh / 2 - half;
       }
-      var ids = ['about', 'directions', 'possibilities', 'features', 'studio', 'contact'];
+      var ids = ['about', 'directions', 'possibilities', 'contacts', 'features', 'studio', 'contact'];
       var upBtn = cue.querySelector('[data-cue="up"]'), downBtn = cue.querySelector('[data-cue="down"]');
       function upd() {
         var end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
