@@ -30,9 +30,6 @@
   #mobile-menu:not([hidden]) { animation: menu-in .35s cubic-bezier(.22,1,.36,1); transform-origin: top center; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(-10px) scale(.97); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { #site-header .hdr-nav, #mobile-menu { transition: none !important; animation: none !important; } }
-  .btn-dark { background: linear-gradient(180deg, #2b2b2b 0%, #0d0d0d 100%); border: 1px solid rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -6px 12px rgba(0,0,0,.5), 0 12px 30px rgba(0,0,0,.28); transition: transform .25s ease, box-shadow .25s ease, filter .25s ease; }
-  .btn-dark:hover { transform: scale(1.03); filter: brightness(1.12); }
-  .glass-dot { background: rgba(254,230,0,.96); border: 1px solid rgba(255,255,255,.4); box-shadow: none; }
   .animated-arrow { animation: arrow-pulse 2.2s cubic-bezier(.45,0,.55,1) infinite; }
   @keyframes sculpture-spin { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(-360deg); } }
   @keyframes arrow-pulse { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
@@ -121,9 +118,9 @@
         <span class="uk">Через дизайн перетворюю ідеї на візуальні рішення, що знаходять відгук.</span>
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-      <a id="explore-btn" href="#work" class="btn-dark flex items-center gap-5 rounded-full py-2 pl-8 pr-2 text-base font-semibold text-white">
+      <a id="explore-btn" href="#work" class="flex items-center gap-3 rounded-full bg-[#111] px-8 py-4 text-base font-semibold text-white shadow-[0_10px_30px_rgba(0,0,0,.25)] transition hover:scale-[1.03] hover:gap-5 hover:bg-[#2a2a2a]">
         <span class="en">Explore my work</span><span class="uk">Переглянути роботи</span>
-        <span class="glass-dot grid h-11 w-11 place-items-center rounded-full text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="animated-arrow h-5 w-5" fill="none"><path d="M3.5 10h12.5m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="grid h-7 w-7 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="animated-arrow h-4 w-4" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
       </a>
       <a href="https://www.linkedin.com/in/valeriia-hrachova-466953234/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
         <span>LinkedIn</span>
