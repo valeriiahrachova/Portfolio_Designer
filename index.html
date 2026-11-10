@@ -111,6 +111,7 @@
   .pg-empty { display: grid; place-items: center; min-height: 46vh; padding: 24px; border: 2px dashed rgba(17,17,17,.16); border-radius: 22px; color: rgba(17,17,17,.42); font-size: 17px; text-align: center; }
   @media (min-width: 640px) { .pg-modal { padding: 20px; } .pg-scroll { padding: 40px 44px 44px; } .pg-footer { padding: 6px 44px 28px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
   /* Interactive 3D stand inside the "Виставкові стенди" popup */
+  .pg-title-2 { margin-top: clamp(40px, 6vw, 72px); }
   .stand3d { position: relative; height: clamp(340px, calc(94vh - 296px), 720px); border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
   .stand3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; touch-action: none; cursor: grab; outline: none; -webkit-tap-highlight-color: transparent; }
   .stand3d.s3d-ready canvas { display: block; }
@@ -457,6 +458,24 @@
             </div>
             <div class="s3d-ui">
               <button type="button" class="s3d-btn" data-s3d="fascia" aria-pressed="false"><span class="en">With header</span><span class="uk">З фризом</span></button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomout" aria-label="Zoom out">&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomin" aria-label="Zoom in">+</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <h3 id="stands-title-2" class="pg-title pg-title-long pg-title-2"><span class="en">Raiffeisen Bank &ldquo;Together with Ukraine&rdquo;</span><span class="uk">Raiffeisen Bank &laquo;Разом з Україною&raquo;</span></h3>
+        <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
+        <div class="pg-body">
+          <div class="stand3d" id="stand3d-2" data-s3d-scene="rb">
+            <img class="s3d-poster" data-s3d-poster src="stand-rb-poster.webp" width="1600" height="716" alt="" loading="lazy" decoding="async">
+            <canvas tabindex="0" role="img" aria-label="3D-модель виставкового стенда Raiffeisen Bank · 3D model of the Raiffeisen Bank exhibition stand"></canvas>
+            <div class="s3d-hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+              <span class="en"><span class="hm">Drag to rotate · scroll to zoom</span><span class="ht">Swipe to rotate</span></span>
+              <span class="uk"><span class="hm">Тягніть, щоб крутити · коліщатко — масштаб</span><span class="ht">Проведіть, щоб крутити</span></span>
+            </div>
+            <div class="s3d-ui">
               <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomout" aria-label="Zoom out">&minus;</button>
               <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomin" aria-label="Zoom in">+</button>
               <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
@@ -860,7 +879,7 @@
   /* ---------- geometry builder ---------- */
   var groups, G, TR;
   function resetBuilder() {
-    groups = { main: {}, fascia: {}, shade: {}, glass: {}, glow: {}, lamp: {} };
+    groups = { main: {}, fascia: {}, shade: {}, deco: {}, glass: {}, glow: {}, lamp: {} };
     G = 'main';
     TR = { c: 1, s: 0, ox: 0, oz: 0 };
   }
@@ -907,7 +926,7 @@
   /* flat picture glued to a wall face. a0/a1 = left/right edge as seen by someone looking at the face */
   function panel(tex, dir, fixed, a0, a1, y0, y1, o) {
     o = o || {};
-    var e = 0.003, BL, BR;
+    var e = o.e !== undefined ? o.e : 0.003, BL, BR;
     if (dir === 'pz') { BL = [a0, y0, fixed + e]; BR = [a1, y0, fixed + e]; }
     else if (dir === 'nz') { BL = [a0, y0, fixed - e]; BR = [a1, y0, fixed - e]; }
     else if (dir === 'px') { BL = [fixed + e, y0, a0]; BR = [fixed + e, y0, a1]; }
@@ -1138,6 +1157,313 @@
     return cv;
   }
 
+  /* ---------- Raiffeisen Bank "Разом з Україною" stand ---------- */
+  /* Three white walls (left: chevron pattern + screen, back: slogan + big chevron, right: sunflowers + logo),
+     a grey floor, a white zig-zag shelf unit, two yellow armchairs and a yellow sofa. X = right, Z = towards the open front. */
+  var RW = 3.4, RD = 2.4, RH = 2.7, RT = 0.1, RHW = RW / 2;
+  var RB_FONT = "'DM Sans','Inter','Segoe UI','Helvetica Neue',Arial,sans-serif";
+  var YELLOW = '#f4e50a', YEL3 = [1.0, 0.82, 0.07];
+  function cvs(w, h) { var c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+  /* soft glow of whatever drawFn paints (the shape itself is drawn far off-canvas, only its shadow lands in view) */
+  function glowOf(w, h, drawFn, blur, rgba, passes) {
+    var cv = cvs(w, h), c = cv.getContext('2d');
+    for (var i = 0; i < (passes || 1); i++) {
+      c.save(); c.shadowColor = rgba; c.shadowBlur = blur; c.shadowOffsetX = 9000; c.shadowOffsetY = 0; c.translate(-9000, 0); c.fillStyle = '#000'; c.strokeStyle = '#000';
+      drawFn(c); c.restore();
+    }
+    return cv;
+  }
+  function chevPath(c, cx, cy, w, h, lw, dir) {
+    var x0 = cx - dir * w / 2, x1 = cx + dir * w / 2;
+    c.beginPath(); c.moveTo(x0, cy - h / 2); c.lineTo(x1, cy); c.lineTo(x0, cy + h / 2);
+    c.lineWidth = lw; c.lineJoin = 'round'; c.lineCap = 'round'; c.stroke();
+  }
+  function rbChevDraw(c) { chevPath(c, 128, 192, 104, 236, 84, 1); }
+  function rbChevCanvas() { var cv = cvs(256, 384), c = cv.getContext('2d'); c.strokeStyle = YELLOW; rbChevDraw(c); return cv; }
+  function rbChevGlow() { return glowOf(256, 384, rbChevDraw, 26, 'rgba(255,246,170,0.95)', 2); }
+
+  var TXT = [['Разом', 235], ['з Україною', 475]];
+  function rbTextDraw(c) {
+    c.font = '700 220px ' + RB_FONT; c.textBaseline = 'alphabetic';
+    TXT.forEach(function (t) { c.fillText(t[0], 40, t[1]); });
+  }
+  function rbTextCanvas() { var cv = cvs(1400, 560), c = cv.getContext('2d'); c.fillStyle = '#2a2a2e'; rbTextDraw(c); return cv; }
+  function rbTextGlow() { return glowOf(1400, 560, rbTextDraw, 30, 'rgba(255,250,236,0.95)', 3); }
+
+  function rbLogoDraw(c, withMark) {
+    if (withMark) {
+      c.fillStyle = YELLOW; c.fillRect(0, 0, 285, 440);
+      c.strokeStyle = '#1b1b1d'; c.lineCap = 'butt'; c.lineWidth = 64;
+      c.beginPath(); c.moveTo(70, 100); c.lineTo(215, 345); c.moveTo(215, 100); c.lineTo(70, 345); c.stroke();
+      c.fillStyle = '#1b1b1d';
+      c.beginPath(); c.moveTo(48, 82); c.lineTo(112, 56); c.lineTo(112, 112); c.closePath(); c.fill();
+      c.beginPath(); c.moveTo(237, 82); c.lineTo(173, 56); c.lineTo(173, 112); c.closePath(); c.fill();
+    }
+    c.fillStyle = '#1b1b1d'; c.font = '700 178px ' + RB_FONT; c.textBaseline = 'alphabetic';
+    if (c.letterSpacing !== undefined) c.letterSpacing = '-7px';
+    c.fillText('Raiffeisen', 318, 205); c.fillText('Bank', 318, 395);
+  }
+  function rbLogoCanvas() { var cv = cvs(1150, 440), c = cv.getContext('2d'); rbLogoDraw(c, true); return cv; }
+  function rbLogoGlow() { return glowOf(1150, 440, function (c) { rbLogoDraw(c, false); }, 22, 'rgba(255,250,236,0.95)', 3); }
+
+  function rbSunDraw(c, S, outline) {
+    var R = S / 2, cx = R, cy = R;
+    function ring(n, r0, r1, wd, off, col) {
+      for (var i = 0; i < n; i++) {
+        var a = off + i * 2 * Math.PI / n, L = r1 - r0;
+        c.save(); c.translate(cx, cy); c.rotate(a); c.fillStyle = col(i);
+        c.beginPath(); c.moveTo(0, r0 * R);
+        c.bezierCurveTo(wd * R * 0.95, (r0 + L * 0.12) * R, wd * R * 1.15, (r0 + L * 0.62) * R, wd * R * 0.2, (r1 - L * 0.04) * R);
+        c.quadraticCurveTo(0, (r1 + L * 0.03) * R, -wd * R * 0.2, (r1 - L * 0.04) * R);
+        c.bezierCurveTo(-wd * R * 1.15, (r0 + L * 0.62) * R, -wd * R * 0.95, (r0 + L * 0.12) * R, 0, r0 * R);
+        c.fill();
+        if (outline) { c.strokeStyle = outline; c.lineWidth = S / 170; c.stroke(); }
+        c.restore();
+      }
+    }
+    ring(13, 0.30, 1.0, 0.25, 0.1, function (i) { return i % 2 ? '#f0e200' : '#f6e90c'; });
+    ring(13, 0.28, 0.78, 0.24, 0.1 + Math.PI / 13, function (i) { return i % 2 ? '#ebde00' : '#f3e606'; });
+    c.fillStyle = YELLOW; c.beginPath(); c.arc(cx, cy, 0.37 * R, 0, 7); c.fill();
+    if (outline) { c.strokeStyle = outline; c.lineWidth = S / 170; c.stroke(); }
+  }
+    function rbSunCanvas() { var cv = cvs(640, 640), c = cv.getContext('2d'); rbSunDraw(c, 640, 'rgba(205,192,0,0.9)'); return cv; }
+  function rbSunGlow() { return glowOf(640, 640, function (c) { rbSunDraw(c, 640); }, 16, 'rgba(255,252,240,0.95)', 3); }
+
+  function rbStitchCanvas() {
+    var cv = cvs(128, 512), c = cv.getContext('2d'); c.strokeStyle = '#1d1d20'; c.lineWidth = 9; c.lineCap = 'round';
+    for (var i = 0; i < 5; i++) { var y = 56 + i * 100; c.beginPath(); c.moveTo(34, y - 32); c.lineTo(94, y + 32); c.moveTo(94, y - 32); c.lineTo(34, y + 32); c.stroke(); }
+    return cv;
+  }
+  function rbXCanvas() {
+    var cv = cvs(256, 256), c = cv.getContext('2d');
+    c.strokeStyle = YELLOW; c.lineWidth = 54; c.lineCap = 'butt';
+    c.beginPath(); c.moveTo(62, 62); c.lineTo(194, 194); c.moveTo(194, 62); c.lineTo(62, 194); c.stroke();
+    c.fillStyle = YELLOW;
+    [[0, 0], [256, 0]].forEach(function (p) { c.beginPath(); c.moveTo(p[0] ? 238 : 18, 40); c.lineTo(p[0] ? 150 : 106, 12); c.lineTo(p[0] ? 150 : 106, 90); c.closePath(); c.fill(); });
+    return cv;
+  }
+  function rbScreenCanvas() {
+    var cv = cvs(270, 480), c = cv.getContext('2d');
+    c.fillStyle = '#f3e400'; c.fillRect(0, 0, 270, 480);
+    c.fillStyle = '#2a2a2e'; c.font = '500 22px ' + RB_FONT; c.fillText('Допоможемо', 22, 44); c.fillText('втілити', 22, 70);
+    c.font = '700 27px ' + RB_FONT; c.fillText('ваші ідеї', 22, 104);
+    /* tiny flat illustration: two people, a plant and a box */
+    c.fillStyle = '#f2b8a0'; c.beginPath(); c.arc(92, 292, 20, 0, 7); c.fill();
+    c.fillStyle = '#3c6fb5'; c.fillRect(70, 314, 44, 90); c.fillStyle = '#2a2a2e'; c.fillRect(74, 404, 14, 50); c.fillRect(96, 404, 14, 50);
+    c.fillStyle = '#e8a23a'; c.beginPath(); c.arc(172, 310, 18, 0, 7); c.fill();
+    c.fillStyle = '#f08f3c'; c.fillRect(150, 330, 44, 80);
+    c.fillStyle = '#3a9a5a'; c.beginPath(); c.ellipse(205, 340, 12, 30, 0.5, 0, 7); c.ellipse(190, 350, 10, 26, -0.6, 0, 7); c.fill();
+    c.fillStyle = '#d6a45a'; c.fillRect(190, 392, 54, 52);
+    c.fillStyle = '#2a2a2e'; c.fillRect(0, 0, 270, 8); c.fillRect(0, 472, 270, 8); c.fillRect(0, 0, 8, 480); c.fillRect(262, 0, 8, 480);
+    return cv;
+  }
+
+  /* wall textures: 400 px per metre */
+  var PPM = 400;
+  function rbWallL() {
+    var cv = cvs(RD * PPM, RH * PPM), c = cv.getContext('2d'), g = c.createLinearGradient(0, 0, 0, cv.height);
+    g.addColorStop(0, '#e3dcd7'); g.addColorStop(1, '#d8d1cb'); c.fillStyle = g; c.fillRect(0, 0, cv.width, cv.height);
+    c.save(); c.shadowColor = 'rgba(70,60,55,0.28)'; c.shadowBlur = 7; c.shadowOffsetX = 3; c.shadowOffsetY = 5;
+    c.strokeStyle = 'rgba(255,255,255,0.86)';
+    for (var col = 0; col < 5; col++) for (var row = -1; row < 6; row++) {
+      var cx = 60 + col * 215, cy = (col % 2 ? 250 : 120) + row * 300;
+      chevPath(c, cx, cy, 62, 150, 36, col % 2 ? -1 : 1);
+    }
+    c.restore();
+    return cv;
+  }
+  function rbWallB() {
+    var cv = cvs(RW * PPM, RH * PPM), c = cv.getContext('2d'), g = c.createLinearGradient(0, 0, 0, cv.height);
+    g.addColorStop(0, '#cdc7c2'); g.addColorStop(1, '#c4bdb8'); c.fillStyle = g; c.fillRect(0, 0, cv.width, cv.height);
+    /* yellow diagonal band that runs into the right-hand wall */
+    function X(m) { return (m + RHW) * PPM; } function Y(m) { return (RH - m) * PPM; }
+    c.save(); c.shadowColor = 'rgba(60,50,40,0.3)'; c.shadowBlur = 10; c.shadowOffsetX = 3; c.shadowOffsetY = 4;
+    c.fillStyle = YELLOW; c.beginPath(); c.moveTo(X(1.03), Y(0.72)); c.lineTo(X(1.36), Y(0.72)); c.lineTo(X(1.7), Y(1.12)); c.lineTo(X(1.7), Y(1.51)); c.closePath(); c.fill(); c.restore();
+    return cv;
+  }
+  function rbWallR() {
+    var cv = cvs(RD * PPM, RH * PPM), c = cv.getContext('2d'), g = c.createLinearGradient(0, 0, 0, cv.height);
+    g.addColorStop(0, '#d6cec8'); g.addColorStop(1, '#cdc5bf'); c.fillStyle = g; c.fillRect(0, 0, cv.width, cv.height);
+    return cv;
+  }
+  function rbInteriorShadow() {
+    return shadowCanvas(-RHW, 0, RHW, RD, 130, function (b) {
+      b(-1.9, -0.2, -1.65, RD + 0.1, 0.3, 0.45); b(1.65, -0.2, 1.9, RD + 0.1, 0.3, 0.45); b(-1.9, -0.3, 1.9, 0.1, 0.3, 0.45);
+      b(-1.6, 0, 0.85, 0.42, 0.22, 0.32);                 // shelf unit
+      b(-0.2, 0.7, 1.7, 1.95, 0.3, 0.42);                // sofa
+      b(-1.65, 1.1, -0.75, 2.0, 0.26, 0.38);              // armchair 1
+      b(-1.2, 0.55, -0.25, 1.5, 0.26, 0.38);                // armchair 2
+    });
+  }
+  function rbGroundShadow() {
+    return shadowCanvas(-5, -3, 5, 5, 60, function (b) { b(-1.8, -0.15, 1.8, RD + 0.05, 0.9, 0.3); b(-1.8, -0.15, 1.8, RD + 0.05, 0.3, 0.22); });
+  }
+
+  /* wall decal that is clipped to the wall; a0..a1 left->right, returns false when nothing is left */
+  function clipPanel(tex, dir, fixed, aL, aR, y0, y1, cLo, cHi, cy0, cy1, o) {
+    var d = aR - aL, s0 = 0, s1 = 1;
+    var tLo = (cLo - aL) / d, tHi = (cHi - aL) / d; if (tLo > tHi) { var q = tLo; tLo = tHi; tHi = q; }
+    s0 = Math.max(0, tLo); s1 = Math.min(1, tHi);
+    var h = y1 - y0, yt = Math.min(y1, cy1), yb = Math.max(y0, cy0);
+    if (s1 <= s0 || yt <= yb) return;
+    var oo = {}; for (var k in o) oo[k] = o[k];
+    oo.uv = [s0, (y1 - yt) / h, s1, (y1 - yb) / h];
+    panel(tex, dir, fixed, aL + s0 * d, aL + s1 * d, yb, yt, oo);
+  }
+  /* a few stacked copies of a cut-out give it a visible thickness when the camera moves */
+  function stack(tex, dir, fixed, aL, aR, y0, y1, clip, e0, de, tints, lit) {
+    tints.forEach(function (t, k) {
+      clipPanel(tex, dir, fixed, aL, aR, y0, y1, clip[0], clip[1], clip[2], clip[3], { e: e0 + k * de, c: t, lit: lit });
+    });
+  }
+  var T3 = [[0.74, 0.72, 0.62], [0.86, 0.84, 0.74], [0.95, 0.94, 0.86], [1, 1, 1]];
+  var TT = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]];
+
+  function armchair() {
+    /* faces +Z, origin = centre of the footprint on the floor, about 0.7 m square */
+    var Y = YEL3, BLK = [0.07, 0.07, 0.08];
+    [[-0.26, -0.24], [0.26, -0.24], [-0.26, 0.24], [0.26, 0.24]].forEach(function (p) {
+      boxC(p[0] * 1.12, 0.15, p[1] * 1.12, 0.022, 0.32, 0.022, { c: BLK, rz: -p[0] * 0.22 });
+    });
+    box(-0.33, 0.30, -0.32, 0.33, 0.44, 0.32, { c: [0.95, 0.74, 0.06] });                           // shell
+    box(-0.27, 0.44, -0.18, 0.27, 0.52, 0.32, { c: Y });                                              // seat cushion
+    box(-0.35, 0.44, -0.37, 0.35, 0.84, -0.20, { c: [0.96, 0.76, 0.06], taper: [0.92, 1] });          // back
+    box(-0.37, 0.44, -0.20, -0.26, 0.66, 0.32, { c: [0.95, 0.75, 0.06] });                           // arms
+    box(0.26, 0.44, -0.20, 0.37, 0.66, 0.32, { c: [0.95, 0.75, 0.06] });
+  }
+  function sofaY(w, d) {
+    var hw = w / 2, hd = d / 2, BASE = [0.96, 0.75, 0.05], BTN = [0.62, 0.45, 0.03];
+    [[-hw + 0.08, -hd + 0.08], [hw - 0.08, -hd + 0.08], [-hw + 0.08, hd - 0.08], [hw - 0.08, hd - 0.08]].forEach(function (p) {
+      box(p[0] - 0.03, 0, p[1] - 0.03, p[0] + 0.03, 0.09, p[1] + 0.03, { c: [0.32, 0.32, 0.34] });
+    });
+    box(-hw, 0.09, -hd, hw, 0.36, hd, { c: BASE });
+    var sw = (w - 0.4) / 3;
+    for (var i = 0; i < 3; i++) box(-hw + 0.2 + i * sw + 0.004, 0.36, -hd + 0.24, -hw + 0.2 + (i + 1) * sw - 0.004, 0.50, hd, { c: YEL3 });
+    box(-hw + 0.2, 0.36, -hd, hw - 0.2, 0.84, -hd + 0.24, { c: [0.97, 0.77, 0.06] });
+    box(-hw, 0.36, -hd, -hw + 0.2, 0.66, hd, { c: [0.95, 0.74, 0.05] });
+    box(hw - 0.2, 0.36, -hd, hw, 0.66, hd, { c: [0.95, 0.74, 0.05] });
+    for (var k = 0; k < 4; k++) { var bx = -hw + 0.2 + (k + 0.5) * (w - 0.4) / 4; box(bx - 0.012, 0.6, -hd + 0.24, bx + 0.012, 0.624, -hd + 0.254, { c: BTN, skip: ['nz'] }); }
+  }
+
+  function buildRB() {
+    resetBuilder();
+    var WHITE_ = [0.985, 0.985, 0.985], WALLTONE = 0.5, FLOOR_ = [0.60, 0.60, 0.615];
+    box(-RHW, -0.06, 0, RHW, 0, RD, { c: FLOOR_ });
+
+    /* walls */
+    box(-RHW, 0, -RT, RHW, RH, 0, { c: WHITE_, skip: ['nx', 'px'] });
+    box(-RHW - RT, 0, -RT, -RHW, RH, RD, { c: WHITE_ });
+    box(RHW, 0, -RT, RHW + RT, RH, RD, { c: WHITE_ });
+    panel('wallB', 'pz', 0, -RHW, RHW, 0, RH, { lit: WALLTONE });
+    panel('wallL', 'px', -RHW, RD, 0, 0, RH, { lit: WALLTONE });
+    panel('wallR', 'nx', RHW, 0, RD, 0, RH, { lit: WALLTONE });
+
+    /* portrait screen on the left wall */
+    box(-RHW, 1.08, 0.73, -RHW + 0.04, 2.04, 1.27, { c: [0.05, 0.05, 0.06], skip: ['nx'], f: { px: { t: 'screen', c: [1, 1, 1], lit: 0.2 } } });
+
+    /* shelf unit along the back wall: floating top board, mid + bottom boards, zig-zag dividers, wing */
+    var SH = WHITE_;
+    box(-1.6, 0.70, 0.02, 0.85, 0.74, 0.34, { c: SH });
+    box(-1.1, 0.33, 0.02, 0.85, 0.36, 0.34, { c: SH });
+    box(-1.1, 0.03, 0.02, 0.85, 0.06, 0.34, { c: SH });
+    box(-1.1, 0.06, 0.02, -1.07, 0.70, 0.34, { c: SH });
+    [[-0.52, 0.06, -0.1, 0.33], [0.4, 0.06, 0.02, 0.33], [-0.1, 0.36, 0.38, 0.70]].forEach(function (s) {
+      var dx = s[2] - s[0], dy = s[3] - s[1], L = Math.sqrt(dx * dx + dy * dy);
+      boxC((s[0] + s[2]) / 2, (s[1] + s[3]) / 2, 0.18, L, 0.028, 0.30, { c: SH, rz: Math.atan2(dy, dx) });
+    });
+    boxC(1.25, 0.97, 0.17, 0.84, 0.03, 0.28, { c: SH, rz: Math.atan2(0.46, 0.70) });                      // sloping wing
+    /* books, plant and the X sculpture */
+    var BOOKS = [[0.52, [0.35, 0.22, 0.18]], [0.58, [0.78, 0.74, 0.66]], [0.64, [0.42, 0.34, 0.30]], [0.70, [0.20, 0.25, 0.32]]];
+    BOOKS.forEach(function (b) { boxC(b[0], 0.36 + 0.115, 0.17, 0.045, 0.23, 0.17, { c: b[1], rz: -0.18 }); });
+    box(-0.60, 0.36, 0.12, -0.51, 0.45, 0.21, { c: [0.95, 0.95, 0.95] });
+    [[-0.56, 0.60, 0.16, 0.10, 0.20, 0.5], [-0.60, 0.56, 0.15, 0.09, 0.15, -0.6], [-0.52, 0.55, 0.17, 0.09, 0.14, 0.9]].forEach(function (l) {
+      boxC(l[0], l[1], l[2], l[3], l[4], 0.012, { c: [0.22, 0.52, 0.28], rz: l[5] });
+    });
+
+    /* the slogan + glow + big chevron + the X sculpture + logo + sunflowers (stacked cut-outs) */
+    groupAt('deco', function () {
+      var clipB = [-RHW, RHW, 0, RH];
+      stack('d_textG', 'pz', 0, -1.39, 0.61, 1.40, 2.20, clipB, 0.006, 0, [[1, 1, 1]], 0);
+      stack('d_text', 'pz', 0, -1.39, 0.61, 1.40, 2.20, clipB, 0.014, 0.005, TT, 0.4);
+      stack('d_chevG', 'pz', 0, 0.735, 1.365, 1.06, 2.01, clipB, 0.006, 0, [[1, 1, 1]], 0);
+      stack('d_chev', 'pz', 0, 0.735, 1.365, 1.06, 2.01, clipB, 0.012, 0.006, T3, 0.3);
+      /* X sculpture standing on the shelf */
+      [0.012, 0.018, 0.024].forEach(function (e, k) { panel('d_x', 'pz', 0.17 + e - 0.003, -1.50, -1.08, 0.74, 1.16, { c: T3[k + 1], lit: 0.3, e: 0.003 }); });
+      /* logo on the right wall */
+      var clipR = [0, RD, 0, RH];
+      stack('d_logoG', 'nx', RHW, 0.20, 1.35, 1.42, 1.86, clipR, 0.006, 0, [[1, 1, 1]], 0);
+      stack('d_logo', 'nx', RHW, 0.20, 1.35, 1.42, 1.86, clipR, 0.014, 0.008, [[1, 1, 1], [1, 1, 1]], 0.4);
+      /* sunflowers: big one near the floor, smaller one in the top corner */
+      stack('d_sunG', 'nx', RHW, 0.80, 2.70, -0.40, 1.50, clipR, 0.006, 0, [[1, 1, 1]], 0);
+      stack('d_sun', 'nx', RHW, 0.80, 2.70, -0.40, 1.50, clipR, 0.012, 0.007, T3, 0.3);
+      stack('d_sunG', 'nx', RHW, 1.55, 2.57, 1.76, 2.78, clipR, 0.006, 0, [[1, 1, 1]], 0);
+      stack('d_sun', 'nx', RHW, 1.55, 2.57, 1.76, 2.78, clipR, 0.012, 0.007, T3, 0.3);
+      /* yellow chevrons on the left wall (left-pointing ones are the mirrored texture) */
+      [[0.62, 2.12, 1], [1.55, 1.95, -1], [0.62, 1.22, 1], [1.55, 1.04, -1], [0.95, 0.52, 1]].forEach(function (p) {
+        var z = p[0], y = p[1], dir = p[2], w = 0.25, h = 0.38;
+        [['d_chevG', 0.005, [1, 1, 1], 0], ['d_chev', 0.012, T3[1], 0.3], ['d_chev', 0.018, T3[2], 0.3], ['d_chev', 0.024, T3[3], 0.3]].forEach(function (s) {
+          var o = { e: s[1], c: s[2], lit: s[3], uv: dir > 0 ? [0, 0, 1, 1] : [1, 0, 0, 1] };
+          panel(s[0], 'px', -RHW, z + w / 2, z - w / 2, y - h / 2, y + h / 2, o);
+        });
+      });
+    });
+
+    /* hanging lamp: yellow frustum with black cross-stitching on the front, thin cord up */
+    var lcx = 0.0, lcz = 0.55, ly0 = 2.16, ly1 = 2.72, lw = 0.78, ld = 0.52, tp_ = [0.62, 0.68];
+    boxC(lcx, (ly0 + ly1) / 2, lcz, lw, ly1 - ly0, ld, { c: [1.0, 0.9, 0.06], taper: tp_, lit: 0.45 });
+    boxC(lcx, ly1 + 0.35, lcz, 0.012, 0.7, 0.012, { c: [0.1, 0.1, 0.1] });
+    groupAt('deco', function () {
+      var zb = lcz + ld / 2, zt = lcz + ld / 2 * tp_[1], y0 = ly0 + 0.07, y1 = ly1 - 0.05;
+      function zAt(y) { return zb + (zt - zb) * (y - ly0) / (ly1 - ly0) + 0.004; }
+      quad('d_stitch', [-0.065, y0, zAt(y0)], [0.065, y0, zAt(y0)], [0.065, y1, zAt(y1)], [-0.065, y1, zAt(y1)], [0, 0, 1, 1], [1, 1, 1], 0.2);
+    });
+
+    /* seating */
+    at(35, -1.18, 1.55, armchair);
+    at(35, -0.64, 1.0, armchair);
+    at(-10, 0.75, 1.3, function () { sofaY(1.65, 0.86); });
+  }
+
+
+  /* ---------- scene registry ---------- */
+  var SCENES = {
+    dtek: {
+      files: FILES, build: buildScene,
+      canvases: function () { return { tv: tvCanvas(), lampT: lampCanvas(), glowW: glowCanvas(), glowH: glowCanvas(), shadeIn: interiorShadow(), shadeOut: groundShadow() }; },
+      shade: function () {
+        groupAt('shade', function () {
+          quad('shadeOut', [-6, -0.058, 8], [6, -0.058, 8], [6, -0.058, -4], [-6, -0.058, -4], FULL, [1, 1, 1], 0);
+          quad('shadeIn', [-3, 0.003, 5.2], [3, 0.003, 5.2], [3, 0.003, 0], [-3, 0.003, 0], FULL, [1, 1, 1], 0);
+        });
+      },
+      lights: function () { return LAMPS.reduce(function (a, l) { return a.concat(lampHub(l)); }, []); },
+      lightK: 0.42, ao: { lampT: 1 }, alpha: { glowW: 0.5 },
+      target: [-0.15, 0.75, 2.45], home: { az: 0.55, el: 0.5, zoom: 1 },
+      corn: [[-3.15, 3.2, -1.05, 5.05, 2.4], [-3.05, -1.3, 5.0, 6.05, 1.2], [-4.05, -3.1, -0.15, 0.0, 2.1]]
+    },
+    rb: {
+      files: {}, build: buildRB,
+      canvases: function () {
+        return {
+          wallB: rbWallB(), wallL: rbWallL(), wallR: rbWallR(), screen: rbScreenCanvas(),
+          d_chev: rbChevCanvas(), d_chevG: rbChevGlow(), d_text: rbTextCanvas(), d_textG: rbTextGlow(),
+          d_logo: rbLogoCanvas(), d_logoG: rbLogoGlow(), d_sun: rbSunCanvas(), d_sunG: rbSunGlow(),
+          d_stitch: rbStitchCanvas(), d_x: rbXCanvas(), shadeIn: rbInteriorShadow(), shadeOut: rbGroundShadow()
+        };
+      },
+      shade: function () {
+        groupAt('shade', function () {
+          quad('shadeOut', [-5, -0.058, 5], [5, -0.058, 5], [5, -0.058, -3], [-5, -0.058, -3], FULL, [1, 1, 1], 0);
+          quad('shadeIn', [-RHW, 0.003, RD], [RHW, 0.003, RD], [RHW, 0.003, 0], [-RHW, 0.003, 0], FULL, [1, 1, 1], 0);
+        });
+      },
+      lights: function () { return [0, 2.05, 0.6, 1.5, 1.2, 1.6]; },
+      lightK: 0.22, ao: {}, alpha: {},
+      target: [0, 1.05, 1.1], home: { az: -0.16, el: 0.22, zoom: 1 },
+      corn: [[-1.9, 1.9, -0.15, 2.45, 2.75], [-0.45, 0.45, 0.2, 0.9, 3.0]]
+    }
+  };
+
   /* ---------- viewer ---------- */
   var VS = '#version 300 es\n' +
     'in vec3 aPos; in vec3 aNrm; in vec2 aUV; in vec3 aCol; in float aLit;\n' +
@@ -1145,22 +1471,23 @@
     'void main(){ vW=aPos; vN=aNrm; vUV=aUV; vCol=aCol; vLit=aLit; gl_Position=uVP*vec4(aPos,1.0); }';
   var FS = '#version 300 es\nprecision highp float;\n' +
     'in vec3 vW; in vec3 vN; in vec2 vUV; in vec3 vCol; in float vLit;\n' +
-    'uniform sampler2D uTex; uniform float uAlpha; uniform float uAO; uniform vec3 uPt[2]; out vec4 o;\n' +
+    'uniform sampler2D uTex; uniform float uAlpha; uniform float uAO; uniform float uPM; uniform float uPK; uniform vec3 uPt[2]; out vec4 o;\n' +
     'void main(){\n' +
-    '  vec4 t = texture(uTex, vUV); vec3 base = mix(t.rgb, vec3(1.0), uAO) * vCol; vec3 n = normalize(vN);\n' +
+    '  vec4 t = texture(uTex, vUV); vec3 tc = mix(t.rgb, clamp(t.rgb / max(t.a, 0.002), 0.0, 1.0), uPM); vec3 base = mix(tc, vec3(1.0), uAO) * vCol; vec3 n = normalize(vN);\n' +
     '  vec3 k = normalize(vec3(0.35, 0.78, 0.52)); vec3 f = normalize(vec3(-0.6, 0.35, -0.3));\n' +
     '  float amb = 0.74 + 0.08 * n.y;\n' +
     '  float key = max(dot(n, k), 0.0) * 0.24; float fill = max(dot(n, f), 0.0) * 0.06;\n' +
     '  float ao = mix(0.88, 1.0, smoothstep(0.0, 0.7, vW.y)); ao = mix(ao, 1.0, step(0.5, abs(n.y)));\n' +
     '  vec3 pl = vec3(0.0);\n' +
     '  for (int i = 0; i < 2; i++) { vec3 tp = uPt[i] - vW; float d = length(tp); pl += max(dot(n, tp / d), 0.0) / (1.0 + d * d * 0.9); }\n' +
-    '  vec3 light = vec3(amb + key + fill) * ao + vec3(1.0, 0.80, 0.30) * pl * 0.42;\n' +
+    '  vec3 light = vec3(amb + key + fill) * ao + vec3(1.0, 0.80, 0.30) * pl * uPK;\n' +
     '  vec3 col = mix(base, base * light, vLit);\n' +
     '  float a = t.a * uAlpha; o = vec4(col * a, a);\n' +
     '}';
 
   function Viewer(root) {
     var self = this;
+    var SC = SCENES[root.getAttribute('data-s3d-scene') || 'dtek'] || SCENES.dtek;
     var canvas = root.querySelector('canvas');
     var poster = root.querySelector('[data-s3d-poster]');
     var gl = null;
@@ -1180,19 +1507,21 @@
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
-    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uAO = gl.getUniformLocation(prog, 'uAO'), uPt = gl.getUniformLocation(prog, 'uPt');
+    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uAO = gl.getUniformLocation(prog, 'uAO'), uPM = gl.getUniformLocation(prog, 'uPM'), uPK = gl.getUniformLocation(prog, 'uPK'), uPt = gl.getUniformLocation(prog, 'uPt');
     gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0);
-    gl.uniform3fv(uPt, new Float32Array(LAMPS.reduce(function (a, l) { return a.concat(lampHub(l)); }, [])));
+    gl.uniform3fv(uPt, new Float32Array(SC.lights())); gl.uniform1f(uPK, SC.lightK);
 
     /* textures */
     var aniso = gl.getExtension('EXT_texture_filter_anisotropic');
     var maxAni = aniso ? Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)) : 0;
     var tex = {};
-    function mkTex(src, isImg) {
+    function mkTex(src, pm) {
       var t = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, t);
       var okSrc = false;
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, pm ? 1 : 0);
       if (src) { try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src); okSrc = true; } catch (e) { src = null; } }
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
       if (!okSrc) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -1201,22 +1530,19 @@
       return t;
     }
     tex.white = mkTex(null);
-    tex.tv = mkTex(tvCanvas());
-    var lc = lampCanvas(); if (lc) tex.lampT = mkTex(lc);
-    tex.glowW = tex.glowH = mkTex(glowCanvas());
-    tex.shadeIn = mkTex(interiorShadow());
-    tex.shadeOut = mkTex(groundShadow());
-    var pending = Object.keys(FILES).length, base = root.getAttribute('data-s3d-base') || '';
-    Object.keys(FILES).forEach(function (k) {
+    var cvmap = SC.canvases();
+    Object.keys(cvmap).forEach(function (k) { if (cvmap[k]) tex[k] = mkTex(cvmap[k], /^d_/.test(k)); });
+    var FL = SC.files, pending = Object.keys(FL).length, base = root.getAttribute('data-s3d-base') || '';
+    Object.keys(FL).forEach(function (k) {
       tex[k] = tex.white;
       var im = new Image(); im.decoding = 'async'; im.crossOrigin = 'anonymous';
       im.onload = function () { tex[k] = mkTex(im); pending--; self.kick(); };
       im.onerror = function () { pending--; };
-      im.src = base + FILES[k];
+      im.src = base + FL[k];
     });
 
     /* geometry -> GPU */
-    buildScene();
+    SC.build();
     var vaos = [];
     function upload(group, texKey, b, alpha) {
       var data = new Float32Array(b.v), vao = gl.createVertexArray(), buf = gl.createBuffer();
@@ -1227,30 +1553,27 @@
       gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, S, 24);
       gl.enableVertexAttribArray(3); gl.vertexAttribPointer(3, 3, gl.FLOAT, false, S, 32);
       gl.enableVertexAttribArray(4); gl.vertexAttribPointer(4, 1, gl.FLOAT, false, S, 44);
-      vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1 });
+      vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1, pm: /^d_/.test(texKey) ? 1 : 0, ao: SC.ao[texKey] ? 1 : 0 });
     }
-    ['main', 'fascia', 'glass', 'glow', 'lamp'].forEach(function (g) {
-      Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], g === 'glass' ? 0.30 : g === 'glow' ? (k === 'glowW' ? 0.5 : 0.7) : 1); });
+    ['main', 'fascia', 'deco', 'glass', 'glow', 'lamp'].forEach(function (g) {
+      Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], SC.alpha[k] !== undefined ? SC.alpha[k] : g === 'glass' ? 0.30 : g === 'glow' ? 0.7 : 1); });
     });
     /* shadow quads (drawn in the blend pass) */
     resetBuilder();
-    groupAt('shade', function () {
-      quad('shadeOut', [-6, -0.058, 8], [6, -0.058, 8], [6, -0.058, -4], [-6, -0.058, -4], FULL, [1, 1, 1], 0);
-      quad('shadeIn', [-3, 0.003, 5.2], [3, 0.003, 5.2], [3, 0.003, 0], [-3, 0.003, 0], FULL, [1, 1, 1], 0);
-    });
+    SC.shade();
     Object.keys(groups.shade).forEach(function (k) { upload('shade', k, groups.shade[k], 1); });
     gl.bindVertexArray(null);
 
     /* camera state */
-    var home = { az: 0.55, el: 0.5, zoom: 1 };
+    var home = { az: SC.home.az, el: SC.home.el, zoom: SC.home.zoom };
     var cam = { az: home.az, el: home.el, zoom: home.zoom }, vel = { az: 0, el: 0 };
-    var target = [-0.15, 0.75, 2.45], fov = 32 * Math.PI / 180;
+    var target = SC.target, fov = 32 * Math.PI / 180;
     var showFascia = false, auto = false, active = false, dirty = true, raf = 0, dragging = false, last = 0, firstDrawn = false;
     var W = 0, Hh = 0;
 
     /* camera distance that keeps the whole stand inside the frame for the current direction */
     var CORN = [];
-    [[-3.15, 3.2, -1.05, 5.05, 2.4], [-3.05, -1.3, 5.0, 6.05, 1.2], [-4.05, -3.1, -0.15, 0.0, 2.1]].forEach(function (b) {
+    SC.corn.forEach(function (b) {
       [b[0], b[1]].forEach(function (x) { [0, b[4]].forEach(function (y) { [b[2], b[3]].forEach(function (z) { CORN.push([x, y, z]); }); }); });
     });
     var dist = 0;
@@ -1285,11 +1608,12 @@
         list.forEach(function (m) {
           if (!blend) { if (m.tex === 'white') gl.disable(gl.POLYGON_OFFSET_FILL); else { gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(-1.5, -1.5); } }
           gl.bindVertexArray(m.vao); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[m.tex] || tex.white);
-          gl.uniform1f(uAlpha, m.alpha); gl.uniform1f(uAO, m.tex === 'lampT' ? 1 : 0); gl.drawArrays(gl.TRIANGLES, 0, m.n);
+          gl.uniform1f(uAlpha, m.alpha); gl.uniform1f(uAO, m.ao); gl.uniform1f(uPM, m.pm); gl.drawArrays(gl.TRIANGLES, 0, m.n);
         });
       }
       run(vaos.filter(function (m) { return m.group === 'main' || (m.group === 'fascia' && showFascia); }), false);
       run(vaos.filter(function (m) { return m.group === 'shade'; }), true);
+      run(vaos.filter(function (m) { return m.group === 'deco'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glass'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glow'; }), true);
       run(vaos.filter(function (m) { return m.group === 'lamp'; }), true);
@@ -1397,13 +1721,19 @@
 })();
 /*STAND3D-END*/
 (function () {
-  var modal = document.getElementById('stands-modal'), root = document.getElementById('stand3d'), v = null;
-  if (!modal || !root || !window.Stand3D) return;
+  var modal = document.getElementById('stands-modal');
+  if (!modal || !window.Stand3D) return;
+  var roots = [].slice.call(modal.querySelectorAll('.stand3d')), io = null;
+  function show(r) { var v = r.__s3d || window.Stand3D.init(r); if (v && v.start) { if (!r.__shown) { v.reset(); r.__shown = true; } v.start(); } }
+  function hide(r) { if (r.__s3d && r.__s3d.stop) r.__s3d.stop(); }
   modal.addEventListener('pg:open', function () {
-    v = v || window.Stand3D.init(root);
-    if (v && v.start) { v.reset(); v.start(); }
+    roots.forEach(function (r) { r.__shown = false; });
+    if (window.IntersectionObserver) {
+      io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) show(e.target); else hide(e.target); }); }, { rootMargin: '160px 0px' });
+      roots.forEach(function (r) { io.observe(r); });
+    } else roots.forEach(show);
   });
-  modal.addEventListener('pg:close', function () { if (v && v.stop) v.stop(); });
+  modal.addEventListener('pg:close', function () { if (io) { io.disconnect(); io = null; } roots.forEach(hide); });
 })();
 </script>
 </main>
