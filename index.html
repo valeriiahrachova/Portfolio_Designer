@@ -107,6 +107,28 @@
   .pg-body { min-height: 46vh; }
   .pg-empty { display: grid; place-items: center; min-height: 46vh; padding: 24px; border: 2px dashed rgba(17,17,17,.16); border-radius: 22px; color: rgba(17,17,17,.42); font-size: 17px; text-align: center; }
   @media (min-width: 640px) { .pg-modal { padding: 20px; } .pg-scroll { padding: 40px 44px 44px; } .pg-footer { padding: 6px 44px 28px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
+  /* Interactive 3D stand inside the "Виставкові стенди" popup */
+  .stand3d { position: relative; height: clamp(340px, calc(94vh - 262px), 720px); border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  .stand3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; touch-action: none; cursor: grab; outline: none; -webkit-tap-highlight-color: transparent; }
+  .stand3d.s3d-ready canvas { display: block; }
+  .stand3d canvas.is-drag { cursor: grabbing; }
+  .stand3d canvas:focus-visible { box-shadow: inset 0 0 0 3px #111; border-radius: 22px; }
+  .s3d-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .6s ease; pointer-events: none; }
+  .stand3d.s3d-drawn .s3d-poster { opacity: 0; }
+  .s3d-hint, .s3d-ui { position: absolute; z-index: 2; }
+  .s3d-hint { left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 28px); padding: 9px 14px 9px 11px; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 4px 18px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.05); font-size: 13px; font-weight: 500; line-height: 1.2; color: rgba(17,17,17,.72); pointer-events: none; transition: opacity .5s ease; }
+  .s3d-hint svg { flex: none; }
+  .s3d-hint .ht { display: none; }
+  @media (hover: none) { .s3d-hint .hm { display: none; } .s3d-hint .ht { display: inline; } }
+  .stand3d.s3d-touched .s3d-hint { opacity: 0; }
+  .stand3d:not(.s3d-ready) .s3d-hint, .stand3d:not(.s3d-ready) .s3d-ui { display: none; }
+  .s3d-ui { right: 14px; bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .s3d-btn { display: grid; place-items: center; height: 42px; min-width: 42px; padding: 0 16px; border: 0; border-radius: 999px; background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #111; font: inherit; font-size: 14px; font-weight: 600; line-height: 1; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.06); transition: background-color .2s ease, transform .2s ease; -webkit-tap-highlight-color: transparent; }
+  .s3d-btn.s3d-ico { padding: 0; font-size: 22px; font-weight: 500; }
+  .s3d-btn:hover, .s3d-btn:focus-visible { background: #fee600; outline: none; }
+  .s3d-btn:active { transform: scale(.94); }
+  .s3d-btn.is-on { background: #fee600; }
+  @media (max-width: 480px) { .s3d-ui { left: 12px; right: 12px; bottom: 12px; justify-content: flex-end; gap: 6px; } .s3d-btn { height: 40px; min-width: 40px; padding: 0 14px; } .s3d-hint { left: 12px; top: 12px; font-size: 12.5px; } }
   .work-card[data-pg-open] { cursor: pointer; }
   .work-card[data-pg-open]:focus-visible { outline: 3px solid #111; outline-offset: 3px; }
   #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: default; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
@@ -421,7 +443,21 @@
       <div class="pg-scroll">
         <h2 id="stands-title" class="pg-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></h2>
         <div class="pg-body">
-          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+          <div class="stand3d" id="stand3d">
+            <img class="s3d-poster" data-s3d-poster src="stand-poster.webp" width="1600" height="879" alt="" decoding="async">
+            <canvas tabindex="0" role="img" aria-label="3D-модель виставкового стенда · 3D model of the exhibition stand"></canvas>
+            <div class="s3d-hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+              <span class="en"><span class="hm">Drag to rotate · scroll to zoom</span><span class="ht">Swipe to rotate</span></span>
+              <span class="uk"><span class="hm">Тягніть, щоб крутити · коліщатко — масштаб</span><span class="ht">Проведіть, щоб крутити</span></span>
+            </div>
+            <div class="s3d-ui">
+              <button type="button" class="s3d-btn" data-s3d="fascia" aria-pressed="false"><span class="en">With header</span><span class="uk">З фризом</span></button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomout" aria-label="Zoom out">&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomin" aria-label="Zoom in">+</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="pg-footer">
@@ -746,13 +782,14 @@
           sc.scrollTop = 0;
           void modal.offsetWidth;
           modal.classList.add('is-open');
+          modal.dispatchEvent(new Event('pg:open'));
           (closeBtns[closeBtns.length - 1] || closeBtns[0]).focus({ preventScroll: true });
         }
         function close() {
           if (modal.hidden) return;
           modal.classList.remove('is-open');
           clearTimeout(timer);
-          timer = setTimeout(function () { modal.hidden = true; }, 320);
+          timer = setTimeout(function () { modal.hidden = true; modal.dispatchEvent(new Event('pg:close')); }, 320);
           if (opener && opener.focus) opener.focus({ preventScroll: true });
         }
         document.querySelectorAll('[data-pg-open="' + modal.id + '"]').forEach(function (b) {
@@ -777,6 +814,532 @@
       });
     })();
   </script>
+<script>
+/*STAND3D-START*/
+/* Interactive 3D model of the DTEK exhibition stand. Plain WebGL2, no libraries.
+   Units: metres. X = right, Y = up, Z = towards the open front of the stand. */
+(function () {
+  'use strict';
+
+  var FILES = {
+    flag: 'stand-flag.webp', extC: 'stand-ext-c.webp', extA: 'stand-ext-a.webp', invest: 'stand-invest.webp',
+    tyl: 'stand-tyl.webp', banner: 'stand-banner.webp', s1: 'stand-s1.webp', s2: 'stand-s2.webp', s3: 'stand-s3.webp',
+    s4: 'stand-s4.webp', cfront: 'stand-cfront.webp', cside: 'stand-cside.webp', logo: 'stand-logo.webp'
+  };
+
+  /* ---------- tiny vector / matrix helpers (column-major) ---------- */
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+  function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+  function norm(a) { var l = Math.sqrt(dot(a, a)) || 1; return [a[0] / l, a[1] / l, a[2] / l]; }
+  function persp(fovy, asp, n, f) {
+    var t = 1 / Math.tan(fovy / 2), o = new Float32Array(16);
+    o[0] = t / asp; o[5] = t; o[10] = (f + n) / (n - f); o[11] = -1; o[14] = 2 * f * n / (n - f);
+    return o;
+  }
+  function lookAt(e, c, u) {
+    var z = norm(sub(e, c)), x = norm(cross(u, z)), y = cross(z, x), m = new Float32Array(16);
+    m[0] = x[0]; m[1] = y[0]; m[2] = z[0]; m[4] = x[1]; m[5] = y[1]; m[6] = z[1]; m[8] = x[2]; m[9] = y[2]; m[10] = z[2];
+    m[12] = -dot(x, e); m[13] = -dot(y, e); m[14] = -dot(z, e); m[15] = 1;
+    return m;
+  }
+  function mul(a, b) {
+    var o = new Float32Array(16);
+    for (var c = 0; c < 4; c++) for (var r = 0; r < 4; r++) {
+      var s = 0; for (var k = 0; k < 4; k++) s += a[k * 4 + r] * b[c * 4 + k];
+      o[c * 4 + r] = s;
+    }
+    return o;
+  }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+  /* ---------- geometry builder ---------- */
+  var groups, G, TR;
+  function resetBuilder() {
+    groups = { main: {}, fascia: {}, shade: {}, glass: {} };
+    G = 'main';
+    TR = { c: 1, s: 0, ox: 0, oz: 0 };
+  }
+  function tp(x, y, z) { return [x * TR.c + z * TR.s + TR.ox, y, -x * TR.s + z * TR.c + TR.oz]; }
+  function batch(tex) { var g = groups[G]; return g[tex] || (g[tex] = { v: [] }); }
+  function put(tex, p, n, uv, col, lit) {
+    var v = batch(tex).v;
+    v.push(p[0], p[1], p[2], n[0], n[1], n[2], uv[0], uv[1], col[0], col[1], col[2], lit);
+  }
+  /* corners are given as BL, BR, TR, TL as seen from the outside of the face */
+  function quad(tex, BL, BR, TR_, TL, uvr, col, lit) {
+    var n = norm(cross(sub(BR, BL), sub(TL, BL)));
+    var u0 = uvr[0], v0 = uvr[1], u1 = uvr[2], v1 = uvr[3];
+    var A = [u0, v1], B = [u1, v1], C = [u1, v0], D = [u0, v0];
+    put(tex, BL, n, A, col, lit); put(tex, BR, n, B, col, lit); put(tex, TR_, n, C, col, lit);
+    put(tex, BL, n, A, col, lit); put(tex, TR_, n, C, col, lit); put(tex, TL, n, D, col, lit);
+  }
+  var FACES = {
+    pz: [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]],
+    nz: [[1, -1, -1], [-1, -1, -1], [-1, 1, -1], [1, 1, -1]],
+    px: [[1, -1, 1], [1, -1, -1], [1, 1, -1], [1, 1, 1]],
+    nx: [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1]],
+    py: [[-1, 1, 1], [1, 1, 1], [1, 1, -1], [-1, 1, -1]],
+    ny: [[-1, -1, -1], [1, -1, -1], [1, -1, 1], [-1, -1, 1]]
+  };
+  var FULL = [0, 0, 1, 1];
+  /* box by centre + size. o: c (colour), f (per-face {t,c,uv,lit}), taper [fx,fz] for the top, rz (rotation about Z), lit */
+  function boxC(cx, cy, cz, sx, sy, sz, o) {
+    o = o || {};
+    var hx = sx / 2, hy = sy / 2, hz = sz / 2, tt = o.taper || [1, 1], rz = o.rz || 0, cs = Math.cos(rz), sn = Math.sin(rz);
+    function P(c) {
+      var fx = hx * c[0], fy = hy * c[1], fz = hz * c[2];
+      if (c[1] > 0) { fx *= tt[0]; fz *= tt[1]; }
+      return tp(cx + fx * cs - fy * sn, cy + fx * sn + fy * cs, cz + fz);
+    }
+    var base = o.c || [1, 1, 1];
+    for (var k in FACES) {
+      if (o.skip && o.skip.indexOf(k) >= 0) continue;
+      var f = (o.f && o.f[k]) || {}, F = FACES[k];
+      quad(f.t || 'white', P(F[0]), P(F[1]), P(F[2]), P(F[3]), f.uv || FULL, f.c || base, f.lit !== undefined ? f.lit : (o.lit !== undefined ? o.lit : 1));
+    }
+  }
+  function box(x0, y0, z0, x1, y1, z1, o) { boxC((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2, x1 - x0, y1 - y0, z1 - z0, o); }
+  /* flat picture glued to a wall face. a0/a1 = left/right edge as seen by someone looking at the face */
+  function panel(tex, dir, fixed, a0, a1, y0, y1, o) {
+    o = o || {};
+    var e = 0.003, BL, BR;
+    if (dir === 'pz') { BL = [a0, y0, fixed + e]; BR = [a1, y0, fixed + e]; }
+    else if (dir === 'nz') { BL = [a0, y0, fixed - e]; BR = [a1, y0, fixed - e]; }
+    else if (dir === 'px') { BL = [fixed + e, y0, a0]; BR = [fixed + e, y0, a1]; }
+    else { BL = [fixed - e, y0, a0]; BR = [fixed - e, y0, a1]; }
+    var up = [0, y1 - y0, 0];
+    function A(p) { return tp(p[0], p[1], p[2]); }
+    var TRp = [BR[0], BR[1] + up[1], BR[2]], TLp = [BL[0], BL[1] + up[1], BL[2]];
+    quad(tex, A(BL), A(BR), A(TRp), A(TLp), o.uv || FULL, o.c || [1, 1, 1], o.lit !== undefined ? o.lit : 1);
+  }
+  function groupAt(g, fn) { var old = G; G = g; fn(); G = old; }
+  function at(rotDeg, ox, oz, fn) {
+    var old = TR, r = rotDeg * Math.PI / 180;
+    TR = { c: Math.cos(r), s: Math.sin(r), ox: ox, oz: oz };
+    fn();
+    TR = old;
+  }
+
+  /* ---------- the stand ---------- */
+  var H = 2.4, T = 0.1;
+  var WHITE = [0.985, 0.985, 0.985], FLOOR = [0.90, 0.905, 0.915], FAB = [0.80, 0.80, 0.815], FAB2 = [0.87, 0.87, 0.88], WOOD = [0.80, 0.56, 0.34];
+
+  function sofa(w, d) {
+    /* faces +Z. origin = centre of the footprint on the floor */
+    var hw = w / 2, hd = d / 2;
+    [[-hw + 0.1, -hd + 0.1], [hw - 0.1, -hd + 0.1], [-hw + 0.1, hd - 0.1], [hw - 0.1, hd - 0.1]].forEach(function (p) {
+      box(p[0] - 0.025, 0, p[1] - 0.025, p[0] + 0.025, 0.17, p[1] + 0.025, { c: WOOD });
+    });
+    box(-hw, 0.17, -hd, hw, 0.40, hd, { c: FAB });                       // base
+    box(-hw + 0.17, 0.40, -hd + 0.2, hw - 0.17, 0.50, hd, { c: FAB2 });   // seat cushion
+    box(-hw, 0.40, -hd, hw, 0.82, -hd + 0.2, { c: FAB });                // back
+    box(-hw, 0.40, -hd + 0.2, -hw + 0.17, 0.64, hd, { c: FAB });         // arms
+    box(hw - 0.17, 0.40, -hd + 0.2, hw, 0.64, hd, { c: FAB });
+  }
+  function turbineModel(hubY, len, rotDeg, ox, oz, tower, glow) {
+    at(rotDeg, ox, oz, function () {
+      box(-0.015, 0, -0.015, 0.015, hubY, 0.015, { c: [0.9, 0.9, 0.9] });
+      [90, 210, 330].forEach(function (a) {
+        var r = a * Math.PI / 180;
+        boxC(Math.cos(r) * len / 2, hubY + Math.sin(r) * len / 2, 0.03, 0.045, len, 0.012, { rz: r - Math.PI / 2, c: [0.93, 0.93, 0.93] });
+      });
+      if (glow) boxC(0, hubY, 0.035, 0.09, 0.09, 0.05, { c: [1, 0.93, 0.62], lit: 0 });
+    });
+  }
+
+  function buildScene(withTextures) {
+    resetBuilder();
+    var tv = 'tv';
+    /* floor slabs */
+    box(-3, -0.06, 0, 3, 0, 5, { c: FLOOR });
+    box(-3, -0.06, -1, -1, 0, 0, { c: FLOOR });
+
+    /* wall C (right): flag inside, "Wind energy" outside */
+    box(3, 0, -0.1, 3 + T, H, 5, { c: WHITE });
+    panel('flag', 'nx', 3, 0, 5, 0, H);
+    panel('extC', 'px', 3 + T, 5, 0, 0, H);
+
+    /* wall A (left): Invest inside (4 m), workers outside (5 m) */
+    box(-3 - T, 0, -1, -3, H, 4, { c: WHITE });
+    panel('invest', 'px', -3, 4, 0, 0, H);
+    panel('extA', 'nx', -3 - T, -1, 4, 0, H);
+
+    /* back wall with the Tyligulska picture (4 m) */
+    box(-1, 0, -T, 3 + T, H, 0, { c: WHITE });
+    panel('tyl', 'pz', 0, -1, 3, 0, H);
+
+    /* TV niche: 2 m wide, 1 m deep, three picture strips on its back wall */
+    box(-3 - T, 0, -1 - T, -1.1, H, -1, { c: WHITE });
+    panel('s1', 'pz', -1, -3, -2.5, 0, H);
+    panel('s2', 'pz', -1, -2.5, -1.55, 0, H);
+    panel('s3', 'pz', -1, -1.55, -1.1, 0, H);
+    panel('s4', 'nz', -1 - T, -1.1, -3.1, 0, H);
+    /* "Brave to bring the light" banner = right side of the niche */
+    box(-1.1, 0, -1, -1, H, 0, { c: WHITE });
+    panel('banner', 'px', -1, 0, -1, 0, H);
+    /* low plinth in the niche + TV */
+    box(-3, 0, -1, -1.1, 0.12, -0.86, { c: [0.95, 0.95, 0.95] });
+    box(-2.55, 1.37, -1.0, -1.55, 1.93, -0.96, { c: [0.10, 0.07, 0.06], f: { pz: { t: tv, c: [1, 1, 1], lit: 0.35 } } });
+
+    /* coffee point */
+    box(1.55, 0, 0, 2.95, 0.92, 0.75, { c: [0.975, 0.975, 0.975] });
+    box(2.38, 0.92, 0.14, 2.86, 1.12, 0.44, { c: [0.13, 0.13, 0.14] });
+    box(2.38, 1.12, 0.14, 2.86, 1.30, 0.44, { c: [0.74, 0.76, 0.78] });
+    box(2.40, 0.92, 0.44, 2.84, 0.98, 0.56, { c: [0.10, 0.10, 0.11] });
+    boxC(2.62, 1.19, 0.455, 0.07, 0.07, 0.03, { c: [0.08, 0.08, 0.08] });
+    boxC(2.45, 1.02, 0.455, 0.05, 0.05, 0.02, { c: [0.75, 0.77, 0.8] });
+
+    /* reception counter with logo + QR */
+    box(1.85, 0, 3.9, 2.95, 1.04, 5.0, { c: [0.975, 0.975, 0.975], f: { pz: { t: 'cfront', c: [1, 1, 1] }, nx: { t: 'cside', c: [1, 1, 1] } } });
+
+    /* sofas + coffee table */
+    at(0, -2.1, 1.35, function () { sofa(1.5, 0.85); });
+    at(-90, -0.35, 2.95, function () { sofa(1.5, 0.85); });
+    var tbx = -1.45, tbz = 2.95;
+    box(tbx - 0.45, 0.36, tbz - 0.45, tbx + 0.45, 0.42, tbz + 0.45, { c: [0.96, 0.96, 0.97] });
+    [[-0.40, -0.40], [0.40, -0.40], [-0.40, 0.40], [0.40, 0.40]].forEach(function (p) {
+      box(tbx + p[0] - 0.025, 0, tbz + p[1] - 0.025, tbx + p[0] + 0.025, 0.36, tbz + p[1] + 0.025, { c: [0.93, 0.93, 0.94] });
+    });
+
+    /* floor lamps shaped like wind turbines */
+    turbineModel(1.9, 0.5, 35, -2.8, 0.35, true, true);
+    turbineModel(1.65, 0.42, 20, -2.6, 0.7, true, true);
+
+    /* display table with a tiny wind farm under glass */
+    var dx = -2.45, dz = 4.7;
+    [-0.5, 0.5].forEach(function (s) {
+      boxC(dx + s, 0.425, dz, 0.62, 0.85, 0.78, { c: [0.96, 0.96, 0.97], taper: [0.46, 1] });
+    });
+    box(dx - 0.82, 0.85, dz - 0.5, dx + 0.82, 0.93, dz + 0.5, { c: [0.95, 0.95, 0.96] });
+    box(dx - 0.74, 0.93, dz - 0.42, dx + 0.74, 0.97, dz + 0.42, { c: [0.06, 0.06, 0.07] });
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    for (var i = 0; i < 6; i++) for (var j = 0; j < 4; j++) {
+      var px = dx - 0.58 + i * 0.232 + (rnd() - 0.5) * 0.06, pz = dz - 0.3 + j * 0.2 + (rnd() - 0.5) * 0.05;
+      at(rnd() * 60 - 30, px, pz, function () {
+        box(-0.004, 0.97, -0.004, 0.004, 1.07, 0.004, { c: [0.85, 0.85, 0.85] });
+        [90, 210, 330].forEach(function (a) {
+          var r = a * Math.PI / 180;
+          boxC(Math.cos(r) * 0.03, 1.07 + Math.sin(r) * 0.03, 0.006, 0.008, 0.06, 0.003, { rz: r - Math.PI / 2, c: [0.92, 0.92, 0.92] });
+        });
+      });
+    }
+    groupAt('glass', function () {
+      box(dx - 0.82, 0.93, dz - 0.5, dx + 0.82, 1.14, dz + 0.5, { c: [0.30, 0.31, 0.33] });
+    });
+
+    /* front header + post, optional */
+    groupAt('fascia', function () {
+      box(-3 - T, 2.0, 4.95, 3 + T, H, 5.05, { c: WHITE });
+      box(-0.04, 0, 4.96, 0.04, 2.0, 5.04, { c: WHITE });
+      panel('logo', 'pz', 5.05, -1.95, -1.05, 2.04, 2.36);
+      panel('logo', 'pz', 5.05, 1.05, 1.95, 2.04, 2.36);
+    });
+  }
+
+  /* ---------- baked soft shadows (canvas -> texture) ---------- */
+  function shadowCanvas(x0, z0, x1, z1, ppm, draw) {
+    var cv = document.createElement('canvas');
+    cv.width = Math.round((x1 - x0) * ppm); cv.height = Math.round((z1 - z0) * ppm);
+    var c = cv.getContext('2d');
+    function X(x) { return (x - x0) * ppm; } function Z(z) { return (z - z0) * ppm; }
+    function blob(ax0, az0, ax1, az1, blur, a) {
+      c.save(); c.shadowColor = 'rgba(40,40,45,' + a + ')'; c.shadowBlur = blur * ppm; c.shadowOffsetX = 5000; c.shadowOffsetY = 0;
+      c.fillStyle = '#000'; c.fillRect(X(ax0) - 5000, Z(az0), (ax1 - ax0) * ppm, (az1 - az0) * ppm); c.restore();
+    }
+    draw(blob);
+    return cv;
+  }
+  function interiorShadow() {
+    return shadowCanvas(-3, -1, 3, 5.2, 130, function (b) {
+      /* wide, soft occlusion first, then tighter contact shadows */
+      b(-3.2, -1.2, -2.9, 4.0, 0.35, 0.5); b(2.9, -0.1, 3.2, 5, 0.35, 0.5);
+      b(-3.2, -1.3, -1.0, -0.9, 0.35, 0.5); b(-1, -0.2, 3.1, 0.12, 0.35, 0.5);
+      b(-2.9, -0.95, -1.1, -0.6, 0.18, 0.3);
+      b(-2.95, 0.4, -1.1, 2.3, 0.55, 0.28);
+      b(-2.85, 0.5, -1.35, 2.2, 0.28, 0.4);        // sofa 1 area
+      b(-0.85, 2.2, 0.15, 3.7, 0.3, 0.42);          // sofa 2
+      b(-1.9, 2.5, -1.0, 3.4, 0.28, 0.35);          // table
+      b(1.5, 0, 3.0, 0.9, 0.25, 0.4);               // coffee point
+      b(1.8, 3.85, 3.0, 5.1, 0.3, 0.45);            // counter
+      b(-3.3, 4.2, -1.6, 5.3, 0.3, 0.45);           // display table
+      b(-2.9, 0.15, -2.5, 0.75, 0.12, 0.25);        // lamps
+    });
+  }
+  function groundShadow() {
+    return shadowCanvas(-6, -4, 6, 8, 60, function (b) {
+      b(-3.1, -1.1, 3.1, 5.05, 0.9, 0.32);
+      b(-3.1, -1.1, 3.1, 5.05, 0.3, 0.22);
+    });
+  }
+  function tvCanvas() {
+    var cv = document.createElement('canvas'); cv.width = 256; cv.height = 144;
+    var c = cv.getContext('2d'), g = c.createLinearGradient(0, 0, 256, 20);
+    g.addColorStop(0, '#6f6620'); g.addColorStop(0.45, '#3a3623'); g.addColorStop(1, '#262321');
+    c.fillStyle = g; c.fillRect(0, 0, 256, 144);
+    return cv;
+  }
+
+  /* ---------- viewer ---------- */
+  var VS = '#version 300 es\n' +
+    'in vec3 aPos; in vec3 aNrm; in vec2 aUV; in vec3 aCol; in float aLit;\n' +
+    'uniform mat4 uVP; out vec3 vW; out vec3 vN; out vec2 vUV; out vec3 vCol; out float vLit;\n' +
+    'void main(){ vW=aPos; vN=aNrm; vUV=aUV; vCol=aCol; vLit=aLit; gl_Position=uVP*vec4(aPos,1.0); }';
+  var FS = '#version 300 es\nprecision highp float;\n' +
+    'in vec3 vW; in vec3 vN; in vec2 vUV; in vec3 vCol; in float vLit;\n' +
+    'uniform sampler2D uTex; uniform float uAlpha; uniform vec3 uPt; out vec4 o;\n' +
+    'void main(){\n' +
+    '  vec4 t = texture(uTex, vUV); vec3 base = t.rgb * vCol; vec3 n = normalize(vN);\n' +
+    '  vec3 k = normalize(vec3(0.35, 0.78, 0.52)); vec3 f = normalize(vec3(-0.6, 0.35, -0.3));\n' +
+    '  float amb = 0.74 + 0.08 * n.y;\n' +
+    '  float key = max(dot(n, k), 0.0) * 0.24; float fill = max(dot(n, f), 0.0) * 0.06;\n' +
+    '  float ao = mix(0.88, 1.0, smoothstep(0.0, 0.7, vW.y)); ao = mix(ao, 1.0, step(0.5, abs(n.y)));\n' +
+    '  vec3 tp = uPt - vW; float d = length(tp);\n' +
+    '  float pl = max(dot(n, tp / d), 0.0) / (1.0 + d * d * 0.55);\n' +
+    '  vec3 light = vec3(amb + key + fill) * ao + vec3(1.0, 0.80, 0.30) * pl * 0.42;\n' +
+    '  vec3 col = mix(base, base * light, vLit);\n' +
+    '  float a = t.a * uAlpha; o = vec4(col * a, a);\n' +
+    '}';
+
+  function Viewer(root) {
+    var self = this;
+    var canvas = root.querySelector('canvas');
+    var poster = root.querySelector('[data-s3d-poster]');
+    var gl = null;
+    try { gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' }); } catch (e) {}
+    if (!gl) { root.classList.add('s3d-nogl'); return; }
+    root.classList.add('s3d-ready');
+
+    function sh(type, src) {
+      var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+    gl.bindAttribLocation(prog, 0, 'aPos'); gl.bindAttribLocation(prog, 1, 'aNrm'); gl.bindAttribLocation(prog, 2, 'aUV');
+    gl.bindAttribLocation(prog, 3, 'aCol'); gl.bindAttribLocation(prog, 4, 'aLit');
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uPt = gl.getUniformLocation(prog, 'uPt');
+    gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0);
+    gl.uniform3f(uPt, -2.7, 1.7, 0.5);
+
+    /* textures */
+    var aniso = gl.getExtension('EXT_texture_filter_anisotropic');
+    var maxAni = aniso ? Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)) : 0;
+    var tex = {};
+    function mkTex(src, isImg) {
+      var t = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      var okSrc = false;
+      if (src) { try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src); okSrc = true; } catch (e) { src = null; } }
+      if (!okSrc) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      if (src) { gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); if (maxAni) gl.texParameterf(gl.TEXTURE_2D, aniso.TEXTURE_MAX_ANISOTROPY_EXT, maxAni); }
+      else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      return t;
+    }
+    tex.white = mkTex(null);
+    tex.tv = mkTex(tvCanvas());
+    tex.shadeIn = mkTex(interiorShadow());
+    tex.shadeOut = mkTex(groundShadow());
+    var pending = Object.keys(FILES).length, base = root.getAttribute('data-s3d-base') || '';
+    Object.keys(FILES).forEach(function (k) {
+      tex[k] = tex.white;
+      var im = new Image(); im.decoding = 'async'; im.crossOrigin = 'anonymous';
+      im.onload = function () { tex[k] = mkTex(im); pending--; self.kick(); };
+      im.onerror = function () { pending--; };
+      im.src = base + FILES[k];
+    });
+
+    /* geometry -> GPU */
+    buildScene();
+    var vaos = [];
+    function upload(group, texKey, b, alpha) {
+      var data = new Float32Array(b.v), vao = gl.createVertexArray(), buf = gl.createBuffer();
+      gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+      var S = 12 * 4;
+      gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, S, 0);
+      gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, S, 12);
+      gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, S, 24);
+      gl.enableVertexAttribArray(3); gl.vertexAttribPointer(3, 3, gl.FLOAT, false, S, 32);
+      gl.enableVertexAttribArray(4); gl.vertexAttribPointer(4, 1, gl.FLOAT, false, S, 44);
+      vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1 });
+    }
+    ['main', 'fascia', 'glass'].forEach(function (g) {
+      Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], g === 'glass' ? 0.30 : 1); });
+    });
+    /* shadow quads (drawn in the blend pass) */
+    resetBuilder();
+    groupAt('shade', function () {
+      quad('shadeOut', [-6, -0.058, 8], [6, -0.058, 8], [6, -0.058, -4], [-6, -0.058, -4], FULL, [1, 1, 1], 0);
+      quad('shadeIn', [-3, 0.003, 5.2], [3, 0.003, 5.2], [3, 0.003, -1], [-3, 0.003, -1], FULL, [1, 1, 1], 0);
+    });
+    Object.keys(groups.shade).forEach(function (k) { upload('shade', k, groups.shade[k], 1); });
+    gl.bindVertexArray(null);
+
+    /* camera state */
+    var home = { az: 0.62, el: 0.5, zoom: 1 };
+    var cam = { az: home.az, el: home.el, zoom: home.zoom }, vel = { az: 0, el: 0 };
+    var target = [0.1, 0.75, 2.2], fov = 32 * Math.PI / 180;
+    var showFascia = false, auto = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), active = false, dirty = true, raf = 0, dragging = false, last = 0, firstDrawn = false;
+    var W = 0, Hh = 0;
+
+    /* camera distance that keeps the whole stand inside the frame for the current direction */
+    var CORN = []; [-3.2, 3.2].forEach(function (x) { [0, 2.4].forEach(function (y) { [-1.15, 5.45].forEach(function (z) { CORN.push([x, y, z]); }); }); });
+    var dist = 0;
+    function fitDist(asp, el, az) {
+      var halfH = Math.tan(fov / 2), halfW = halfH * asp, fill = 0.95, best = 0, ce = Math.cos(el), se = Math.sin(el);
+      var e = [Math.sin(az) * ce, se, Math.cos(az) * ce], right = [Math.cos(az), 0, -Math.sin(az)], up = cross(e, right);
+      for (var k = 0; k < CORN.length; k++) {
+        var q = sub(CORN[k], target), x = Math.abs(dot(q, right)), y = Math.abs(dot(q, up)), c = dot(q, e);
+        best = Math.max(best, x / (halfW * fill) + c, y / (halfH * fill) + c);
+      }
+      return best;
+    }
+    function wantDist() { return fitDist(W / Hh, cam.el, cam.az); }
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.max(2, Math.round(canvas.clientWidth * dpr)), h = Math.max(2, Math.round(canvas.clientHeight * dpr));
+      if (w !== canvas.width || h !== canvas.height) { canvas.width = w; canvas.height = h; }
+      W = w; Hh = h; dirty = true;
+    }
+    function draw() {
+      resize();
+      gl.viewport(0, 0, W, Hh);
+      gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      var asp = W / Hh; if (!dist) dist = wantDist(); var d = dist * cam.zoom;
+      var ce = Math.cos(cam.el), eye = [target[0] + d * Math.sin(cam.az) * ce, target[1] + d * Math.sin(cam.el), target[2] + d * Math.cos(cam.az) * ce];
+      var vp = mul(persp(fov, asp, 0.5, 90), lookAt(eye, target, [0, 1, 0]));
+      gl.useProgram(prog); gl.uniformMatrix4fv(uVP, false, vp);
+      gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+      function run(list, blend) {
+        if (blend) { gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); }
+        else { gl.disable(gl.BLEND); gl.depthMask(true); }
+        list.forEach(function (m) {
+          gl.bindVertexArray(m.vao); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[m.tex] || tex.white);
+          gl.uniform1f(uAlpha, m.alpha); gl.drawArrays(gl.TRIANGLES, 0, m.n);
+        });
+      }
+      run(vaos.filter(function (m) { return m.group === 'main' || (m.group === 'fascia' && showFascia); }), false);
+      run(vaos.filter(function (m) { return m.group === 'shade'; }), true);
+      run(vaos.filter(function (m) { return m.group === 'glass'; }), true);
+      gl.depthMask(true);
+      if (!firstDrawn) { firstDrawn = true; root.classList.add('s3d-drawn'); }
+    }
+    function frame(now) {
+      raf = 0;
+      if (!active) return;
+      var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now;
+      var moving = false;
+      resize(); var wd = wantDist();
+      if (!dist) dist = wd; else if (Math.abs(wd - dist) > 0.004 * wd) { dist += (wd - dist) * 0.16; moving = true; } else dist = wd;
+      if (!dragging) {
+        if (Math.abs(vel.az) > 0.00005 || Math.abs(vel.el) > 0.00005) {
+          cam.az += vel.az; cam.el = clamp(cam.el + vel.el, 0.07, 1.42);
+          vel.az *= 0.93; vel.el *= 0.93; moving = true;
+        }
+        if (auto) { cam.az += dt * 0.16; moving = true; }
+      }
+      if (dirty || moving || dragging) { draw(); dirty = false; }
+      if (moving || dragging || pending > 0) schedule();
+      else raf = 0;
+    }
+    function schedule() { if (!raf && active) raf = requestAnimationFrame(frame); }
+    this.kick = function () { dirty = true; schedule(); };
+    this.start = function () { active = true; last = 0; dirty = true; schedule(); };
+    this.stop = function () { active = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
+    this.reset = function () { cam.az = home.az; cam.el = home.el; cam.zoom = home.zoom; vel.az = vel.el = 0; auto = true; this.kick(); };
+    this.zoomBy = function (f) { cam.zoom = clamp(cam.zoom * f, 0.4, 1.6); this.kick(); };
+    this.setFascia = function (v) { showFascia = !!v; this.kick(); };
+    this.fascia = function () { return showFascia; };
+    this.state = function () { return { az: cam.az, el: cam.el, zoom: cam.zoom }; };
+    this.set = function (az, el, zoom) { cam.az = az; cam.el = el; if (zoom) cam.zoom = zoom; auto = false; this.kick(); };
+    this.drawn = function () { return firstDrawn; };
+    if (window.ResizeObserver) new ResizeObserver(function () { self.kick(); }).observe(canvas);
+    window.addEventListener('resize', function () { self.kick(); });
+
+    /* pointer input: drag = orbit, two fingers / wheel = zoom */
+    var ptrs = {}, pinch = 0;
+    function stopAuto() { if (auto) { auto = false; root.classList.add('s3d-touched'); } }
+    canvas.addEventListener('pointerdown', function (e) {
+      try { canvas.setPointerCapture(e.pointerId); } catch (er) {} ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      dragging = true; stopAuto(); vel.az = vel.el = 0;
+      var ids = Object.keys(ptrs); if (ids.length === 2) { pinch = Math.hypot(ptrs[ids[0]].x - ptrs[ids[1]].x, ptrs[ids[0]].y - ptrs[ids[1]].y); }
+      canvas.classList.add('is-drag'); schedule();
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId]; if (!p) return;
+      var ids = Object.keys(ptrs), dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      if (ids.length >= 2) {
+        var a = ptrs[ids[0]], b = ptrs[ids[1]], dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (pinch > 0 && dist > 0) cam.zoom = clamp(cam.zoom * pinch / dist, 0.4, 1.6);
+        pinch = dist;
+      } else {
+        var k = 0.0055; cam.az -= dx * k; cam.el = clamp(cam.el + dy * k, 0.07, 1.42);
+        vel.az = -dx * k * 0.9; vel.el = dy * k * 0.9;
+      }
+      dirty = true; schedule();
+    });
+    function up(e) {
+      delete ptrs[e.pointerId]; pinch = 0;
+      if (!Object.keys(ptrs).length) { dragging = false; canvas.classList.remove('is-drag'); }
+      schedule();
+    }
+    canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
+    canvas.addEventListener('wheel', function (e) {
+      e.preventDefault(); stopAuto();
+      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      self.zoomBy(Math.exp(dy * 0.0013));
+    }, { passive: false });
+    canvas.addEventListener('dblclick', function () { self.reset(); });
+    canvas.addEventListener('keydown', function (e) {
+      var s = 0.12, used = true;
+      if (e.key === 'ArrowLeft') cam.az -= s; else if (e.key === 'ArrowRight') cam.az += s;
+      else if (e.key === 'ArrowUp') cam.el = clamp(cam.el + s, 0.07, 1.42); else if (e.key === 'ArrowDown') cam.el = clamp(cam.el - s, 0.07, 1.42);
+      else if (e.key === '+' || e.key === '=') cam.zoom = clamp(cam.zoom * 0.9, 0.4, 1.6); else if (e.key === '-' || e.key === '_') cam.zoom = clamp(cam.zoom * 1.1, 0.4, 1.6);
+      else used = false;
+      if (used) { e.preventDefault(); e.stopPropagation(); stopAuto(); self.kick(); }
+    });
+  }
+
+  /* ---------- wiring ---------- */
+  window.Stand3D = {
+    init: function (root) {
+      if (!root || root.__s3d) return root && root.__s3d;
+      var v;
+      try { v = new Viewer(root); } catch (err) { root.classList.add('s3d-nogl'); if (window.console) console.warn('3D viewer failed:', err); return null; }
+      root.__s3d = v;
+      if (!v.start) return v;
+      root.querySelectorAll('[data-s3d]').forEach(function (b) {
+        b.addEventListener('click', function (e) {
+          e.preventDefault();
+          var a = b.getAttribute('data-s3d');
+          if (a === 'reset') v.reset();
+          else if (a === 'zoomin') v.zoomBy(0.85);
+          else if (a === 'zoomout') v.zoomBy(1 / 0.85);
+          else if (a === 'fascia') { v.setFascia(!v.fascia()); b.setAttribute('aria-pressed', v.fascia() ? 'true' : 'false'); b.classList.toggle('is-on', v.fascia()); }
+        });
+      });
+      return v;
+    }
+  };
+})();
+/*STAND3D-END*/
+(function () {
+  var modal = document.getElementById('stands-modal'), root = document.getElementById('stand3d'), v = null;
+  if (!modal || !root || !window.Stand3D) return;
+  modal.addEventListener('pg:open', function () {
+    v = v || window.Stand3D.init(root);
+    if (v && v.start) { v.reset(); v.start(); }
+  });
+  modal.addEventListener('pg:close', function () { if (v && v.stop) v.stop(); });
+})();
+</script>
 </main>
 
 <script>
