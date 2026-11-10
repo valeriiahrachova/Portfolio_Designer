@@ -104,21 +104,20 @@
   .pg-x { position: absolute; top: 14px; right: 14px; z-index: 3; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #111; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.14), 0 0 0 1px rgba(0,0,0,.05); transition: background-color .2s ease, transform .25s cubic-bezier(.22,1.12,.36,1), box-shadow .2s ease; }
   .pg-x:hover, .pg-x:focus-visible { background: #fee600; transform: rotate(90deg); box-shadow: 0 0 0 4px rgba(254,230,0,.35), 0 8px 24px rgba(254,230,0,.5); outline: none; }
   .pg-title { margin: 0 0 clamp(20px, 3vw, 34px); padding-right: 56px; font-size: clamp(30px, 7vw, 68px); font-weight: 500; line-height: 1.02; letter-spacing: -.045em; }
+  .pg-title-long { font-size: clamp(26px, 5.2vw, 54px); margin-bottom: 12px; }
+  [data-lang="en"] .pg-title-long { font-size: clamp(24px, 4.2vw, 46px); }
+  .pg-sub { margin: 0 0 clamp(20px, 3vw, 30px); padding-right: 56px; font-size: clamp(13px, 1.5vw, 15px); line-height: 1.4; color: #8b8b85; font-weight: 400; letter-spacing: -.005em; }
   .pg-body { min-height: 46vh; }
   .pg-empty { display: grid; place-items: center; min-height: 46vh; padding: 24px; border: 2px dashed rgba(17,17,17,.16); border-radius: 22px; color: rgba(17,17,17,.42); font-size: 17px; text-align: center; }
   @media (min-width: 640px) { .pg-modal { padding: 20px; } .pg-scroll { padding: 40px 44px 44px; } .pg-footer { padding: 6px 44px 28px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
   /* Interactive 3D stand inside the "Виставкові стенди" popup */
-  .stand3d { position: relative; height: clamp(340px, calc(94vh - 262px), 720px); border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  .stand3d { position: relative; height: clamp(340px, calc(94vh - 296px), 720px); border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
   .stand3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; touch-action: none; cursor: grab; outline: none; -webkit-tap-highlight-color: transparent; }
   .stand3d.s3d-ready canvas { display: block; }
   .stand3d canvas.is-drag { cursor: grabbing; }
   .stand3d canvas:focus-visible { box-shadow: inset 0 0 0 3px #111; border-radius: 22px; }
   .s3d-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .6s ease; pointer-events: none; }
   .stand3d.s3d-drawn .s3d-poster { opacity: 0; }
-  .s3d-photo { position: absolute; right: 2.2%; top: 6%; width: clamp(190px, 24.5%, 340px); margin: 0; padding: 6px; border-radius: 13px; background: #fff; transform: rotate(2.2deg); box-shadow: 0 16px 36px -12px rgba(0,0,0,.3), 0 2px 6px rgba(0,0,0,.08); pointer-events: none; }
-  .s3d-photo img { display: block; width: 100%; height: auto; border-radius: 8px; }
-  .s3d-photo figcaption { position: absolute; left: 14px; bottom: 14px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.9); font-size: 11.5px; font-weight: 600; letter-spacing: -.01em; line-height: 1.2; color: #111; white-space: nowrap; }
-  @media (max-width: 640px) { .s3d-photo { right: 4%; top: 58px; width: 50%; padding: 5px; border-radius: 11px; } .s3d-photo figcaption { left: 11px; bottom: 11px; padding: 4px 8px; font-size: 10.5px; } }
   .s3d-hint, .s3d-ui { position: absolute; z-index: 2; }
   .s3d-hint { left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 28px); padding: 9px 14px 9px 11px; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 4px 18px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.05); font-size: 13px; font-weight: 500; line-height: 1.2; color: rgba(17,17,17,.72); pointer-events: none; transition: opacity .5s ease; }
   .s3d-hint svg { flex: none; }
@@ -445,14 +444,11 @@
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
-        <h2 id="stands-title" class="pg-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></h2>
+        <h2 id="stands-title" class="pg-title pg-title-long"><span class="en">ReBuild Ukraine 2023 (Warsaw) DTEK Renewables</span><span class="uk">ReBuild Ukraine 2023 (Варшава) ДТЕК ВДЕ</span></h2>
+        <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
           <div class="stand3d" id="stand3d">
             <img class="s3d-poster" data-s3d-poster src="stand-poster.webp" width="1600" height="879" alt="" decoding="async">
-            <figure class="s3d-photo">
-              <img src="stand-photo.webp" width="1280" height="606" loading="lazy" decoding="async" alt="DTEK exhibition stand with the team · Стенд ДТЕК на виставці з командою">
-              <figcaption><span class="en">The built stand</span><span class="uk">Реалізований стенд</span></figcaption>
-            </figure>
             <canvas tabindex="0" role="img" aria-label="3D-модель виставкового стенда · 3D model of the exhibition stand"></canvas>
             <div class="s3d-hint" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
