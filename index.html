@@ -135,8 +135,15 @@
   .pg-split { display: grid; gap: 18px; }
   .pg-split > .pg-empty { min-height: 120px; padding: 20px; font-size: 16px; }
   @media (min-width: 900px) { .pg-split { grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: 28px; align-items: stretch; } .pg-split > .pg-empty { min-height: 0; } }
-  .pg-render { margin: 0; align-self: center; }
-  .pg-render img { display: block; width: 100%; height: auto; background: none; }
+  /* static render of the second stand: same frame as the 3D viewer, + / - zoom */
+  .pg-render { position: relative; margin: 0; aspect-ratio: 1.7; border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  @media (min-width: 900px) { .pg-render { aspect-ratio: auto; height: clamp(300px, calc(94vh - 350px), 620px); } }
+  .pr-stage { position: absolute; inset: 0; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: 14px 16px 22px; }
+  .pr-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; transform-origin: 50% 50%; transition: transform .25s ease; will-change: transform; user-select: none; -webkit-user-drag: none; }
+  .pg-render.is-zoomed .pr-stage { touch-action: none; cursor: grab; }
+  .pg-render.is-zoomed.is-drag .pr-stage { cursor: grabbing; }
+  .pg-render.is-drag .pr-stage img { transition: none; }
+  .pg-render .s3d-btn[disabled] { opacity: .45; cursor: default; background: rgba(255,255,255,.9); }
   /* scroll buttons inside every popup (same look as the floating ones on the main page) */
   .pg-cue { position: absolute; right: 24px; top: 50%; z-index: 4; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; transform: translateY(-50%); transition: background-color .2s ease; }
   .pg-cue:hover { background: #fff; }
@@ -480,7 +487,13 @@
         <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
           <div class="pg-split">
-          <figure class="pg-render"><img src="stand-rb.webp" width="2000" height="1047" alt="Raiffeisen Bank «Разом з Україною» — виставковий стенд (візуалізація) · Raiffeisen Bank “Together with Ukraine” exhibition stand (render)" loading="lazy" decoding="async"></figure>
+          <figure class="pg-render" id="pg-render-2">
+            <div class="pr-stage"><img src="stand-rb.webp" width="2000" height="1047" alt="Raiffeisen Bank «Разом з Україною» — виставковий стенд (візуалізація) · Raiffeisen Bank “Together with Ukraine” exhibition stand (render)" loading="lazy" decoding="async" draggable="false"></div>
+            <div class="s3d-ui">
+              <button type="button" class="s3d-btn s3d-ico" data-pr="out" aria-label="Zoom out" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-pr="in" aria-label="Zoom in">+</button>
+            </div>
+          </figure>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
         </div>
@@ -883,6 +896,45 @@
   });
 })();
 /*PGCUE-END*/
+</script>
+<script>
+/*PGZOOM-START*/
+/* + / - zoom (and drag-to-pan when zoomed) for the static render in the "Виставкові стенди" popup */
+(function () {
+  var modal = document.getElementById('stands-modal'), box = document.getElementById('pg-render-2');
+  if (!modal || !box) return;
+  var stage = box.querySelector('.pr-stage'), img = stage.querySelector('img');
+  var bin = box.querySelector('[data-pr="in"]'), bout = box.querySelector('[data-pr="out"]');
+  var MAX = 3, STEP = 1.4, z = 1, x = 0, y = 0, drag = null;
+  function clampPan() {
+    var mx = Math.max(0, (img.offsetWidth * z - stage.clientWidth) / 2 + 12), my = Math.max(0, (img.offsetHeight * z - stage.clientHeight) / 2 + 12);
+    x = Math.max(-mx, Math.min(mx, x)); y = Math.max(-my, Math.min(my, y));
+  }
+  function apply() {
+    if (z <= 1.001) { z = 1; x = 0; y = 0; } else clampPan();
+    img.style.transform = z === 1 ? '' : 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + z.toFixed(3) + ')';
+    box.classList.toggle('is-zoomed', z > 1);
+    bout.disabled = z <= 1.001; bin.disabled = z >= MAX - 0.001;
+  }
+  function zoom(f) { z = Math.max(1, Math.min(MAX, z * f)); apply(); }
+  bin.addEventListener('click', function () { zoom(STEP); });
+  bout.addEventListener('click', function () { zoom(1 / STEP); });
+  stage.addEventListener('pointerdown', function (e) {
+    if (z <= 1 || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: x, oy: y };
+    box.classList.add('is-drag');
+    try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    x = drag.ox + e.clientX - drag.sx; y = drag.oy + e.clientY - drag.sy; apply();
+  });
+  function end(e) { if (drag && e.pointerId === drag.id) { drag = null; box.classList.remove('is-drag'); } }
+  stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+  window.addEventListener('resize', apply);
+  modal.addEventListener('pg:close', function () { z = 1; apply(); });
+})();
+/*PGZOOM-END*/
 </script>
 <script>
 /*STAND3D-START*/
