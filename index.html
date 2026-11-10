@@ -856,7 +856,7 @@
   /* ---------- geometry builder ---------- */
   var groups, G, TR;
   function resetBuilder() {
-    groups = { main: {}, fascia: {}, shade: {}, glass: {}, glow: {} };
+    groups = { main: {}, fascia: {}, shade: {}, glass: {}, glow: {}, lamp: {} };
     G = 'main';
     TR = { c: 1, s: 0, ox: 0, oz: 0 };
   }
@@ -962,20 +962,22 @@
   }
 
   /* floor lamp shaped like a wind turbine: white tower, three tapered blades, glowing hub (rotor faces +X) */
-  var LAMPS = [{ ox: -2.86, oz: 2.35, hub: 1.8, len: 0.58 }, { ox: -2.92, oz: 1.75, hub: 1.47, len: 0.58 }];
-  function lampHub(l) { return [l.ox + 0.12, l.hub, l.oz]; }
-  function glowTurbine(l) {
-    var W = [0.96, 0.96, 0.965], CREAM = [1, 0.97, 0.84], hubY = l.hub, len = l.len;
-    at(90, l.ox, l.oz, function () {
-      boxC(0, hubY / 2, 0, 0.095, hubY, 0.07, { c: W, taper: [0.55, 0.7] });                       // tower, wider at the foot
-      boxC(0, hubY, 0.065, 0.06, 0.06, 0.06, { c: W });                                              // shaft
-      [105, 225, 345].forEach(function (a) {                                                       // three wide tapered blades
-        var r = a * Math.PI / 180;
-        boxC(Math.cos(r) * len / 2, hubY + Math.sin(r) * len / 2, 0.105, 0.15, len, 0.02, { rz: r - Math.PI / 2, c: W, taper: [0.1, 0.8] });
-      });
-      boxC(0, hubY, 0.1275, 0.14, 0.14, 0.025, { c: CREAM, lit: 0.4 });                           // hub cap (octagon)
-      boxC(0, hubY, 0.1275, 0.14, 0.14, 0.025, { c: CREAM, lit: 0.4, rz: Math.PI / 4 });
-    });
+  /* Glowing wind-turbine lamps: the designer's own vector (two turbines on one flat sheet), stood a few cm off wall A.
+     A few thin layers fake the sheet's thickness; the back layers are warm so a yellow rim shows along the edges. */
+  var LAMP_D = [
+    "M1419.78,1419.07l756.62,928.77,35.16-29.65-514.86-809.75-216.24-149.77c13.07-23.07,20.54-49.72,20.54-78.13,0-56.33-29.34-105.8-73.58-133.98L1850.26,15.37l-43.35-15.37-438.84,853.34-20.53,268.55c-1.76-.06-3.52-.1-5.29-.1-83.56,0-152.04,64.57-158.27,146.53L0,1461.9l8.2,45.25,958.61-42.97,234.16-111.24c16.76,32.64,44.5,58.71,78.34,73.34l-54.42,4564.14h242.11l-54.47-4567.53c2.45-1.21,4.87-2.49,7.25-3.82Z",
+    "M2851.77,2274.59l1154.46,319.81,11.52-44.52-888.42-362.61-263.04,2.94c-8.12-80.05-75.72-142.51-157.91-142.51-2.7,0-5.38.07-8.05.2l-309.54-1167.31-44.24,12.55,135.75,949.92,138.61,230.9c-42.94,28.41-71.26,77.12-71.26,132.46,0,29.85,8.24,57.77,22.57,81.62l-853.73,842.86,32.86,32.17,757.04-589.64,126.64-226.21c3.2,1.67,6.47,3.23,9.79,4.69l-52.04,3638.5h238.55l-52.1-3641.92c31.66-15.82,57.29-41.91,72.52-73.91Z"
+  ];
+  var LAMP_VW = 4017.75, LAMP_VH = 5990.42, LAMP_S = 2.4 / LAMP_VH, LAMP_X = -2.93, LAMP_ZC = 2.03;
+  function lampAt(hx, hy) { return { ox: LAMP_X, oz: LAMP_ZC + LAMP_VW * LAMP_S / 2 - hx * LAMP_S, hub: 2.4 - hy * LAMP_S }; }
+  var LAMPS = [lampAt(1336, 1272), lampAt(2696, 2200)];
+  function lampHub(l) { return [l.ox - 0.03, l.hub, l.oz]; }
+  function lampCanvas() {
+    if (typeof Path2D === 'undefined') return null;
+    var cv = document.createElement('canvas'); cv.width = 1100; cv.height = Math.round(1100 * LAMP_VH / LAMP_VW);
+    var c = cv.getContext('2d'); c.scale(cv.width / LAMP_VW, cv.height / LAMP_VH); c.fillStyle = '#fff';
+    try { LAMP_D.forEach(function (d) { c.fill(new Path2D(d)); }); } catch (e) { return null; }
+    return cv;
   }
 
   function buildScene() {
@@ -1032,16 +1034,23 @@
     });
 
     /* glowing wind-turbine lamps + their light on the wall */
-    LAMPS.forEach(glowTurbine);
     groupAt('glow', function () {
       LAMPS.forEach(function (l) {
         var r = 0.7, y0 = Math.max(0.02, l.hub - r), y1 = Math.min(H - 0.02, l.hub + r), zlo = Math.max(l.oz - r, 1.01);
         var v0 = 0.5 - (y1 - l.hub) / (2 * r), v1 = 0.5 + (l.hub - y0) / (2 * r), u1 = (l.oz + r - zlo) / (2 * r);
         panel('glowW', 'px', -3, l.oz + r, zlo, y0, y1, { uv: [0, v0, u1, v1], lit: 0 });
         /* halo sits between the tower and the blades, so the rotor is lit from behind */
-        var hx = l.ox + 0.06, hr = 0.4;
+        var hx = l.ox - 0.012, hr = 0.42;
         quad('glowH', [hx, l.hub - hr, l.oz + hr], [hx, l.hub - hr, l.oz - hr], [hx, l.hub + hr, l.oz - hr], [hx, l.hub + hr, l.oz + hr], FULL, [1, 1, 1], 0);
       });
+    });
+
+    if (typeof Path2D !== 'undefined') groupAt('lamp', function () {
+      var hw = LAMP_VW * LAMP_S / 2;
+      for (var k = 0; k < 6; k++) {
+        var x = LAMP_X + k * 0.003, warm = k < 2;
+        quad('lampT', [x, 0, LAMP_ZC + hw], [x, 0, LAMP_ZC - hw], [x, 2.4, LAMP_ZC - hw], [x, 2.4, LAMP_ZC + hw], FULL, warm ? [1, 0.86, 0.40] : [0.975, 0.975, 0.975], warm ? 0 : 1);
+      }
     });
 
     /* display table with a tiny wind farm under glass */
@@ -1100,7 +1109,7 @@
       b(1.5, 0, 3.0, 0.85, 0.25, 0.4);              // coffee point
       b(1.8, 4.4, 3.0, 5.1, 0.28, 0.45);            // counter
       b(-3.1, 4.75, -1.3, 5.2, 0.3, 0.35);           // display table
-      b(-2.98, 1.65, -2.75, 2.45, 0.1, 0.22);        // lamps
+      b(-2.98, 1.2, -2.86, 2.9, 0.08, 0.2);        // lamps
     });
   }
   function groundShadow() {
@@ -1133,9 +1142,9 @@
     'void main(){ vW=aPos; vN=aNrm; vUV=aUV; vCol=aCol; vLit=aLit; gl_Position=uVP*vec4(aPos,1.0); }';
   var FS = '#version 300 es\nprecision highp float;\n' +
     'in vec3 vW; in vec3 vN; in vec2 vUV; in vec3 vCol; in float vLit;\n' +
-    'uniform sampler2D uTex; uniform float uAlpha; uniform vec3 uPt[2]; out vec4 o;\n' +
+    'uniform sampler2D uTex; uniform float uAlpha; uniform float uAO; uniform vec3 uPt[2]; out vec4 o;\n' +
     'void main(){\n' +
-    '  vec4 t = texture(uTex, vUV); vec3 base = t.rgb * vCol; vec3 n = normalize(vN);\n' +
+    '  vec4 t = texture(uTex, vUV); vec3 base = mix(t.rgb, vec3(1.0), uAO) * vCol; vec3 n = normalize(vN);\n' +
     '  vec3 k = normalize(vec3(0.35, 0.78, 0.52)); vec3 f = normalize(vec3(-0.6, 0.35, -0.3));\n' +
     '  float amb = 0.74 + 0.08 * n.y;\n' +
     '  float key = max(dot(n, k), 0.0) * 0.24; float fill = max(dot(n, f), 0.0) * 0.06;\n' +
@@ -1168,7 +1177,7 @@
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
-    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uPt = gl.getUniformLocation(prog, 'uPt');
+    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uAO = gl.getUniformLocation(prog, 'uAO'), uPt = gl.getUniformLocation(prog, 'uPt');
     gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0);
     gl.uniform3fv(uPt, new Float32Array(LAMPS.reduce(function (a, l) { return a.concat(lampHub(l)); }, [])));
 
@@ -1190,6 +1199,7 @@
     }
     tex.white = mkTex(null);
     tex.tv = mkTex(tvCanvas());
+    var lc = lampCanvas(); if (lc) tex.lampT = mkTex(lc);
     tex.glowW = tex.glowH = mkTex(glowCanvas());
     tex.shadeIn = mkTex(interiorShadow());
     tex.shadeOut = mkTex(groundShadow());
@@ -1216,7 +1226,7 @@
       gl.enableVertexAttribArray(4); gl.vertexAttribPointer(4, 1, gl.FLOAT, false, S, 44);
       vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1 });
     }
-    ['main', 'fascia', 'glass', 'glow'].forEach(function (g) {
+    ['main', 'fascia', 'glass', 'glow', 'lamp'].forEach(function (g) {
       Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], g === 'glass' ? 0.30 : g === 'glow' ? (k === 'glowW' ? 0.5 : 0.7) : 1); });
     });
     /* shadow quads (drawn in the blend pass) */
@@ -1272,13 +1282,14 @@
         list.forEach(function (m) {
           if (!blend) { if (m.tex === 'white') gl.disable(gl.POLYGON_OFFSET_FILL); else { gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(-1.5, -1.5); } }
           gl.bindVertexArray(m.vao); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[m.tex] || tex.white);
-          gl.uniform1f(uAlpha, m.alpha); gl.drawArrays(gl.TRIANGLES, 0, m.n);
+          gl.uniform1f(uAlpha, m.alpha); gl.uniform1f(uAO, m.tex === 'lampT' ? 1 : 0); gl.drawArrays(gl.TRIANGLES, 0, m.n);
         });
       }
       run(vaos.filter(function (m) { return m.group === 'main' || (m.group === 'fascia' && showFascia); }), false);
       run(vaos.filter(function (m) { return m.group === 'shade'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glass'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glow'; }), true);
+      run(vaos.filter(function (m) { return m.group === 'lamp'; }), true);
       gl.depthMask(true);
       if (!firstDrawn) { firstDrawn = true; root.classList.add('s3d-drawn'); }
     }
