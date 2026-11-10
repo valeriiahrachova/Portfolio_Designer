@@ -937,23 +937,28 @@
     box(-hw, 0.40, -hd + 0.2, -hw + 0.17, 0.64, hd, { c: FAB });         // arms
     box(hw - 0.17, 0.40, -hd + 0.2, hw, 0.64, hd, { c: FAB });
   }
-  /* compact espresso machine: steel top block, black body + tall black side column, drip tray, knob, portafilter.
-     x0,y0,z0 = left-back-bottom corner, faces +Z, about 0.46 x 0.34 x 0.34 m */
+  /* compact espresso machine: steel head, black body with a tall side column, drip tray, knob, portafilter.
+     (x0,y0,z0) = left-back-bottom corner, faces +Z, about 0.50 x 0.37 x 0.41 m.
+     Parts only touch each other (never overlap) and every face that touches another part is skipped,
+     so nothing z-fights while the camera moves. */
   function espresso(x0, y0, z0) {
-    var BLK = [0.10, 0.10, 0.11], STEEL = [0.66, 0.68, 0.71], RIM = [0.88, 0.88, 0.89];
-    var W = 0.46, D = 0.30;
-    box(x0, y0, z0 + 0.02, x0 + W, y0 + 0.022, z0 + D + 0.08, { c: RIM });                       // tray lip
-    box(x0 + 0.012, y0 + 0.022, z0 + 0.032, x0 + W - 0.012, y0 + 0.04, z0 + D + 0.068, { c: BLK }); // tray
-    box(x0, y0 + 0.04, z0, x0 + W, y0 + 0.34, z0 + 0.05, { c: BLK });                              // back plate
-    box(x0 + W - 0.13, y0 + 0.04, z0, x0 + W, y0 + 0.34, z0 + D - 0.04, { c: BLK });               // tall side column
-    box(x0, y0 + 0.04, z0, x0 + 0.01, y0 + 0.22, z0 + D - 0.04, { c: BLK });                       // left cheek
-    box(x0, y0 + 0.22, z0, x0 + W - 0.10, y0 + 0.34, z0 + D, { c: STEEL, f: { py: { c: [0.84, 0.86, 0.88] } } }); // steel head
-    box(x0 + 0.17, y0 + 0.15, z0 + 0.19, x0 + 0.27, y0 + 0.22, z0 + 0.29, { c: [0.18, 0.18, 0.19] });   // group head
-    box(x0 - 0.04, y0 + 0.165, z0 + 0.22, x0 + 0.22, y0 + 0.185, z0 + 0.245, { c: BLK });          // portafilter handle
-    box(x0 + 0.035, y0 + 0.265, z0 + D, x0 + 0.17, y0 + 0.315, z0 + D + 0.004, { c: [0.07, 0.07, 0.08] }); // button panel
-    box(x0 + 0.05, y0 + 0.285, z0 + D + 0.004, x0 + 0.15, y0 + 0.292, z0 + D + 0.006, { c: [0.65, 0.66, 0.68] }); // slot
-    boxC(x0 + W - 0.14, y0 + 0.29, z0 + D + 0.012, 0.052, 0.052, 0.024, { c: [0.08, 0.08, 0.09] });  // knob
-    boxC(x0 + W - 0.14, y0 + 0.29, z0 + D + 0.026, 0.012, 0.012, 0.004, { c: [0.9, 0.9, 0.9] });     // knob mark
+    var BLK = [0.11, 0.11, 0.12], STEEL = [0.68, 0.70, 0.73], RIM = [0.90, 0.90, 0.91], DK = [0.07, 0.07, 0.08];
+    var W = 0.50, D = 0.34, bx = x0 + W - 0.14;
+    box(x0, y0, z0 + 0.02, x0 + W, y0 + 0.02, z0 + D + 0.07, { c: RIM, skip: ['ny'] });                         // tray lip
+    box(x0 + 0.015, y0 + 0.02, z0 + 0.035, x0 + W - 0.015, y0 + 0.045, z0 + D + 0.055, { c: BLK, skip: ['ny'] }); // tray
+    box(x0, y0 + 0.045, z0, bx, y0 + 0.20, z0 + 0.06, { c: BLK, skip: ['ny'] });                                 // back plate
+    box(bx, y0 + 0.045, z0, x0 + W, y0 + 0.37, z0 + D - 0.05, { c: BLK, skip: ['ny'] });                         // tall side column
+    box(x0, y0 + 0.20, z0, bx, y0 + 0.37, z0 + D, { c: STEEL, f: { py: { c: [0.86, 0.87, 0.89] } } });          // steel head
+    box(x0 + 0.17, y0 + 0.14, z0 + 0.18, x0 + 0.27, y0 + 0.20, z0 + 0.29, { c: [0.20, 0.20, 0.21], skip: ['py'] }); // group head
+    box(x0 - 0.07, y0 + 0.145, z0 + 0.22, x0 + 0.17, y0 + 0.165, z0 + 0.25, { c: BLK, skip: ['px'] });          // portafilter handle
+    box(x0 + 0.04, y0 + 0.27, z0 + D, x0 + 0.21, y0 + 0.35, z0 + D + 0.008, { c: DK, skip: ['nz'] });           // button panel
+    box(x0 + 0.06, y0 + 0.305, z0 + D + 0.008, x0 + 0.19, y0 + 0.32, z0 + D + 0.012, { c: [0.62, 0.64, 0.66], skip: ['nz'] }); // slot
+    box(x0 + 0.07, y0 + 0.282, z0 + D + 0.008, x0 + 0.09, y0 + 0.296, z0 + D + 0.012, { c: [0.80, 0.80, 0.82], skip: ['nz'] });
+    box(x0 + 0.16, y0 + 0.282, z0 + D + 0.008, x0 + 0.18, y0 + 0.296, z0 + D + 0.012, { c: [0.95, 0.80, 0.10], skip: ['nz'] });
+    var kx = bx - 0.07, ky = y0 + 0.285;
+    boxC(kx, ky, z0 + D + 0.012, 0.056, 0.056, 0.024, { c: [0.09, 0.09, 0.10], skip: ['nz'] });                   // knob
+    boxC(kx, ky, z0 + D + 0.012, 0.056, 0.056, 0.024, { c: [0.09, 0.09, 0.10], rz: Math.PI / 4, skip: ['nz'] });
+    box(kx - 0.003, ky + 0.004, z0 + D + 0.024, kx + 0.003, ky + 0.026, z0 + D + 0.027, { c: [0.92, 0.92, 0.92], skip: ['nz'] }); // knob mark
   }
 
   /* floor lamp shaped like a wind turbine: white tower, three tapered blades, glowing hub (rotor faces +X) */
@@ -982,23 +987,32 @@
     panel('flag', 'nx', 3, 0, 5, 0, H);
     panel('extC', 'px', 3 + T, 5, 0, 0, H);
 
-    /* wall A (left, 5 m): Invest picture (4 m) on the inside, workers picture on the outside */
-    box(-3 - T, 0, -T, -3, H, 5, { c: WHITE });
+    /* wall A (left, 5 m): Invest picture (4 m) on the inside; outside it carries the workers photo as a thin panel */
+    box(-3 - T, 0, -0.05, -3, H, 5, { c: WHITE });
     panel('invest', 'px', -3, 5, 1, 0, H);
-    panel('extA', 'nx', -3 - T, 0, 5, 0, H);
+    box(-3.13, 0, 0, -3 - T, H, 5, { c: WHITE });
+    panel('extA', 'nx', -3.13, 0, 5, 0, H);
 
     /* back wall with the Tyligulska picture (4 m) */
     box(-1, 0, -T, 3, H, 0, { c: WHITE, skip: ['nx'] });
     panel('tyl', 'pz', 0, -1, 3, 0, H);
 
-    /* TV block in the back-left corner: 2 m wide, 1 m deep; the hill line runs on from wall A across its three strips */
-    box(-3, 0, -T, -1, H, 1, { c: WHITE });
+    /* TV unit in the back-left corner: 2 m wide, 1 m in front of the back wall and a 1 m storage room behind it;
+       the hill line runs on from wall A across its three strips */
+    box(-3, 0, -1, -1, H, 1, { c: WHITE });
     panel('s1', 'pz', 1, -3, -2.5, 0, H);
     panel('s2', 'pz', 1, -2.5, -1.5, 0, H);
     panel('s3', 'pz', 1, -1.5, -1, 0, H);
     panel('banner', 'px', -1, 1, 0, 0, H);
     box(-3, 0, 1, -1, 0.1, 1.12, { c: [0.95, 0.95, 0.95] });
-    box(-2.5, 1.37, 1.0, -1.5, 1.93, 1.04, { c: [0.10, 0.07, 0.06], f: { pz: { t: tv, c: [1, 1, 1], lit: 0.35 } } });
+    box(-2.5, 1.37, 1.0, -1.5, 1.93, 1.04, { c: [0.10, 0.07, 0.06], skip: ['nz'], f: { pz: { t: tv, c: [1, 1, 1], lit: 0.35 } } });
+
+    /* the storage room's outer wall (left side) with a doorway; the door leaf stands open, hinged next to the photo */
+    box(-3 - T, 0, -1, -3, H, -0.95, { c: WHITE });
+    box(-3 - T, 2.1, -0.95, -3, H, -0.05, { c: WHITE });
+    panel('white', 'nx', -3, -0.95, -0.05, 0, 2.1, { c: [0.06, 0.06, 0.07], lit: 0 });
+    box(-4.0, 0.01, -0.09, -3 - T, 2.1, -0.05, { c: [0.975, 0.975, 0.975] });
+    box(-3.93, 0.98, -0.05, -3.85, 1.02, -0.03, { c: [0.30, 0.30, 0.32], skip: ['nz'] });
 
     /* coffee point */
     box(1.55, 0, 0, 2.95, 0.92, 0.75, { c: [0.975, 0.975, 0.975] });
@@ -1030,7 +1044,7 @@
     });
 
     /* display table with a tiny wind farm under glass */
-    var dx = -2.2, dz = 4.55;
+    var dx = -2.2, dz = 5.3;
     [-0.5, 0.5].forEach(function (sx) {
       boxC(dx + sx, 0.425, dz, 0.62, 0.85, 0.78, { c: [0.96, 0.96, 0.97], taper: [0.46, 1] });
     });
@@ -1084,14 +1098,16 @@
       b(-1.75, 2.6, -1.15, 3.7, 0.22, 0.35);        // table
       b(1.5, 0, 3.0, 0.85, 0.25, 0.4);              // coffee point
       b(1.8, 4.4, 3.0, 5.1, 0.28, 0.45);            // counter
-      b(-3.1, 4.0, -1.3, 5.2, 0.3, 0.45);           // display table
+      b(-3.1, 4.75, -1.3, 5.2, 0.3, 0.35);           // display table
       b(-2.95, 1.35, -2.7, 2.35, 0.1, 0.22);        // lamps
     });
   }
   function groundShadow() {
     return shadowCanvas(-6, -4, 6, 8, 60, function (b) {
-      b(-3.1, -0.15, 3.1, 5.05, 0.9, 0.32);
-      b(-3.1, -0.15, 3.1, 5.05, 0.3, 0.22);
+      b(-3.1, -1.05, 3.1, 5.05, 0.9, 0.32);
+      b(-3.1, -1.05, 3.1, 5.05, 0.3, 0.22);
+      b(-3.05, 4.85, -1.35, 5.75, 0.5, 0.30);        // display table outside the front line
+      b(-4.0, -0.15, -3.1, 0.0, 0.3, 0.2);            // open door
     });
   }
   function glowCanvas() {
@@ -1214,12 +1230,12 @@
     /* camera state */
     var home = { az: 0.62, el: 0.5, zoom: 1 };
     var cam = { az: home.az, el: home.el, zoom: home.zoom }, vel = { az: 0, el: 0 };
-    var target = [0.1, 0.75, 2.2], fov = 32 * Math.PI / 180;
+    var target = [-0.15, 0.75, 2.45], fov = 32 * Math.PI / 180;
     var showFascia = false, auto = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), active = false, dirty = true, raf = 0, dragging = false, last = 0, firstDrawn = false;
     var W = 0, Hh = 0;
 
     /* camera distance that keeps the whole stand inside the frame for the current direction */
-    var CORN = []; [-3.2, 3.2].forEach(function (x) { [0, 2.4].forEach(function (y) { [-0.2, 5.45].forEach(function (z) { CORN.push([x, y, z]); }); }); });
+    var CORN = []; [-4.1, 3.2].forEach(function (x) { [0, 2.4].forEach(function (y) { [-1.1, 5.95].forEach(function (z) { CORN.push([x, y, z]); }); }); });
     var dist = 0;
     function fitDist(asp, el, az) {
       var halfH = Math.tan(fov / 2), halfW = halfH * asp, fill = 0.95, best = 0, ce = Math.cos(el), se = Math.sin(el);
@@ -1243,13 +1259,14 @@
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       var asp = W / Hh; if (!dist) dist = wantDist(); var d = dist * cam.zoom;
       var ce = Math.cos(cam.el), eye = [target[0] + d * Math.sin(cam.az) * ce, target[1] + d * Math.sin(cam.el), target[2] + d * Math.cos(cam.az) * ce];
-      var vp = mul(persp(fov, asp, 0.5, 90), lookAt(eye, target, [0, 1, 0]));
+      var vp = mul(persp(fov, asp, Math.max(0.3, d * 0.2), d + 14), lookAt(eye, target, [0, 1, 0]));
       gl.useProgram(prog); gl.uniformMatrix4fv(uVP, false, vp);
       gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
       function run(list, blend) {
-        if (blend) { gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); }
+        if (blend) { gl.disable(gl.POLYGON_OFFSET_FILL); gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); }
         else { gl.disable(gl.BLEND); gl.depthMask(true); }
         list.forEach(function (m) {
+          if (!blend) { if (m.tex === 'white') gl.disable(gl.POLYGON_OFFSET_FILL); else { gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(-1.5, -1.5); } }
           gl.bindVertexArray(m.vao); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[m.tex] || tex.white);
           gl.uniform1f(uAlpha, m.alpha); gl.drawArrays(gl.TRIANGLES, 0, m.n);
         });
