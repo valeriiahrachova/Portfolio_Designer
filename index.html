@@ -89,6 +89,26 @@
     #reviews-modal .rv-grid img:nth-child(7) { --w: 72%; --x: 24%; --y: 12px;  --r: 2.6deg; }
     #reviews-modal .rv-grid img:nth-child(8) { --w: 80%; --x: 3%;  --y: 8px;   --r: -2deg; }
   }
+  /* Full-page popup (opens like the reviews window, but bigger) -- used for "Виставкові стенди" */
+  .pg-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center; overflow: hidden; overscroll-behavior: contain; touch-action: none; padding: 12px; background: rgba(17,17,17,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s ease; }
+  .pg-modal[hidden] { display: none; }
+  .pg-modal.is-open { opacity: 1; }
+  .pg-panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 1240px; height: min(94vh, 980px); border-radius: 26px; background: #f1f0eb; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+  .pg-modal.is-open .pg-panel { transform: none; }
+  .pg-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; touch-action: pan-y; border-radius: 26px 26px 0 0; padding: 30px 20px 34px; }
+  .pg-footer { position: relative; flex: none; padding: 6px 20px 20px; border-radius: 0 0 26px 26px; background: #f1f0eb; }
+  .pg-footer::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 34px; background: linear-gradient(to top, #f1f0eb, rgba(241,240,235,0)); pointer-events: none; }
+  .pg-back { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; height: 64px; border: 0; border-radius: 999px; background: #111; color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 28px rgba(0,0,0,.25); transition: transform .25s ease, background-color .25s ease, gap .25s ease; }
+  .pg-back:hover { transform: scale(1.01); background: #2a2a2a; gap: 18px; }
+  .pg-back .pg-dot { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: #fee600; color: #111; }
+  .pg-x { position: absolute; top: 14px; right: 14px; z-index: 3; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #111; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.14), 0 0 0 1px rgba(0,0,0,.05); transition: background-color .2s ease, transform .25s cubic-bezier(.22,1.12,.36,1), box-shadow .2s ease; }
+  .pg-x:hover, .pg-x:focus-visible { background: #fee600; transform: rotate(90deg); box-shadow: 0 0 0 4px rgba(254,230,0,.35), 0 8px 24px rgba(254,230,0,.5); outline: none; }
+  .pg-title { margin: 0 0 clamp(20px, 3vw, 34px); padding-right: 56px; font-size: clamp(30px, 7vw, 68px); font-weight: 500; line-height: 1.02; letter-spacing: -.045em; }
+  .pg-body { min-height: 46vh; }
+  .pg-empty { display: grid; place-items: center; min-height: 46vh; padding: 24px; border: 2px dashed rgba(17,17,17,.16); border-radius: 22px; color: rgba(17,17,17,.42); font-size: 17px; text-align: center; }
+  @media (min-width: 640px) { .pg-modal { padding: 20px; } .pg-scroll { padding: 40px 44px 44px; } .pg-footer { padding: 6px 44px 28px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
+  .work-card[data-pg-open] { cursor: pointer; }
+  .work-card[data-pg-open]:focus-visible { outline: 3px solid #111; outline-offset: 3px; }
   #scroll-cue { position: fixed; right: 28px; top: 50%; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; cursor: default; transform: translateY(-50%); transition: opacity .35s ease, transform .35s ease, background-color .2s ease; }
   @media (min-width: 1024px) { #scroll-cue { display: flex; } }
   #scroll-cue:hover { background: #fff; }
@@ -316,7 +336,7 @@
         <span class="uk">Реалізовані проєкти</span>
       </h2>
       <div class="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:mt-20">
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="stand-3d.webp" width="900" height="687" alt="" decoding="async"><span class="work-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="stands-modal" aria-haspopup="dialog" aria-controls="stands-modal"><img class="work-photo" src="stand-3d.webp" width="900" height="687" alt="" decoding="async"><span class="work-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></span></div>
         <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="print-3d.webp" width="900" height="800" alt="" decoding="async"><span class="work-title"><span class="en">Advertising Print</span><span class="uk">Рекламна поліграфія</span></span></div>
         <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="digital-3d.webp" width="900" height="796" alt="" decoding="async"><span class="work-title"><span class="en">Digital Creatives</span><span class="uk">Діджитал-креативи</span></span></div>
         <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="merch-3d.webp" width="900" height="874" alt="" decoding="async"><span class="work-title"><span class="en">Corporate Merch</span><span class="uk">Корпоративний мерч</span></span></div>
@@ -389,6 +409,24 @@
       <div class="rv-footer">
         <button type="button" class="rv-back" data-reviews-close>
           <span class="rv-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Popup page: Виставкові стенди. Put the content inside .pg-body (replace the dashed placeholder). -->
+  <div id="stands-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="stands-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="stands-title" class="pg-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
           <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
         </button>
       </div>
@@ -556,6 +594,50 @@
           i = e.shiftKey ? (i <= 0 ? list.length - 1 : i - 1) : (i + 1) % list.length;
           list[i].focus({ preventScroll: true });
         }
+      });
+    })();
+  </script>
+  <script>
+    /* Popup pages: [data-pg-open="<id>"] opens the .pg-modal with that id (same behaviour as the reviews window). */
+    (function () {
+      document.querySelectorAll('.pg-modal').forEach(function (modal) {
+        var closeBtns = Array.prototype.slice.call(modal.querySelectorAll('[data-pg-close]'));
+        var sc = modal.querySelector('.pg-scroll'), opener = null, timer = 0;
+        function open(from) {
+          opener = from || null;
+          clearTimeout(timer);
+          modal.hidden = false;
+          sc.scrollTop = 0;
+          void modal.offsetWidth;
+          modal.classList.add('is-open');
+          (closeBtns[closeBtns.length - 1] || closeBtns[0]).focus({ preventScroll: true });
+        }
+        function close() {
+          if (modal.hidden) return;
+          modal.classList.remove('is-open');
+          clearTimeout(timer);
+          timer = setTimeout(function () { modal.hidden = true; }, 320);
+          if (opener && opener.focus) opener.focus({ preventScroll: true });
+        }
+        document.querySelectorAll('[data-pg-open="' + modal.id + '"]').forEach(function (b) {
+          b.addEventListener('click', function () { open(b); });
+          b.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(b); }
+          });
+        });
+        closeBtns.forEach(function (b) { b.addEventListener('click', close); });
+        modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+        modal.addEventListener('wheel', function (e) { if (!sc.contains(e.target)) e.preventDefault(); }, { passive: false });
+        document.addEventListener('keydown', function (e) {
+          if (modal.hidden) return;
+          if (e.key === 'Escape') { e.preventDefault(); close(); }
+          else if (e.key === 'Tab') {
+            var list = closeBtns.concat(Array.prototype.slice.call(sc.querySelectorAll('a[href],button,[tabindex="0"]'))), i = list.indexOf(document.activeElement);
+            e.preventDefault();
+            i = e.shiftKey ? (i <= 0 ? list.length - 1 : i - 1) : (i + 1) % list.length;
+            list[i].focus({ preventScroll: true });
+          }
+        });
       });
     })();
   </script>
