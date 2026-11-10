@@ -937,6 +937,25 @@
     box(-hw, 0.40, -hd + 0.2, -hw + 0.17, 0.64, hd, { c: FAB });         // arms
     box(hw - 0.17, 0.40, -hd + 0.2, hw, 0.64, hd, { c: FAB });
   }
+  /* compact espresso machine: steel top block, black body + tall black side column, drip tray, knob, portafilter.
+     x0,y0,z0 = left-back-bottom corner, faces +Z, about 0.46 x 0.34 x 0.34 m */
+  function espresso(x0, y0, z0) {
+    var BLK = [0.10, 0.10, 0.11], STEEL = [0.66, 0.68, 0.71], RIM = [0.88, 0.88, 0.89];
+    var W = 0.46, D = 0.30;
+    box(x0, y0, z0 + 0.02, x0 + W, y0 + 0.022, z0 + D + 0.08, { c: RIM });                       // tray lip
+    box(x0 + 0.012, y0 + 0.022, z0 + 0.032, x0 + W - 0.012, y0 + 0.04, z0 + D + 0.068, { c: BLK }); // tray
+    box(x0, y0 + 0.04, z0, x0 + W, y0 + 0.34, z0 + 0.05, { c: BLK });                              // back plate
+    box(x0 + W - 0.13, y0 + 0.04, z0, x0 + W, y0 + 0.34, z0 + D - 0.04, { c: BLK });               // tall side column
+    box(x0, y0 + 0.04, z0, x0 + 0.01, y0 + 0.22, z0 + D - 0.04, { c: BLK });                       // left cheek
+    box(x0, y0 + 0.22, z0, x0 + W - 0.10, y0 + 0.34, z0 + D, { c: STEEL, f: { py: { c: [0.84, 0.86, 0.88] } } }); // steel head
+    box(x0 + 0.17, y0 + 0.15, z0 + 0.19, x0 + 0.27, y0 + 0.22, z0 + 0.29, { c: [0.18, 0.18, 0.19] });   // group head
+    box(x0 - 0.04, y0 + 0.165, z0 + 0.22, x0 + 0.22, y0 + 0.185, z0 + 0.245, { c: BLK });          // portafilter handle
+    box(x0 + 0.035, y0 + 0.265, z0 + D, x0 + 0.17, y0 + 0.315, z0 + D + 0.004, { c: [0.07, 0.07, 0.08] }); // button panel
+    box(x0 + 0.05, y0 + 0.285, z0 + D + 0.004, x0 + 0.15, y0 + 0.292, z0 + D + 0.006, { c: [0.65, 0.66, 0.68] }); // slot
+    boxC(x0 + W - 0.14, y0 + 0.29, z0 + D + 0.012, 0.052, 0.052, 0.024, { c: [0.08, 0.08, 0.09] });  // knob
+    boxC(x0 + W - 0.14, y0 + 0.29, z0 + D + 0.026, 0.012, 0.012, 0.004, { c: [0.9, 0.9, 0.9] });     // knob mark
+  }
+
   /* floor lamp shaped like a wind turbine: white tower, three tapered blades, glowing hub (rotor faces +X) */
   var LAMPS = [{ ox: -2.82, oz: 2.15, hub: 1.85, len: 0.55 }, { ox: -2.82, oz: 1.45, hub: 1.5, len: 0.42 }];
   function lampHub(l) { return [l.ox + 0.125, l.hub, l.oz]; }
@@ -983,11 +1002,7 @@
 
     /* coffee point */
     box(1.55, 0, 0, 2.95, 0.92, 0.75, { c: [0.975, 0.975, 0.975] });
-    box(2.38, 0.92, 0.14, 2.86, 1.12, 0.44, { c: [0.13, 0.13, 0.14] });
-    box(2.38, 1.12, 0.14, 2.86, 1.30, 0.44, { c: [0.74, 0.76, 0.78] });
-    box(2.40, 0.92, 0.44, 2.84, 0.98, 0.56, { c: [0.10, 0.10, 0.11] });
-    boxC(2.62, 1.19, 0.455, 0.07, 0.07, 0.03, { c: [0.08, 0.08, 0.08] });
-    boxC(2.45, 1.02, 0.455, 0.05, 0.05, 0.02, { c: [0.75, 0.77, 0.8] });
+    espresso(2.31, 0.92, 0.12);
 
     /* reception counter (a shallow rectangle, logo + QR on the front only) */
     box(1.85, 0, 4.45, 2.95, 1.04, 5.0, { c: [0.975, 0.975, 0.975], f: { pz: { t: 'cfront', c: [1, 1, 1] } } });
