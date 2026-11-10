@@ -337,14 +337,14 @@
       </h2>
       <div class="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:mt-20">
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="stands-modal" aria-haspopup="dialog" aria-controls="stands-modal"><img class="work-photo" src="stand-3d.webp" width="900" height="687" alt="" decoding="async"><span class="work-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="print-3d.webp" width="900" height="800" alt="" decoding="async"><span class="work-title"><span class="en">Advertising Print</span><span class="uk">Рекламна поліграфія</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="digital-3d.webp" width="900" height="796" alt="" decoding="async"><span class="work-title"><span class="en">Digital Creatives</span><span class="uk">Діджитал-креативи</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="merch-3d.webp" width="900" height="874" alt="" decoding="async"><span class="work-title"><span class="en">Corporate Merch</span><span class="uk">Корпоративний мерч</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="ai-3d.webp" width="900" height="862" alt="" decoding="async"><span class="work-title"><span class="en">AI in Creativity</span><span class="uk">AI у творчості</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="motion-3d.webp" width="900" height="862" alt="" decoding="async"><span class="work-title"><span class="en">Motion Design</span><span class="uk">Моушн-дизайн</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="packaging-3d.webp" width="900" height="864" alt="" decoding="async"><span class="work-title"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="stickers-3d.webp" width="900" height="880" alt="" decoding="async"><span class="work-title"><span class="en">Stickers</span><span class="uk">Стікери</span></span></div>
-        <div class="work-card has-photo bg-white text-black"><img class="work-photo" src="presentations-3d.webp" width="900" height="817" alt="" decoding="async"><span class="work-title"><span class="en">Presentations</span><span class="uk">Презентації</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="print-modal" aria-haspopup="dialog" aria-controls="print-modal"><img class="work-photo" src="print-3d.webp" width="900" height="800" alt="" decoding="async"><span class="work-title"><span class="en">Advertising Print</span><span class="uk">Рекламна поліграфія</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="digital-modal" aria-haspopup="dialog" aria-controls="digital-modal"><img class="work-photo" src="digital-3d.webp" width="900" height="796" alt="" decoding="async"><span class="work-title"><span class="en">Digital Creatives</span><span class="uk">Діджитал-креативи</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="merch-modal" aria-haspopup="dialog" aria-controls="merch-modal"><img class="work-photo" src="merch-3d.webp" width="900" height="874" alt="" decoding="async"><span class="work-title"><span class="en">Corporate Merch</span><span class="uk">Корпоративний мерч</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="ai-modal" aria-haspopup="dialog" aria-controls="ai-modal"><img class="work-photo" src="ai-3d.webp" width="900" height="862" alt="" decoding="async"><span class="work-title"><span class="en">AI in Creativity</span><span class="uk">AI у творчості</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="motion-modal" aria-haspopup="dialog" aria-controls="motion-modal"><img class="work-photo" src="motion-3d.webp" width="900" height="862" alt="" decoding="async"><span class="work-title"><span class="en">Motion Design</span><span class="uk">Моушн-дизайн</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="packaging-modal" aria-haspopup="dialog" aria-controls="packaging-modal"><img class="work-photo" src="packaging-3d.webp" width="900" height="864" alt="" decoding="async"><span class="work-title"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="stickers-modal" aria-haspopup="dialog" aria-controls="stickers-modal"><img class="work-photo" src="stickers-3d.webp" width="900" height="880" alt="" decoding="async"><span class="work-title"><span class="en">Stickers</span><span class="uk">Стікери</span></span></div>
+        <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="presentations-modal" aria-haspopup="dialog" aria-controls="presentations-modal"><img class="work-photo" src="presentations-3d.webp" width="900" height="817" alt="" decoding="async"><span class="work-title"><span class="en">Presentations</span><span class="uk">Презентації</span></span></div>
       </div>
     </div>
   </section>
@@ -414,12 +414,148 @@
       </div>
     </div>
   </div>
-  <!-- Popup page: Виставкові стенди. Put the content inside .pg-body (replace the dashed placeholder). -->
+  <!-- Popup pages, one per work card (id = <name>-modal). Put the content inside .pg-body, replacing the dashed placeholder. -->
   <div id="stands-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="stands-title" hidden>
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
         <h2 id="stands-title" class="pg-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="print-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="print-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="print-title" class="pg-title"><span class="en">Advertising Print</span><span class="uk">Рекламна поліграфія</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="digital-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="digital-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="digital-title" class="pg-title"><span class="en">Digital Creatives</span><span class="uk">Діджитал-креативи</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="merch-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="merch-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="merch-title" class="pg-title"><span class="en">Corporate Merch</span><span class="uk">Корпоративний мерч</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="ai-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="ai-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="ai-title" class="pg-title"><span class="en">AI in Creativity</span><span class="uk">AI у творчості</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="motion-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="motion-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="motion-title" class="pg-title"><span class="en">Motion Design</span><span class="uk">Моушн-дизайн</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="packaging-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="packaging-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="packaging-title" class="pg-title"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="stickers-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="stickers-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="stickers-title" class="pg-title"><span class="en">Stickers</span><span class="uk">Стікери</span></h2>
+        <div class="pg-body">
+          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+        </div>
+      </div>
+      <div class="pg-footer">
+        <button type="button" class="pg-back" data-pg-close>
+          <span class="pg-dot" aria-hidden="true"><svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M17 10H4m5-5-5 5 5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span><span class="en">Back to the site</span><span class="uk">Повернутися на сайт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="presentations-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="presentations-title" hidden>
+    <div class="pg-panel">
+      <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="pg-scroll">
+        <h2 id="presentations-title" class="pg-title"><span class="en">Presentations</span><span class="uk">Презентації</span></h2>
         <div class="pg-body">
           <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
         </div>
