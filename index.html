@@ -147,6 +147,11 @@
   .sh-below .cal-bar { position: relative; bottom: auto; padding: 10px 0 12px; background: #fff; }
   .pg-shots.sh-below .sh-zoom { top: auto; bottom: 12px; z-index: 7; }
   @media (max-width: 640px) { .pg-shots.sh-below .sh-zoom { display: none; } }
+  /* portrait posters: shown whole on a soft backdrop */
+  .sh-poster .sh-track { aspect-ratio: 1 / 1.12; }
+  .pg-shots.sh-poster { background: linear-gradient(#f5f4ef, #e7e6df); }
+  @media (min-width: 900px) { .sh-poster .sh-track { aspect-ratio: 16 / 10.5; } }
+  .sh-poster .sh-track img { object-fit: contain; padding: 16px; box-sizing: border-box; filter: drop-shadow(0 10px 22px rgba(0,0,0,.16)); }
   .pg-shots.is-zoomed { touch-action: none; cursor: grab; }
   .pg-shots.is-drag { cursor: grabbing; }
   .pg-shots.is-drag .sh-track img { transition: none; }
@@ -746,6 +751,28 @@
             <div class="cal-bar">
               <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
               <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 2</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+          </div>
+        </div>
+        <h3 class="pg-sub" style="margin-top:clamp(40px,6vw,72px)"><span class="en">Children&rsquo;s creative works contest, 2023 (Midjourney)</span><span class="uk">Конкурс дитячих творчих робіт 2023 рік (Midjourney)</span></h3>
+        <div class="pg-body">
+          <div class="pg-split">
+          <figure class="pg-shots sh-below sh-poster" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Постери конкурсу дитячих творчих робіт: гортайте стрілками або свайпом · Contest posters: use arrows or swipe">
+            <div class="sh-track">
+              <img src="ai-kids-1.webp" width="1415" height="2000" alt="Постер ДТЕК «Стартує XVIII конкурс дитячих творчих робіт»: паперові соняшники та вітряк · DTEK poster for the 18th children’s creative works contest" loading="lazy" decoding="async" draggable="false">
+              <img src="ai-kids-2.webp" width="1415" height="2000" alt="Постер ДТЕК «Стартує XVIII конкурс дитячих творчих робіт»: дитина в касці малює вітряк · DTEK poster for the 18th children’s creative works contest" loading="lazy" decoding="async" draggable="false">
+              <img src="ai-kids-3.webp" width="1415" height="2000" alt="Постер ДТЕК «Стартує XVIII конкурс дитячих творчих робіт»: дитячий малюнок із сонцем, будинком і вітряками · DTEK poster for the 18th children’s creative works contest" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 3</span></div>
               <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
             </div>
           </figure>
