@@ -137,6 +137,36 @@
   @media (max-width: 480px) { .cal-label { min-width: 150px; } .cal-stage { padding: 60px 14px 66px; } }
   @media (prefers-reduced-motion: reduce) { .cal-page, .cal-page.is-flipped { transition-duration: .01s !important; transition-delay: 0s !important; } }
   /* CAL-CSS-END */
+  /* IG-CSS-START: Naftogaz infographic (3rd stand) + full-screen viewer */
+  .pg-infog { position: relative; margin: 0; aspect-ratio: 1.5; border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  @media (min-width: 900px) { .pg-infog { aspect-ratio: auto; height: clamp(300px, calc(94vh - 350px), 620px); } }
+  .ig-open { position: absolute; inset: 0; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; padding: 16px 16px 20px; border: 0; background: none; cursor: zoom-in; -webkit-tap-highlight-color: transparent; }
+  .ig-open:focus-visible { box-shadow: inset 0 0 0 3px #111; border-radius: 22px; outline: none; }
+  .ig-open img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 4px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 14px 34px -8px rgba(0,0,0,.28); transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
+  .ig-open:hover img { transform: scale(1.012); }
+  .ig-btn-in { display: inline-flex; align-items: center; gap: 8px; }
+  .ig-viewer { position: fixed; inset: 0; z-index: 40; overflow: hidden; touch-action: none; overscroll-behavior: contain; }
+  .ig-viewer[hidden] { display: none; }
+  .ig-bg { position: absolute; inset: 0; background: #0c0c0c; opacity: 0; transition: opacity .4s ease; }
+  .ig-viewer.is-in .ig-bg { opacity: 1; }
+  .ig-stage { position: absolute; inset: 0; cursor: zoom-in; outline: none; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+  .ig-stage.is-zoomed { cursor: grab; }
+  .ig-stage.is-drag { cursor: grabbing; }
+  .ig-img { position: absolute; left: 0; top: 0; display: block; max-width: none; border-radius: 4px; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,.5); transform-origin: 50% 50%; transition-property: transform; transition-timing-function: cubic-bezier(.22, 1, .36, 1); transition-duration: 0s; -webkit-user-drag: none; user-select: none; pointer-events: none; }
+  .ig-viewer .pg-x { z-index: 6; }
+  .ig-viewer .s3d-hint { z-index: 6; background: rgba(255,255,255,.9); }
+  .ig-viewer.is-touched .s3d-hint { opacity: 0; }
+  .ig-ui { position: absolute; left: 50%; bottom: 20px; z-index: 6; display: flex; align-items: center; gap: 8px; transform: translateX(-50%); }
+  .ig-pct { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 42px; padding: 0 14px; box-sizing: border-box; border-radius: 999px; background: rgba(255,255,255,.9); box-shadow: 0 4px 18px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.06); font-size: 14px; font-weight: 600; line-height: 1; color: #111; font-variant-numeric: tabular-nums; }
+  .ig-load { position: absolute; left: 14px; bottom: 20px; z-index: 6; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.9); font-size: 13px; font-weight: 500; line-height: 1.2; color: rgba(17,17,17,.72); box-shadow: 0 4px 18px rgba(0,0,0,.1); pointer-events: none; }
+  .ig-load[hidden] { display: none; }
+  .ig-load i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(17,17,17,.18); border-top-color: #111; animation: igspin .8s linear infinite; }
+  @keyframes igspin { to { transform: rotate(360deg); } }
+  .ig-btn[disabled] { opacity: .45; cursor: default; }
+  .ig-btn[disabled]:hover { background: rgba(255,255,255,.9); }
+  @media (max-width: 640px) { .ig-ui { bottom: 14px; gap: 6px; } .ig-load { left: 12px; bottom: 66px; } .ig-viewer .pg-x { top: 12px; right: 12px; } }
+  @media (prefers-reduced-motion: reduce) { .ig-bg, .ig-img, .ig-open img { transition-duration: .01s !important; } }
+  /* IG-CSS-END */
   /* Interactive 3D stand inside the "Виставкові стенди" popup */
   .pg-title-2 { margin-top: clamp(40px, 6vw, 72px); }
   .stand3d { position: relative; height: clamp(300px, calc(94vh - 350px), 620px); border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
@@ -166,7 +196,7 @@
   .pg-render { position: relative; margin: 0; aspect-ratio: 1.7; border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
   @media (min-width: 900px) { .pg-render { aspect-ratio: auto; height: clamp(300px, calc(94vh - 350px), 620px); } }
   .pr-stage { position: absolute; inset: 0; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: 14px 16px 22px; }
-  .pr-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; transform-origin: 50% 50%; transition: transform .25s ease; will-change: transform; user-select: none; -webkit-user-drag: none; }
+  .pr-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; transform-origin: 50% 50%; transition: transform .25s ease; user-select: none; -webkit-user-drag: none; }
   .pg-render.is-zoomed .pr-stage { touch-action: none; cursor: grab; }
   .pg-render.is-zoomed.is-drag .pr-stage { cursor: grabbing; }
   .pg-render.is-drag .pr-stage img { transition: none; }
@@ -485,6 +515,27 @@
   </div>
   <!-- Popup pages, one per work card (id = <name>-modal). Put the content inside .pg-body, replacing the dashed placeholder. -->
   <div id="stands-modal" class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="stands-title" hidden>
+    <!--IG-VIEWER-START-->
+    <div id="ig-viewer" class="ig-viewer" role="dialog" aria-modal="true" aria-label="Нафтогаз — інфографіка на весь екран · Naftogaz infographic, full screen" hidden>
+      <div class="ig-bg"></div>
+      <div class="ig-stage" tabindex="-1">
+        <img class="ig-img" alt="Нафтогаз — інфографіка «100 років газовидобутку в Україні» · Naftogaz infographic “100 years of gas production in Ukraine”" width="8000" height="4778" data-full="stand-ng-full.webp" data-mid="stand-ng-mid.webp" draggable="false">
+      </div>
+      <button type="button" class="pg-x" data-ig="close" aria-label="Close · Закрити"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+      <div class="s3d-hint ig-hint" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>
+        <span class="en"><span class="hm">Scroll to zoom &middot; drag to move &middot; Esc to close</span><span class="ht">Pinch to zoom &middot; drag to move</span></span>
+        <span class="uk"><span class="hm">Коліщатко — масштаб &middot; тягніть, щоб рухати &middot; Esc — закрити</span><span class="ht">Щипок — масштаб &middot; тягніть, щоб рухати</span></span>
+      </div>
+      <div class="ig-load" hidden><i></i><span class="en">Loading full resolution&hellip;</span><span class="uk">Завантажується повна роздільність&hellip;</span></div>
+      <div class="ig-ui">
+        <button type="button" class="s3d-btn s3d-ico ig-btn" data-ig="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+        <span class="ig-pct" aria-live="off">100%</span>
+        <button type="button" class="s3d-btn s3d-ico ig-btn" data-ig="in" aria-label="Zoom in · Збільшити">+</button>
+        <button type="button" class="s3d-btn s3d-ico ig-btn" data-ig="fit" aria-label="Fit to screen · Вмістити в екран" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg></button>
+      </div>
+    </div>
+    <!--IG-VIEWER-END-->
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
@@ -519,6 +570,19 @@
             <div class="s3d-ui">
               <button type="button" class="s3d-btn s3d-ico" data-pr="out" aria-label="Zoom out" disabled>&minus;</button>
               <button type="button" class="s3d-btn s3d-ico" data-pr="in" aria-label="Zoom in">+</button>
+            </div>
+          </figure>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+          </div>
+        </div>
+        <h3 id="stands-title-3" class="pg-title pg-title-long pg-title-2"><span class="en">Naftogaz &ldquo;100 years of gas production in Ukraine&rdquo;</span><span class="uk">Нафтогаз &laquo;100 років газовидобутку в Україні&raquo;</span></h3>
+        <p class="pg-sub"><span class="en">Wall infographic &middot; the history of gas production in Ukraine.</span><span class="uk">Інфографіка на стіну &middot; історія газовидобутку в Україні.</span></p>
+        <div class="pg-body">
+          <div class="pg-split">
+          <figure class="pg-infog" id="pg-infog">
+            <button type="button" class="ig-open" aria-haspopup="dialog" aria-label="Відкрити інфографіку на весь екран · Open the infographic full screen"><img src="stand-ng.webp" width="1800" height="1075" alt="Нафтогаз — інфографіка «100 років газовидобутку в Україні: від Дашави до нових перспектив» · Naftogaz infographic “100 years of gas production in Ukraine: from Dashava to new prospects”" loading="lazy" decoding="async" draggable="false"></button>
+            <div class="s3d-ui">
+              <button type="button" class="s3d-btn" data-ig-open aria-haspopup="dialog"><span class="ig-btn-in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="en">Full screen</span><span class="uk">На весь екран</span></span></button>
             </div>
           </figure>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
@@ -1071,6 +1135,156 @@
   render();
 })();
 /*PGCAL-END*/
+</script>
+<script>
+/*PGIG-START*/
+/* full-screen viewer for the Naftogaz infographic: expands from the preview, wheel / pinch / buttons zoom, drag to pan */
+(function () {
+  var modal = document.getElementById('stands-modal'), v = document.getElementById('ig-viewer'), frame = document.getElementById('pg-infog');
+  if (!modal || !v || !frame) return;
+  var panel = modal.querySelector('.pg-panel'), thumbBtn = frame.querySelector('.ig-open'), thumb = thumbBtn.querySelector('img');
+  var stage = v.querySelector('.ig-stage'), img = v.querySelector('.ig-img'), loadEl = v.querySelector('.ig-load'), pct = v.querySelector('.ig-pct');
+  var bClose = v.querySelector('[data-ig="close"]'), bIn = v.querySelector('[data-ig="in"]'), bOut = v.querySelector('[data-ig="out"]'), bFit = v.querySelector('[data-ig="fit"]');
+  var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  var SRC = coarse ? img.getAttribute('data-mid') : img.getAttribute('data-full'), NW = 8000, NH = 4778, NATIVE = coarse ? 4096 : 8000;
+  var isOpen = false, opener = null, fw = 0, fh = 0, vw = 0, vh = 0, z = 1, x = 0, y = 0, MAXZ = 8, fullReady = false, token = 0, timer = 0;
+  function dur(ms) { img.style.transitionDuration = ms + 'ms'; }
+  function layout() {
+    vw = v.clientWidth; vh = v.clientHeight;
+    var m = vw < 640 ? 10 : 24, k = Math.min((vw - 2 * m) / NW, (vh - 2 * m) / NH);
+    fw = NW * k; fh = NH * k;
+    img.style.width = fw + 'px'; img.style.height = fh + 'px'; img.style.left = (vw - fw) / 2 + 'px'; img.style.top = (vh - fh) / 2 + 'px';
+    MAXZ = Math.min(14, Math.max(3, NATIVE / fw));
+  }
+  function clampPan() {
+    var mx = Math.max(0, (fw * z - vw) / 2), my = Math.max(0, (fh * z - vh) / 2);
+    x = Math.max(-mx, Math.min(mx, x)); y = Math.max(-my, Math.min(my, y));
+  }
+  function apply() {
+    if (z <= 1.001) { z = 1; x = 0; y = 0; } else clampPan();
+    img.style.transform = z === 1 ? '' : 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + z.toFixed(4) + ')';
+    stage.classList.toggle('is-zoomed', z > 1);
+    pct.textContent = Math.round(z * 100) + '%';
+    bOut.disabled = z <= 1.001; bFit.disabled = z <= 1.001; bIn.disabled = z >= MAXZ - 0.001;
+  }
+  function touched() { v.classList.add('is-touched'); }
+  function zoomAt(f, cx, cy) {
+    var nz = Math.max(1, Math.min(MAXZ, z * f)); if (nz === z) return;
+    var px = cx - vw / 2, py = cy - vh / 2, k = nz / z;
+    x = px - k * (px - x); y = py - k * (py - y); z = nz; apply();
+  }
+  function fit(ms) { dur(ms == null ? 380 : ms); z = 1; apply(); }
+  function thumbTransform() {
+    var r = thumb.getBoundingClientRect(), k = r.width / fw;
+    return 'translate(' + (r.left + r.width / 2 - vw / 2).toFixed(1) + 'px,' + (r.top + r.height / 2 - vh / 2).toFixed(1) + 'px) scale(' + k.toFixed(4) + ')';
+  }
+  function loadFull() {
+    if (fullReady) { img.src = SRC; return; }
+    var my = ++token; loadEl.hidden = false;
+    var im = new Image();
+    im.onload = function () {
+      var done = function () { if (my !== token || !isOpen) return; fullReady = true; img.src = SRC; loadEl.hidden = true; };
+      if (im.decode) im.decode().then(done, done); else done();
+    };
+    im.onerror = function () { if (my === token) loadEl.hidden = true; };
+    im.src = SRC;
+  }
+  function open(from) {
+    if (isOpen) return;
+    isOpen = true; opener = from || thumbBtn; clearTimeout(timer);
+    v.hidden = false; v.classList.remove('is-touched'); layout(); z = 1; x = 0; y = 0;
+    img.src = fullReady ? SRC : (thumb.currentSrc || thumb.src);
+    dur(0); img.style.transform = thumbTransform();
+    thumb.style.visibility = 'hidden';
+    if (panel) panel.inert = true;
+    void v.offsetWidth;
+    v.classList.add('is-in'); dur(620); img.style.transform = '';
+    apply(); bClose.focus({ preventScroll: true });
+    if (!fullReady) loadFull();
+  }
+  function finish() {
+    v.hidden = true; v.classList.remove('is-in'); thumb.style.visibility = ''; dur(0);
+    img.style.transform = ''; token++; loadEl.hidden = true;
+    if (panel) panel.inert = false;
+  }
+  function close(instant) {
+    if (!isOpen) return;
+    isOpen = false; token++;
+    if (instant === true) { finish(); return; }
+    dur(520); img.style.transform = thumbTransform(); v.classList.remove('is-in');
+    var o = opener; timer = setTimeout(function () { finish(); if (o && o.focus) o.focus({ preventScroll: true }); }, 540);
+  }
+  thumbBtn.addEventListener('click', function () { open(thumbBtn); });
+  frame.querySelector('[data-ig-open]').addEventListener('click', function (e) { open(e.currentTarget); });
+  bClose.addEventListener('click', function () { close(); });
+  bIn.addEventListener('click', function () { touched(); dur(260); zoomAt(1.5, vw / 2, vh / 2); });
+  bOut.addEventListener('click', function () { touched(); dur(260); zoomAt(1 / 1.5, vw / 2, vh / 2); });
+  bFit.addEventListener('click', function () { touched(); fit(); });
+  /* wheel / trackpad pinch */
+  stage.addEventListener('wheel', function (e) {
+    e.preventDefault(); touched();
+    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    dur(110); zoomAt(Math.exp(-dy * (e.ctrlKey ? 0.012 : 0.0018)), e.clientX, e.clientY);
+  }, { passive: false });
+  /* pointers: drag to pan, two fingers to pinch, tap on the dark area closes, double tap / double click toggles zoom */
+  var P = [], lastDist = 0, lastMid = null, moved = 0, tap = null, lastTap = null;
+  function find(id) { for (var i = 0; i < P.length; i++) if (P[i].id === id) return P[i]; return null; }
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+    P.push({ id: e.pointerId, x: e.clientX, y: e.clientY });
+    if (P.length === 1) { moved = 0; var ir = img.getBoundingClientRect(); tap = { t: Date.now(), x: e.clientX, y: e.clientY, onImg: e.clientX >= ir.left && e.clientX <= ir.right && e.clientY >= ir.top && e.clientY <= ir.bottom }; }
+    else { tap = null; lastDist = Math.hypot(P[0].x - P[1].x, P[0].y - P[1].y); lastMid = { x: (P[0].x + P[1].x) / 2, y: (P[0].y + P[1].y) / 2 }; }
+    dur(0); stage.classList.add('is-drag');
+  });
+  stage.addEventListener('pointermove', function (e) {
+    var p = find(e.pointerId); if (!p) return;
+    var dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+    if (P.length === 1) { if (z > 1 && moved > 3) { touched(); x += dx; y += dy; apply(); } }
+    else if (P.length >= 2) {
+      touched();
+      var d = Math.hypot(P[0].x - P[1].x, P[0].y - P[1].y), mid = { x: (P[0].x + P[1].x) / 2, y: (P[0].y + P[1].y) / 2 };
+      x += mid.x - lastMid.x; y += mid.y - lastMid.y;
+      if (lastDist > 0) zoomAt(d / lastDist, mid.x, mid.y); else apply();
+      lastDist = d; lastMid = mid;
+    }
+  });
+  function up(e) {
+    var p = find(e.pointerId); if (!p) return;
+    P.splice(P.indexOf(p), 1);
+    if (P.length === 0) stage.classList.remove('is-drag');
+    if (P.length === 1) { lastDist = 0; }
+    if (e.type === 'pointerup' && tap && P.length === 0 && moved < 8 && Date.now() - tap.t < 450) {
+      var now = Date.now();
+      if (!tap.onImg) { close(); }
+      else if (lastTap && now - lastTap.t < 320 && Math.hypot(lastTap.x - e.clientX, lastTap.y - e.clientY) < 30) {
+        lastTap = null; touched(); dur(420);
+        if (z > 1.05) { z = 1; apply(); } else zoomAt(Math.min(3.5, MAXZ), e.clientX, e.clientY);
+      } else lastTap = { t: now, x: e.clientX, y: e.clientY };
+    }
+    if (P.length === 0) tap = null;
+  }
+  stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+  /* keyboard (capture: runs before the popup's own Esc / Tab handlers) */
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen) return;
+    var k = e.key, h = true;
+    if (k === 'Escape') close();
+    else if (k === '+' || k === '=') { touched(); dur(260); zoomAt(1.4, vw / 2, vh / 2); }
+    else if (k === '-' || k === '_') { touched(); dur(260); zoomAt(1 / 1.4, vw / 2, vh / 2); }
+    else if (k === '0') { touched(); fit(); }
+    else if (k.indexOf('Arrow') === 0 && z > 1) { touched(); dur(160); var st = 90; if (k === 'ArrowLeft') x += st; else if (k === 'ArrowRight') x -= st; else if (k === 'ArrowUp') y += st; else y -= st; apply(); }
+    else if (k === 'Tab') {
+      var list = [bClose, bOut, bIn, bFit].filter(function (b) { return !b.disabled; }), i = list.indexOf(document.activeElement);
+      i = e.shiftKey ? (i <= 0 ? list.length - 1 : i - 1) : (i + 1) % list.length;
+      list[i].focus({ preventScroll: true });
+    } else h = false;
+    if (h) { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); }
+  }, true);
+  window.addEventListener('resize', function () { if (!isOpen) return; layout(); apply(); });
+  modal.addEventListener('pg:close', function () { if (isOpen) close(true); });
+})();
+/*PGIG-END*/
 </script>
 <script>
 /*STAND3D-START*/
