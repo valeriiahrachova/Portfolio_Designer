@@ -138,7 +138,12 @@
   .pg-shots { position: relative; margin: 0; aspect-ratio: 16 / 9; border-radius: 22px; overflow: hidden; background: #dccbb9; box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); outline: none; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
   .pg-shots:focus-visible { box-shadow: inset 0 0 0 3px #111; }
   .sh-track { display: flex; height: 100%; transition: transform .55s cubic-bezier(.22, 1, .36, 1); }
-  .sh-track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; pointer-events: none; }
+  .sh-track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; pointer-events: none; transform-origin: 50% 50%; transition: transform .25s ease; }
+  .pg-shots .sh-zoom { top: 14px; bottom: auto; }
+  .pg-shots .s3d-btn[disabled] { opacity: .45; cursor: default; }
+  .pg-shots.is-zoomed { touch-action: none; cursor: grab; }
+  .pg-shots.is-drag { cursor: grabbing; }
+  .pg-shots.is-drag .sh-track img { transition: none; }
   @media (prefers-reduced-motion: reduce) { .sh-track { transition-duration: .01s; } }
   @media (max-width: 480px) { .cal-label { min-width: 150px; } .cal-stage { padding: 60px 14px 66px; } }
   @media (prefers-reduced-motion: reduce) { .cal-page, .cal-page.is-flipped { transition-duration: .01s !important; transition-delay: 0s !important; } }
@@ -693,6 +698,10 @@
               <img src="dtek-hoodie-2.webp" width="1920" height="1080" alt="Худі «Світло у наших серцях» із серцем у стилі вишивки, вигляд спереду і ззаду · “Light in our hearts” hoodie with an embroidery-style heart, front and back" loading="lazy" decoding="async" draggable="false">
               <img src="dtek-hoodie-3.webp" width="1920" height="1080" alt="Худі «Світло» з орнаментом на рукавах, вигляд спереду і ззаду · “Світло” hoodie with ornament bands on the sleeves, front and back" loading="lazy" decoding="async" draggable="false">
             </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
             <div class="cal-bar">
               <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous photo · Попереднє фото" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
               <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 3</span></div>
@@ -1108,33 +1117,64 @@
   modal.addEventListener('pg:close', reset);
   render();
 })();
-/* photo slider for the DTEK hoodies */
+/* photo slider for the DTEK hoodies: arrows / swipe to change, + / - and mouse wheel to zoom, drag to pan when zoomed */
 (function () {
   var modal = document.getElementById('merch-modal'), root = document.getElementById('pg-shots');
   if (!modal || !root) return;
-  var track = root.querySelector('.sh-track'), N = track.children.length, cur = 0;
+  var track = root.querySelector('.sh-track'), imgs = [].slice.call(track.children), N = imgs.length, cur = 0;
   var bP = root.querySelector('[data-sh="prev"]'), bN = root.querySelector('[data-sh="next"]'), cnt = root.querySelector('.sh-count');
+  var bIn = root.querySelector('[data-sh="in"]'), bOut = root.querySelector('[data-sh="out"]');
+  var MAX = 4, z = 1, x = 0, y = 0;
+  function apply() {
+    if (z <= 1.001) { z = 1; x = 0; y = 0; }
+    else { var mx = root.clientWidth * (z - 1) / 2, my = root.clientHeight * (z - 1) / 2; x = Math.max(-mx, Math.min(mx, x)); y = Math.max(-my, Math.min(my, y)); }
+    imgs.forEach(function (im, k) { im.style.transform = k === cur && z > 1 ? 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + z.toFixed(3) + ')' : ''; });
+    root.classList.toggle('is-zoomed', z > 1); bOut.disabled = z <= 1.001; bIn.disabled = z >= MAX - 0.001;
+  }
+  function zoomAt(f, cx, cy) {
+    var nz = Math.max(1, Math.min(MAX, z * f)); if (nz === z) return;
+    var k = nz / z; x = cx - k * (cx - x); y = cy - k * (cy - y); z = nz; apply();
+  }
   function go(i) {
-    cur = Math.max(0, Math.min(N - 1, i));
+    cur = Math.max(0, Math.min(N - 1, i)); z = 1; apply();
     track.style.transform = 'translateX(' + (-cur * 100) + '%)';
     cnt.textContent = (cur + 1) + ' / ' + N; bP.disabled = cur === 0; bN.disabled = cur === N - 1;
-    [].forEach.call(track.children, function (im, k) { im.setAttribute('aria-hidden', k === cur ? 'false' : 'true'); });
+    imgs.forEach(function (im, k) { im.setAttribute('aria-hidden', k === cur ? 'false' : 'true'); });
   }
   bP.addEventListener('click', function () { go(cur - 1); }); bN.addEventListener('click', function () { go(cur + 1); });
+  bIn.addEventListener('click', function () { zoomAt(1.5, 0, 0); }); bOut.addEventListener('click', function () { zoomAt(1 / 1.5, 0, 0); });
+  root.addEventListener('wheel', function (e) {
+    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    if (!dy || (z <= 1.001 && dy > 0)) return;
+    e.preventDefault();
+    var r = root.getBoundingClientRect();
+    zoomAt(Math.exp(-dy * (e.ctrlKey ? 0.012 : 0.0018)), e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2);
+  }, { passive: false });
   var d = null;
-  root.addEventListener('pointerdown', function (e) { if (e.target.closest('button')) return; d = { id: e.pointerId, x: e.clientX, y: e.clientY }; });
-  root.addEventListener('pointercancel', function () { d = null; });
+  root.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('button') || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    d = { id: e.pointerId, x: e.clientX, y: e.clientY, ox: x, oy: y, mv: 0 };
+    if (z > 1) { root.classList.add('is-drag'); try { root.setPointerCapture(e.pointerId); } catch (_) {} }
+  });
+  root.addEventListener('pointermove', function (e) {
+    if (!d || e.pointerId !== d.id || z <= 1) return;
+    x = d.ox + e.clientX - d.x; y = d.oy + e.clientY - d.y; apply();
+  });
+  root.addEventListener('pointercancel', function () { d = null; root.classList.remove('is-drag'); });
   root.addEventListener('pointerup', function (e) {
     if (!d || e.pointerId !== d.id) return;
-    var dx = e.clientX - d.x, dy = e.clientY - d.y; d = null;
+    var dx = e.clientX - d.x, dy = e.clientY - d.y; d = null; root.classList.remove('is-drag');
+    if (z > 1) return;
     if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.2) go(cur + (dx < 0 ? 1 : -1));
     else if (Math.abs(dx) < 10 && Math.abs(dy) < 10) go(cur === N - 1 ? 0 : cur + 1);
   });
   root.addEventListener('keydown', function (e) {
     if (e.target !== root) return;
-    if (e.key === 'ArrowRight') go(cur + 1); else if (e.key === 'ArrowLeft') go(cur - 1); else return;
+    if (e.key === 'ArrowRight') go(cur + 1); else if (e.key === 'ArrowLeft') go(cur - 1);
+    else if (e.key === '+' || e.key === '=') zoomAt(1.5, 0, 0); else if (e.key === '-') zoomAt(1 / 1.5, 0, 0); else return;
     e.preventDefault();
   });
+  window.addEventListener('resize', apply);
   modal.addEventListener('pg:close', function () { go(0); });
   go(0);
 })();
