@@ -156,6 +156,8 @@
   .pg-shots.sh-poster { background: linear-gradient(#f5f4ef, #e7e6df); }
   @media (min-width: 900px) { .sh-poster .sh-track { aspect-ratio: 16 / 10.5; } }
   .sh-poster .sh-track img { object-fit: contain; padding: 16px; box-sizing: border-box; filter: drop-shadow(0 10px 22px rgba(0,0,0,.16)); }
+  .sh-43.sh-poster .sh-track { aspect-ratio: 4 / 3; }
+  @media (min-width: 900px) { .sh-43.sh-poster .sh-track { aspect-ratio: 16 / 10.5; } }
   .pg-shots.is-zoomed { touch-action: none; cursor: grab; }
   .pg-shots.is-drag { cursor: grabbing; }
   .pg-shots.is-drag .sh-track img { transition: none; }
@@ -854,9 +856,28 @@
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
-        <h2 id="packaging-title" class="pg-title"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></h2>
+        <h2 id="packaging-title" class="pg-title pg-title-tight"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></h2>
+        <p class="pg-sub"><span class="en">Price tags for ROSHEN</span><span class="uk">Цінники для ROSHEN</span></p>
         <div class="pg-body">
-          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+          <div class="pg-split">
+          <figure class="pg-shots sh-below sh-43 sh-poster" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Цінники ROSHEN: гортайте стрілками або свайпом · ROSHEN price tags: use arrows or swipe">
+            <div class="sh-track">
+              <img src="roshen-price-1.webp" width="1503" height="1078" alt="Цінники ROSHEN: цінник «Бім-Бом» з кодом на вагах · ROSHEN price tags" loading="lazy" decoding="async" draggable="false">
+              <img src="roshen-price-2.webp" width="1800" height="1254" alt="Цінники ROSHEN: лист цінників для тістечок · ROSHEN price tags" loading="lazy" decoding="async" draggable="false">
+              <img src="roshen-price-3.webp" width="1800" height="1033" alt="Цінники ROSHEN: цінники з кодами на вагах 38×22 мм · ROSHEN price tags" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 3</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+          </div>
         </div>
       </div>
       <div class="pg-footer">
