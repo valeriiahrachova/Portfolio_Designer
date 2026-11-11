@@ -565,13 +565,20 @@
         <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
           <div class="pg-split">
-          <figure class="pg-render" id="pg-render-2">
-            <div class="pr-stage"><img src="stand-rb.webp" width="2000" height="1047" alt="Raiffeisen Bank «Разом з Україною» — виставковий стенд (візуалізація) · Raiffeisen Bank “Together with Ukraine” exhibition stand (render)" loading="lazy" decoding="async" draggable="false"></div>
-            <div class="s3d-ui">
-              <button type="button" class="s3d-btn s3d-ico" data-pr="out" aria-label="Zoom out" disabled>&minus;</button>
-              <button type="button" class="s3d-btn s3d-ico" data-pr="in" aria-label="Zoom in">+</button>
+          <div class="stand3d" id="stand3d-2" data-s3d-scene="rb">
+            <img class="s3d-poster" data-s3d-poster src="stand-rb.webp" width="2000" height="1047" alt="" loading="lazy" decoding="async">
+            <canvas tabindex="0" role="img" aria-label="3D-модель виставкового стенда Raiffeisen Bank · 3D model of the Raiffeisen Bank exhibition stand"></canvas>
+            <div class="s3d-hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+              <span class="en"><span class="hm">Drag to rotate · scroll to zoom</span><span class="ht">Swipe to rotate</span></span>
+              <span class="uk"><span class="hm">Тягніть, щоб крутити · коліщатко — масштаб</span><span class="ht">Проведіть, щоб крутити</span></span>
             </div>
-          </figure>
+            <div class="s3d-ui">
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomout" aria-label="Zoom out">&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="zoomin" aria-label="Zoom in">+</button>
+              <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+            </div>
+          </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
         </div>
@@ -1027,57 +1034,6 @@
 /*PGCUE-END*/
 </script>
 <script>
-/*PGZOOM-START*/
-/* + / - buttons and mouse wheel zoom (and drag-to-pan when zoomed) for the static render in the "Виставкові стенди" popup */
-(function () {
-  var modal = document.getElementById('stands-modal'), box = document.getElementById('pg-render-2');
-  if (!modal || !box) return;
-  var stage = box.querySelector('.pr-stage'), img = stage.querySelector('img');
-  var bin = box.querySelector('[data-pr="in"]'), bout = box.querySelector('[data-pr="out"]');
-  var MAX = 3, STEP = 1.4, z = 1, x = 0, y = 0, drag = null;
-  function clampPan() {
-    var mx = Math.max(0, (img.offsetWidth * z - stage.clientWidth) / 2 + 12), my = Math.max(0, (img.offsetHeight * z - stage.clientHeight) / 2 + 12);
-    x = Math.max(-mx, Math.min(mx, x)); y = Math.max(-my, Math.min(my, y));
-  }
-  function apply() {
-    if (z <= 1.001) { z = 1; x = 0; y = 0; } else clampPan();
-    img.style.transform = z === 1 ? '' : 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + z.toFixed(3) + ')';
-    box.classList.toggle('is-zoomed', z > 1);
-    bout.disabled = z <= 1.001; bin.disabled = z >= MAX - 0.001;
-  }
-  function zoomAt(f, cx, cy) {
-    var nz = Math.max(1, Math.min(MAX, z * f)); if (nz === z) return;
-    var k = nz / z; x = cx - k * (cx - x); y = cy - k * (cy - y); z = nz; apply();
-  }
-  function zoom(f) { zoomAt(f, 0, 0); }
-  /* mouse wheel / trackpad pinch: zoom towards the cursor (at full zoom-out, scrolling down still scrolls the popup) */
-  stage.addEventListener('wheel', function (e) {
-    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
-    if (!dy || (z <= 1.001 && dy > 0)) return;
-    e.preventDefault();
-    var r = stage.getBoundingClientRect();
-    zoomAt(Math.exp(-dy * (e.ctrlKey ? 0.012 : 0.0018)), e.clientX - r.left - (img.offsetLeft + img.offsetWidth / 2), e.clientY - r.top - (img.offsetTop + img.offsetHeight / 2));
-  }, { passive: false });
-  bin.addEventListener('click', function () { zoom(STEP); });
-  bout.addEventListener('click', function () { zoom(1 / STEP); });
-  stage.addEventListener('pointerdown', function (e) {
-    if (z <= 1 || (e.pointerType === 'mouse' && e.button !== 0)) return;
-    drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: x, oy: y };
-    box.classList.add('is-drag');
-    try { stage.setPointerCapture(e.pointerId); } catch (_) {}
-  });
-  stage.addEventListener('pointermove', function (e) {
-    if (!drag || e.pointerId !== drag.id) return;
-    x = drag.ox + e.clientX - drag.sx; y = drag.oy + e.clientY - drag.sy; apply();
-  });
-  function end(e) { if (drag && e.pointerId === drag.id) { drag = null; box.classList.remove('is-drag'); } }
-  stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
-  window.addEventListener('resize', apply);
-  modal.addEventListener('pg:close', function () { z = 1; apply(); });
-})();
-/*PGZOOM-END*/
-</script>
-<script>
 /*PGCAL-START*/
 /* interactive desk calendar: pages flip up over the wire binding (buttons, click, swipe, arrow keys) */
 (function () {
@@ -1328,7 +1284,7 @@
   /* ---------- geometry builder ---------- */
   var groups, G, TR;
   function resetBuilder() {
-    groups = { main: {}, fascia: {}, shade: {}, glass: {}, glow: {}, lamp: {} };
+    groups = { main: {}, fascia: {}, shade: {}, deco: {}, glass: {}, glow: {}, lamp: {} };
     G = 'main';
     TR = { c: 1, s: 0, ox: 0, oz: 0 };
   }
@@ -1375,7 +1331,7 @@
   /* flat picture glued to a wall face. a0/a1 = left/right edge as seen by someone looking at the face */
   function panel(tex, dir, fixed, a0, a1, y0, y1, o) {
     o = o || {};
-    var e = 0.003, BL, BR;
+    var e = o.e !== undefined ? o.e : 0.003, BL, BR;
     if (dir === 'pz') { BL = [a0, y0, fixed + e]; BR = [a1, y0, fixed + e]; }
     else if (dir === 'nz') { BL = [a0, y0, fixed - e]; BR = [a1, y0, fixed - e]; }
     else if (dir === 'px') { BL = [fixed + e, y0, a0]; BR = [fixed + e, y0, a1]; }
@@ -1606,6 +1562,421 @@
     return cv;
   }
 
+  /* ---------- Raiffeisen Bank "Разом з Україною" stand ---------- */
+  /* Plan measured from the designer's render: a 2.6 m back wall (slogan, big chevron, shelf unit) with two wings opened
+     out by 49 degrees - a 1.6 m left wing (chevron pattern + screen) and a 2.9 m right wing (logo + sunflowers).
+     World: X = right, Z = towards the viewer, origin = middle of the back wall on the floor.
+     Every wall is built in its own frame: x runs along the wall (0 = its left end as you face it), the face is z = 0. */
+  var RW = 2.6, RHW = RW / 2, RH = 2.7, RT = 0.1, RLL = 1.6, RLR = 2.9, RANG = 49;
+  var RCA = Math.cos(RANG * Math.PI / 180), RSA = Math.sin(RANG * Math.PI / 180);
+  var RFL = [-RHW - RLL * RCA, RLL * RSA], RFR = [RHW + RLR * RCA, RLR * RSA];
+  function onBack(fn) { at(0, -RHW, 0, fn); }
+  function onLeft(fn) { at(RANG, RFL[0], RFL[1], fn); }
+  function onRight(fn) { at(-RANG, RHW, 0, fn); }
+  var RB_FONT = "'DM Sans','Inter','Segoe UI','Helvetica Neue',Arial,sans-serif";
+  var YELLOW = '#e9de00', YELT = [0.93, 0.87, 0.0], AMB = [0.98, 0.73, 0.06], AMB2 = [1.0, 0.79, 0.12], AMB3 = [0.93, 0.66, 0.04];
+  function cvs(w, h) { var c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+  /* soft glow of whatever drawFn paints (the shape itself is drawn far off-canvas, only its shadow lands in view) */
+  function glowOf(w, h, drawFn, blur, rgba, passes) {
+    var cv = cvs(w, h), c = cv.getContext('2d');
+    for (var i = 0; i < (passes || 1); i++) {
+      c.save(); c.shadowColor = rgba; c.shadowBlur = blur; c.shadowOffsetX = 9000; c.shadowOffsetY = 0; c.translate(-9000, 0); c.fillStyle = '#000'; c.strokeStyle = '#000';
+      drawFn(c); c.restore();
+    }
+    return cv;
+  }
+  function chevPath(c, cx, cy, w, h, lw, dir) {
+    var x0 = cx - dir * w / 2, x1 = cx + dir * w / 2;
+    c.beginPath(); c.moveTo(x0, cy - h / 2); c.lineTo(x1, cy); c.lineTo(x0, cy + h / 2);
+    c.lineWidth = lw; c.lineJoin = 'round'; c.lineCap = 'round'; c.stroke();
+  }
+  /* chevron cut-out, white so it can be tinted: 300 x 420 px = 0.60 x 0.84 m (the big one on the back wall) */
+  function rbChevDraw(c) { chevPath(c, 150, 210, 176, 300, 86, 1); }
+  function rbChevCanvas() { var cv = cvs(300, 420), c = cv.getContext('2d'); c.strokeStyle = '#fff'; rbChevDraw(c); return cv; }
+  function rbChevGlow() { return glowOf(300, 420, rbChevDraw, 22, 'rgba(255,252,238,0.95)', 3); }
+
+  /* slogan: 800 px per metre */
+  function rbTextDraw(c) {
+    c.font = '800 226px ' + RB_FONT; c.textBaseline = 'alphabetic';
+    if (c.letterSpacing !== undefined) c.letterSpacing = '-4px';
+    c.fillText('Разом', 40, 240); c.fillText('з Україною', 40, 506);
+  }
+  function rbTextCanvas() { var cv = cvs(1440, 600), c = cv.getContext('2d'); c.fillStyle = '#26262a'; rbTextDraw(c); return cv; }
+  function rbTextGlow() { return glowOf(1440, 600, rbTextDraw, 26, 'rgba(255,250,236,0.95)', 3); }
+
+  /* logo: 1000 px per metre, yellow square with the crossed gable sign + two lines of lettering */
+  function rbMark(c, x, y, s, col) {
+    /* the gable cross: two crossed beams with pointed "horse head" ends at the top */
+    c.save(); c.translate(x, y); c.scale(s / 100, s / 100); c.strokeStyle = col; c.fillStyle = col; c.lineCap = 'butt'; c.lineWidth = 19;
+    c.beginPath(); c.moveTo(27, 30); c.lineTo(73, 84); c.moveTo(73, 30); c.lineTo(27, 84); c.stroke();
+    [1, -1].forEach(function (d) {
+      var X = function (v) { return 50 + d * v; };
+      c.beginPath(); c.moveTo(X(-38), 33); c.lineTo(X(-22), 14); c.lineTo(X(-6), 30); c.lineTo(X(-17), 41); c.lineTo(X(-23), 34); c.lineTo(X(-30), 42); c.closePath(); c.fill();
+    });
+    c.restore();
+  }
+  function rbLogoDraw(c, withBox) {
+    if (withBox) { c.fillStyle = YELLOW; c.fillRect(0, 0, 350, 360); rbMark(c, 35, 40, 280, '#1b1b1d'); }
+    c.fillStyle = '#1b1b1d'; c.font = '800 194px ' + RB_FONT; c.textBaseline = 'alphabetic';
+    if (c.letterSpacing !== undefined) c.letterSpacing = '-8px';
+    c.fillText('Raiffeisen', 396, 170); c.fillText('Bank', 396, 342);
+  }
+  function rbLogoCanvas() { var cv = cvs(1340, 360), c = cv.getContext('2d'); rbLogoDraw(c, true); return cv; }
+  function rbLogoGlow() { return glowOf(1340, 360, function (c) { rbLogoDraw(c, false); }, 14, 'rgba(255,250,236,0.9)', 2); }
+
+  /* sunflower: big round middle, one ring of long leaf-shaped petals and a ring of shorter ones between them */
+  function rbSunDraw(c, S, outline) {
+    var R = S / 2, cx = R, cy = R;
+    function petal(a, r0, r1, wd, col) {
+      var L = r1 - r0;
+      c.save(); c.translate(cx, cy); c.rotate(a); c.fillStyle = col;
+      c.beginPath(); c.moveTo(0, r0 * R);
+      c.bezierCurveTo(wd * R * 1.0, (r0 + L * 0.10) * R, wd * R * 1.05, (r0 + L * 0.60) * R, 0, r1 * R);
+      c.bezierCurveTo(-wd * R * 1.05, (r0 + L * 0.60) * R, -wd * R * 1.0, (r0 + L * 0.10) * R, 0, r0 * R);
+      c.fill();
+      if (outline) { c.strokeStyle = outline; c.lineWidth = S / 200; c.stroke(); }
+      c.restore();
+    }
+    var N = 15, LEN = [1.0, 0.9, 0.97, 0.86, 1.0, 0.93, 0.88, 0.99, 0.9, 0.96, 0.87, 1.0, 0.92, 0.98, 0.89], i;
+    for (i = 0; i < N; i++) petal(0.2 + (i + 0.5) * 2 * Math.PI / N, 0.30, 0.62 + 0.1 * (i % 3), 0.085, '#e2d600');
+    for (i = 0; i < N; i++) petal(0.2 + i * 2 * Math.PI / N, 0.28, LEN[i], 0.15, i % 2 ? '#e6da00' : '#ebe000');
+    c.fillStyle = '#e3d700'; c.beginPath(); c.arc(cx, cy, 0.385 * R, 0, 7); c.fill();
+    if (outline) { c.strokeStyle = outline; c.lineWidth = S / 200; c.stroke(); }
+  }
+  function rbSunCanvas() { var cv = cvs(768, 768), c = cv.getContext('2d'); rbSunDraw(c, 768, 'rgba(196,184,0,0.85)'); return cv; }
+  function rbSunWhite() { var cv = rbSunCanvas(), c = cv.getContext('2d'); c.globalCompositeOperation = 'source-in'; c.fillStyle = '#fff'; c.fillRect(0, 0, 768, 768); return cv; }
+  function rbSunGlow() { return glowOf(768, 768, function (c) { rbSunDraw(c, 768); }, 14, 'rgba(255,253,244,0.95)', 3); }
+
+  function rbStitchCanvas() {
+    var cv = cvs(96, 600), c = cv.getContext('2d'); c.strokeStyle = '#1d1d20'; c.lineWidth = 6; c.lineCap = 'round';
+    for (var i = 0; i < 6; i++) { var y = 50 + i * 100; c.beginPath(); c.moveTo(22, y - 36); c.lineTo(74, y + 36); c.moveTo(74, y - 36); c.lineTo(22, y + 36); c.stroke(); }
+    return cv;
+  }
+  function rbXCanvas() { var cv = cvs(256, 256), c = cv.getContext('2d'); rbMark(c, -22, -6, 300, '#fff'); return cv; }
+  function rbScreenCanvas() {
+    var cv = cvs(300, 480), c = cv.getContext('2d');
+    c.fillStyle = '#111114'; c.fillRect(0, 0, 300, 480);
+    c.fillStyle = '#f6e800'; c.fillRect(12, 12, 276, 456);
+    c.fillStyle = '#2a2a2e'; c.font = '500 25px ' + RB_FONT; c.fillText('Допоможемо', 32, 62); c.fillText('втілити', 32, 92);
+    c.font = '800 28px ' + RB_FONT; c.fillText('ваші ідеї', 32, 126);
+    /* tiny flat illustration: three people carrying boxes and a plant */
+    function person(x, top, shirt, skin, legs) {
+      c.fillStyle = skin; c.beginPath(); c.arc(x, 250, 13, 0, 7); c.fill();
+      c.fillStyle = top; c.fillRect(x - 15, 264, 30, 62);
+      c.fillStyle = shirt; c.fillRect(x - 20, 276, 40, 34);
+      c.fillStyle = legs; c.fillRect(x - 13, 326, 10, 74); c.fillRect(x + 3, 326, 10, 74);
+    }
+    person(88, '#f2a23a', '#e0b070', '#f2c8a8', '#3f6fd0');
+    person(150, '#ffffff', '#3a9a5a', '#e9b792', '#3f6fd0');
+    person(212, '#3fb6c8', '#e0b070', '#f2c8a8', '#f2a23a');
+    c.fillStyle = '#2f8f52'; [[-16, -0.7], [0, 0], [16, 0.7]].forEach(function (l) { c.beginPath(); c.ellipse(150 + l[0], 262, 6, 22, l[1], 0, 7); c.fill(); });
+    return cv;
+  }
+
+  /* wall textures: 400 px per metre */
+  var PPM = 400;
+  function rbWall(w, a, b) {
+    var cv = cvs(Math.round(w * PPM), RH * PPM), c = cv.getContext('2d'), g = c.createLinearGradient(0, 0, 0, cv.height);
+    g.addColorStop(0, a); g.addColorStop(1, b); c.fillStyle = g; c.fillRect(0, 0, cv.width, cv.height);
+    return cv;
+  }
+  /* chevron grid of the left wing: six columns, alternating direction; the yellow ones are separate cut-outs */
+  var RCOLS = [0.17, 0.435, 0.70, 0.965, 1.23, 1.495], RPIT = 0.505;
+  function rbChevY(col, k) { return (col % 2 ? 2.575 : 2.32) - k * RPIT; }
+  var RYEL = [[1, 1], [1, 3], [4, 0], [4, 2], [3, 4]];
+  function rbWallL() {
+    var cv = rbWall(RLL, '#e6dfda', '#dcd4ce'), c = cv.getContext('2d');
+    c.save(); c.shadowColor = 'rgba(70,60,55,0.30)'; c.shadowBlur = 7; c.shadowOffsetX = 3; c.shadowOffsetY = 5;
+    c.strokeStyle = 'rgba(255,255,255,0.9)';
+    RCOLS.forEach(function (s, col) {
+      for (var k = 0; k < 6; k++) {
+        if (RYEL.some(function (q) { return q[0] === col && q[1] === k; })) continue;
+        chevPath(c, s * PPM, (RH - rbChevY(col, k)) * PPM, 50, 118, 34, col % 2 ? -1 : 1);
+      }
+    });
+    c.restore();
+    return cv;
+  }
+  function rbWallB() {
+    var cv = rbWall(RW, '#cfc8c3', '#c5beb9'), c = cv.getContext('2d');
+    /* yellow band that climbs from the shelf into the right-hand corner */
+    function X(m) { return m * PPM; } function Y(m) { return (RH - m) * PPM; }
+    c.fillStyle = YELLOW; c.beginPath(); c.moveTo(X(1.99), Y(0.74)); c.lineTo(X(RW), Y(1.36)); c.lineTo(X(RW), Y(0.74)); c.lineTo(X(2.16), Y(0.33)); c.lineTo(X(2.16), Y(0.74)); c.closePath(); c.fill();
+    return cv;
+  }
+  function rbWallR() { return rbWall(RLR, '#d3ccc6', '#cac2bc'); }
+
+  /* baked floor shadows, drawn in world X/Z and clipped to the floor */
+  var RSI = [-2.6, -0.4, 3.5, 2.6], RSO = [-4.4, -2.2, 5.2, 4.4];
+  function rbShadow(E, ppm, clip, draw) {
+    var RSX0 = E[0], RSZ0 = E[1], cv = cvs(Math.round((E[2] - E[0]) * ppm), Math.round((E[3] - E[1]) * ppm)), c = cv.getContext('2d');
+    function path(pts) { c.beginPath(); pts.forEach(function (p, i) { var x = (p[0] - RSX0) * ppm, z = (p[1] - RSZ0) * ppm; if (i) c.lineTo(x, z); else c.moveTo(x, z); }); c.closePath(); }
+    draw(function (pts, blur, a) {
+      c.save(); c.shadowColor = 'rgba(38,38,44,' + a + ')'; c.shadowBlur = blur * ppm; c.shadowOffsetX = 9000; c.translate(-9000, 0); c.fillStyle = '#000'; path(pts); c.fill(); c.restore();
+    });
+    if (clip) { c.globalCompositeOperation = 'destination-in'; c.fillStyle = '#000'; path(clip); c.fill(); }
+    return cv;
+  }
+  /* rectangle on the floor given in a wall frame: s0..s1 along the wall, n0..n1 out from it */
+  function rbRect(o, dx, dz, s0, s1, n0, n1) {
+    var nx = -dz, nz = dx; if (nz < 0) { nx = -nx; nz = -nz; }
+    function P(s, n) { return [o[0] + dx * s + nx * n, o[1] + dz * s + nz * n]; }
+    return [P(s0, n0), P(s1, n0), P(s1, n1), P(s0, n1)];
+  }
+  var RFLOOR = [RFL, [-RHW, 0], [RHW, 0], RFR];
+  function rbInteriorShadow() {
+    return rbShadow(RSI, 120, RFLOOR, function (b) {
+      b(rbRect([-RHW, 0], 1, 0, -0.3, RW + 0.3, -0.3, 0.1), 0.28, 0.5);                 // along the back wall
+      b(rbRect(RFL, RCA, -RSA, -0.2, RLL + 0.2, -0.3, 0.08), 0.26, 0.45);                // left wing
+      b(rbRect([RHW, 0], RCA, RSA, -0.2, RLR + 0.2, -0.3, 0.08), 0.26, 0.45);            // right wing
+      b(rbRect([-RHW, 0], 1, 0, 0, 2.2, 0, 0.36), 0.2, 0.34);                            // shelf unit
+      b(rbRect([RHW, 0], RCA, RSA, RSOFA[0] - RSOFA[1] / 2, RSOFA[0] + RSOFA[1] / 2, 0.08, 0.08 + RSOFA[2]), 0.2, 0.6);  // sofa
+      RCHAIRS.forEach(function (ch) { b(rbRect([ch[0], ch[1]], 0.77, 0.64, -0.36, 0.36, -0.36, 0.36), 0.18, 0.55); });
+    });
+  }
+  function rbGroundShadow() {
+    var out = [[RFL[0] - 0.1, RFL[1] + 0.05], [-RHW - 0.05, -0.12], [RHW + 0.05, -0.12], [RFR[0] + 0.1, RFR[1] + 0.05]];
+    return rbShadow(RSO, 60, null, function (b) { b(out, 0.7, 0.3); b(out, 0.25, 0.22); });
+  }
+
+  /* wall decal that is clipped to the wall; a0..a1 left->right */
+  function clipPanel(tex, dir, fixed, aL, aR, y0, y1, cLo, cHi, cy0, cy1, o) {
+    var d = aR - aL, s0 = 0, s1 = 1;
+    var tLo = (cLo - aL) / d, tHi = (cHi - aL) / d; if (tLo > tHi) { var q = tLo; tLo = tHi; tHi = q; }
+    s0 = Math.max(0, tLo); s1 = Math.min(1, tHi);
+    var h = y1 - y0, yt = Math.min(y1, cy1), yb = Math.max(y0, cy0);
+    if (s1 <= s0 || yt <= yb) return;
+    var oo = {}; for (var k in o) oo[k] = o[k];
+    var u0 = o && o.flip ? 1 - s0 : s0, u1 = o && o.flip ? 1 - s1 : s1;
+    oo.uv = [u0, (y1 - yt) / h, u1, (y1 - yb) / h];
+    panel(tex, dir, fixed, aL + s0 * d, aL + s1 * d, yb, yt, oo);
+  }
+  /* a few stacked copies of a cut-out give it a visible thickness when the camera moves */
+  function stack(tex, a0, a1, y0, y1, clip, e0, de, tints, lit, flip) {
+    tints.forEach(function (t, k) {
+      clipPanel(tex, 'pz', 0, a0, a1, y0, y1, clip[0], clip[1], clip[2], clip[3], { e: e0 + k * de, c: t, lit: lit, flip: flip });
+    });
+  }
+  var TY3 = [[0.70, 0.66, 0.0], [0.80, 0.75, 0.0], [0.87, 0.82, 0.0], YELT];
+  var TW3 = [[0.86, 0.86, 0.84], [0.93, 0.93, 0.91], [0.98, 0.98, 0.96], YELT];
+  var TK3 = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]];
+
+  /* ----- soft solids ----- */
+  /* box with rounded edges. Centre + size; o: r (plan corner radius), ry (top/bottom edge radius), tilt (lean about X, + = top
+     towards +Z), rz (lean about Z), taper [fx,fz] for the top, c colour, lit */
+  function rbox(cx, cy, cz, sx, sy, sz, o) {
+    o = o || {};
+    var hx = sx / 2, hy = sy / 2, hz = sz / 2, r = Math.min(o.r !== undefined ? o.r : 0.04, hx, hz), ry = Math.min(o.ry !== undefined ? o.ry : 0.03, hy, hx, hz);
+    var tl = o.tilt || 0, ct = Math.cos(tl), st = Math.sin(tl), rz = o.rz || 0, cr = Math.cos(rz), sr = Math.sin(rz), tt = o.taper || [1, 1];
+    var col = o.c || [1, 1, 1], lit = o.lit !== undefined ? o.lit : 1, SEG = 4;
+    function T(x, y, z) {
+      var k = (y + hy) / sy, X = x * (1 + (tt[0] - 1) * k), Z = z * (1 + (tt[1] - 1) * k), Y = y + hy;
+      var y1 = Y * ct - Z * st, z1 = Y * st + Z * ct;
+      var x2 = X * cr - y1 * sr, y2 = X * sr + y1 * cr;
+      return tp(cx + x2, cy - hy + y2, cz + z1);
+    }
+    function ring(y, inset) {
+      var ax = hx - inset, az = hz - inset, rr = Math.max(0.002, Math.min(r - inset * 0.6, ax, az)), pts = [];
+      [[1, 1, 0], [-1, 1, 90], [-1, -1, 180], [1, -1, 270]].forEach(function (q) {
+        for (var i = 0; i <= SEG; i++) {
+          var a = (q[2] + 90 * i / SEG) * Math.PI / 180;
+          pts.push([q[0] * (ax - rr) + rr * Math.cos(a), y, q[1] * (az - rr) + rr * Math.sin(a)]);
+        }
+      });
+      return pts;
+    }
+    var prof = [[-hy, ry], [-hy + ry * 0.3, ry * 0.3], [-hy + ry, 0], [hy - ry, 0], [hy - ry * 0.3, ry * 0.3], [hy, ry]];
+    var rings = prof.map(function (p) { return ring(p[0], p[1]).map(function (q) { return T(q[0], q[1], q[2]); }); });
+    var n = rings[0].length, i, k;
+    for (k = 0; k < rings.length - 1; k++) for (i = 0; i < n; i++) {
+      var j = (i + 1) % n;
+      quad('white', rings[k][j], rings[k][i], rings[k + 1][i], rings[k + 1][j], FULL, col, lit);
+    }
+    function cap(R, y, up) {
+      var c0 = T(0, y, 0);
+      for (var i = 0; i < n; i++) {
+        var j = (i + 1) % n, a = up ? R[j] : R[i], b = up ? R[i] : R[j], nn = norm(cross(sub(a, c0), sub(b, c0)));
+        put('white', c0, nn, [0, 0], col, lit); put('white', a, nn, [0, 0], col, lit); put('white', b, nn, [0, 0], col, lit);
+      }
+    }
+    cap(rings[rings.length - 1], hy, true); cap(rings[0], -hy, false);
+  }
+  /* thin square bar between two points (chair legs) */
+  function rod(a, b, th, col) {
+    var d = norm(sub(b, a)), u = norm(cross(d, Math.abs(d[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0])), w = cross(d, u), h = th / 2;
+    function P(p, su, sw) { return tp(p[0] + u[0] * su * h + w[0] * sw * h, p[1] + u[1] * su * h + w[1] * sw * h, p[2] + u[2] * su * h + w[2] * sw * h); }
+    [[1, 1, -1, 1], [-1, 1, -1, -1], [-1, -1, 1, -1], [1, -1, 1, 1]].forEach(function (s) {
+      quad('white', P(a, s[0], s[1]), P(a, s[2], s[3]), P(b, s[2], s[3]), P(b, s[0], s[1]), FULL, col, 1);
+    });
+  }
+
+  /* bucket armchair on a black wire frame. Faces +Z, origin = middle of the footprint */
+  function armchair() {
+    var BLK = [0.07, 0.07, 0.08];
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (p) {
+      rod([p[0] * 0.20, 0.31, p[1] * 0.17], [p[0] * 0.33, 0, p[1] * 0.31], 0.022, BLK);
+    });
+    rod([-0.33, 0.012, -0.31], [0.33, 0.012, 0.31], 0.018, BLK); rod([0.33, 0.012, -0.31], [-0.33, 0.012, 0.31], 0.018, BLK);
+    rbox(0, 0.385, 0.0, 0.76, 0.17, 0.70, { r: 0.16, ry: 0.06, c: AMB3, taper: [1.06, 1.04] });           // shell
+    rbox(0, 0.49, 0.06, 0.52, 0.11, 0.54, { r: 0.12, ry: 0.05, c: AMB2 });                                // seat cushion
+    rbox(0, 0.62, -0.29, 0.76, 0.43, 0.16, { r: 0.075, ry: 0.07, c: AMB, tilt: -0.36, taper: [0.84, 1] });  // back
+    rbox(0, 0.64, -0.22, 0.50, 0.32, 0.10, { r: 0.05, ry: 0.045, c: AMB2, tilt: -0.36, taper: [0.86, 1] }); // back cushion
+    rbox(-0.325, 0.54, 0.02, 0.13, 0.24, 0.60, { r: 0.06, ry: 0.055, c: AMB, rz: 0.16, taper: [1, 0.86] });  // arms
+    rbox(0.325, 0.54, 0.02, 0.13, 0.24, 0.60, { r: 0.06, ry: 0.055, c: AMB, rz: -0.16, taper: [1, 0.86] });
+  }
+  /* three-seat sofa with a tufted back. Faces +Z, origin = middle of the footprint */
+  function sofaY(w, d) {
+    var hw = w / 2, hd = d / 2, BTN = [0.80, 0.55, 0.03];
+    [[-hw + 0.1, -hd + 0.1], [hw - 0.1, -hd + 0.1], [-hw + 0.1, hd - 0.1], [hw - 0.1, hd - 0.1]].forEach(function (p) {
+      box(p[0] - 0.03, 0, p[1] - 0.03, p[0] + 0.03, 0.07, p[1] + 0.03, { c: [0.25, 0.25, 0.27] });
+    });
+    rbox(0, 0.215, 0, w - 0.02, 0.31, d - 0.02, { r: 0.05, ry: 0.03, c: AMB3 });                           // base
+    rbox(0, 0.425, 0.07, w - 0.40, 0.13, d - 0.20, { r: 0.05, ry: 0.05, c: AMB2 });                       // seat
+    rbox(0, 0.565, -hd + 0.15, w - 0.38, 0.41, 0.22, { r: 0.07, ry: 0.08, c: AMB, tilt: -0.15 });          // back
+    rbox(-hw + 0.105, 0.355, 0, 0.21, 0.57, d, { r: 0.06, ry: 0.05, c: AMB });                             // arms
+    rbox(hw - 0.105, 0.355, 0, 0.21, 0.57, d, { r: 0.06, ry: 0.05, c: AMB });
+    for (var k = 0; k < 3; k++) { var bx = (k - 1) * (w - 0.38) / 3.2; boxC(bx, 0.63, -hd + 0.236, 0.026, 0.026, 0.012, { c: BTN, skip: ['nz'] }); }
+    [-1, 1].forEach(function (sd) { boxC(sd * (hw - 0.105), 0.50, hd + 0.003, 0.026, 0.026, 0.008, { c: BTN, skip: ['nz'] }); });
+  }
+  var RSOFA = [0.98, 1.8, 0.84];                       // along the right wing: centre, length, depth
+  var RCHAIRS = [[-1.59, 1.12, 52], [-1.12, 0.64, 44]];  // x, z, turn
+
+  function buildRB() {
+    resetBuilder();
+    var W_ = [0.975, 0.972, 0.968], WALLTONE = 0.5, FLOOR_ = [0.56, 0.56, 0.57], SH = [0.985, 0.985, 0.985];
+    /* floor slab: top, dark front edge, sides */
+    var fl = [RFL[0], 0, RFL[1]], fr = [RFR[0], 0, RFR[1]], bl = [-RHW, 0, 0], br = [RHW, 0, 0], dn = function (p) { return [p[0], -0.06, p[2]]; };
+    quad('white', fl, fr, br, bl, FULL, FLOOR_, 1);
+    quad('white', dn(fl), dn(fr), fr, fl, FULL, [0.24, 0.24, 0.25], 1);
+
+    /* walls */
+    onBack(function () { box(-0.06, -0.06, -RT, RW + 0.06, RH, 0, { c: W_ }); panel('wallB', 'pz', 0, 0, RW, 0, RH, { lit: WALLTONE }); });
+    onLeft(function () { box(0, -0.06, -RT, RLL, RH, 0, { c: W_ }); panel('wallL', 'pz', 0, 0, RLL, 0, RH, { lit: WALLTONE }); });
+    onRight(function () { box(0, -0.06, -RT, RLR, RH, 0, { c: W_ }); panel('wallR', 'pz', 0, 0, RLR, 0, RH, { lit: WALLTONE }); });
+
+    /* ---- left wing: portrait screen + raised yellow chevrons ---- */
+    onLeft(function () {
+      box(0.60, 1.12, 0, 1.07, 1.88, 0.035, { c: [0.05, 0.05, 0.06], skip: ['nz'], f: { pz: { t: 'screen', c: [1, 1, 1], lit: 0.15 } } });
+      groupAt('deco', function () {
+        RYEL.forEach(function (q) {
+          var s = RCOLS[q[0]], y = rbChevY(q[0], q[1]), flip = q[0] % 2 === 1, cl = [0, RLL, 0, RH];
+          stack('d_chevG', s - 0.19, s + 0.19, y - 0.266, y + 0.266, cl, 0.005, 0, [[1, 1, 1]], 0, flip);
+          stack('d_chev', s - 0.15, s + 0.15, y - 0.21, y + 0.21, cl, 0.012, 0.009, TW3, 0.3, flip);
+        });
+      });
+    });
+
+    /* ---- back wall: slogan, big chevron, shelf unit ---- */
+    onBack(function () {
+      var D0 = 0.0, D1 = 0.31;
+      box(-0.11, 0.70, D0, 2.16, 0.74, D1, { c: SH });                                // top board
+      box(0.46, 0.355, D0, 2.02, 0.385, D1, { c: SH });                              // middle board
+      box(0, 0.04, D0, 1.92, 0.07, D1, { c: SH });                                   // bottom board
+      box(0.46, 0.07, D0, 0.49, 0.70, D1, { c: SH, skip: ['py', 'ny'] });
+      box(0.0, 0.07, D0, 0.03, 0.70, D1, { c: SH, skip: ['py', 'ny'] });
+      [[0.91, 0.70, 1.29, 0.385], [1.29, 0.355, 1.00, 0.07]].forEach(function (s) {    // zig-zag dividers
+        var dx = s[2] - s[0], dy = s[3] - s[1], L = Math.sqrt(dx * dx + dy * dy);
+        boxC((s[0] + s[2]) / 2, (s[1] + s[3]) / 2, (D0 + D1) / 2, L, 0.03, D1 - D0 - 0.01, { c: SH, rz: Math.atan2(dy, dx) });
+      });
+      /* long sloping board: from the middle shelf up along the yellow band and out past the corner */
+      var wa = Math.atan2(0.68, 0.74), wl = Math.sqrt(0.68 * 0.68 + 0.74 * 0.74);
+      boxC(2.39, 0.71, 0.185, wl, 0.032, 0.25, { c: SH, rz: wa });
+      /* books leaning on the upper divider, books standing on the sloping board, a plant */
+      var za = Math.atan2(-0.315, 0.38), BK = [[0.36, 0.25, 0.20], [0.80, 0.77, 0.72], [0.55, 0.50, 0.47], [0.30, 0.31, 0.35]];
+      BK.forEach(function (c, i) {
+        var off = 0.045 + i * 0.047, L = 0.27 - i * 0.012, t = 0.66 + i * 0.07;
+        var px = 0.91 + 0.38 * t - Math.sin(za) * off, py = 0.70 - 0.315 * t + Math.cos(za) * off;
+        boxC(px - Math.cos(za) * (L / 2 - 0.02), py - Math.sin(za) * (L / 2 - 0.02), 0.16, L, 0.04, 0.2, { c: c, rz: za });
+      });
+      [[0.86, 0.84, 0.80], [0.42, 0.40, 0.40], [0.74, 0.60, 0.50], [0.90, 0.88, 0.84], [0.62, 0.36, 0.30]].forEach(function (c, i) {
+        var t = 0.27 + i * 0.05, hh = 0.21 - (i % 2) * 0.025, nn = 0.017 + hh / 2;
+        boxC(2.02 + t * Math.cos(wa) - Math.sin(wa) * nn, 0.37 + t * Math.sin(wa) + Math.cos(wa) * nn, 0.19, 0.042, hh, 0.17, { c: c, rz: wa });
+      });
+      rbox(0.94, 0.43, 0.15, 0.10, 0.09, 0.10, { r: 0.045, ry: 0.02, c: [0.96, 0.96, 0.95], taper: [1.15, 1.15] });
+      [[0, 0.56, 0, 0.11, 0.16, 0], [-0.06, 0.54, 0.02, 0.09, 0.13, 0.5], [0.06, 0.55, -0.02, 0.09, 0.14, -0.5], [0.02, 0.52, 0.05, 0.1, 0.1, 0.2], [-0.03, 0.60, -0.03, 0.08, 0.1, -0.2]].forEach(function (l) {
+        rbox(0.94 + l[0], l[1], 0.15 + l[2], l[3], l[4], 0.07, { r: 0.034, ry: 0.05, c: [0.20, 0.47, 0.25], rz: l[5] });
+      });
+      groupAt('deco', function () {
+        var cl = [0, RW, 0, RH];
+        stack('d_textG', 0.18, 1.98, 1.41, 2.16, cl, 0.006, 0, [[1, 1, 1]], 0);
+        stack('d_text', 0.18, 1.98, 1.41, 2.16, cl, 0.014, 0.007, TK3, 0.4);
+        stack('d_chevG', 1.815, 2.415, 1.19, 2.03, cl, 0.006, 0, [[1, 1, 1]], 0);
+        stack('d_chev', 1.815, 2.415, 1.19, 2.03, cl, 0.012, 0.009, TY3, 0.3);
+        /* the gable cross standing on the shelf */
+        [0, 1, 2, 3].forEach(function (k) { panel('d_x', 'pz', 0.15 + k * 0.012, 0.17, 0.49, 0.735, 1.055, { c: TY3[k], lit: 0.3, e: 0 }); });
+      });
+    });
+
+    /* ---- right wing: logo, two sunflowers ---- */
+    onRight(function () {
+      groupAt('deco', function () {
+        var cl = [0, RLR, 0, RH];
+        stack('d_logoG', 0.22, 1.56, 1.42, 1.78, cl, 0.006, 0, [[1, 1, 1]], 0);
+        stack('d_logo', 0.22, 1.56, 1.42, 1.78, cl, 0.014, 0.009, [[1, 1, 1], [1, 1, 1], [1, 1, 1]], 0.4);
+        [[1.08, 3.32, -0.68, 1.56], [1.90, 3.20, 1.68, 2.98]].forEach(function (q) {
+          stack('d_sunG', q[0], q[1], q[2], q[3], cl, 0.006, 0, [[1, 1, 1]], 0);
+          stack('d_sunW', q[0], q[1], q[2], q[3], cl, 0.012, 0.011, [[0.88, 0.88, 0.84], [0.95, 0.95, 0.92], [1, 1, 1]], 0.3);
+          stack('d_sun', q[0], q[1], q[2], q[3], cl, 0.045, 0, [[1, 1, 1]], 0.3);
+        });
+      });
+    });
+
+    /* hanging lamp: yellow frustum with black cross-stitching on the front, thin cord up */
+    var lcx = 0.16, lcz = 0.8, ly0 = 2.30, ly1 = 2.98, lw = 0.70, ld = 0.56, tp_ = [0.54, 0.54];
+    boxC(lcx, (ly0 + ly1) / 2, lcz, lw, ly1 - ly0, ld, { c: [0.97, 0.90, 0.02], taper: tp_, lit: 0.4 });
+    boxC(lcx, ly1 + 0.14, lcz, 0.012, 0.28, 0.012, { c: [0.1, 0.1, 0.1] });
+    groupAt('deco', function () {
+      var zb = lcz + ld / 2, zt = lcz + ld / 2 * tp_[1], y0 = ly0 + 0.10, y1 = ly1 - 0.02;
+      function zAt(y) { return zb + (zt - zb) * (y - ly0) / (ly1 - ly0) + 0.004; }
+      quad('d_stitch', [lcx - 0.045, y0, zAt(y0)], [lcx + 0.045, y0, zAt(y0)], [lcx + 0.045, y1, zAt(y1)], [lcx - 0.045, y1, zAt(y1)], [0, 0, 1, 1], [1, 1, 1], 0.2);
+    });
+
+    /* seating: two armchairs by the left wing, the sofa along the right wing */
+    RCHAIRS.forEach(function (ch) { at(ch[2], ch[0], ch[1], armchair); });
+    var sn = 0.08 + RSOFA[2] / 2;
+    at(-RANG, RHW + RCA * RSOFA[0] - RSA * sn, RSA * RSOFA[0] + RCA * sn, function () { sofaY(RSOFA[1], RSOFA[2]); });
+  }
+
+
+  /* ---------- scene registry ---------- */
+  var SCENES = {
+    dtek: {
+      files: FILES, build: buildScene,
+      canvases: function () { return { tv: tvCanvas(), lampT: lampCanvas(), glowW: glowCanvas(), glowH: glowCanvas(), shadeIn: interiorShadow(), shadeOut: groundShadow() }; },
+      shade: function () {
+        groupAt('shade', function () {
+          quad('shadeOut', [-6, -0.058, 8], [6, -0.058, 8], [6, -0.058, -4], [-6, -0.058, -4], FULL, [1, 1, 1], 0);
+          quad('shadeIn', [-3, 0.003, 5.2], [3, 0.003, 5.2], [3, 0.003, 0], [-3, 0.003, 0], FULL, [1, 1, 1], 0);
+        });
+      },
+      lights: function () { return LAMPS.reduce(function (a, l) { return a.concat(lampHub(l)); }, []); },
+      lightK: 0.42, ao: { lampT: 1 }, alpha: { glowW: 0.5 },
+      target: [-0.15, 0.75, 2.45], home: { az: 0.55, el: 0.5, zoom: 1 },
+      corn: [[-3.15, 3.2, -1.05, 5.05, 2.4], [-3.05, -1.3, 5.0, 6.05, 1.2], [-4.05, -3.1, -0.15, 0.0, 2.1]]
+    },
+    rb: {
+      files: {}, build: buildRB,
+      canvases: function () {
+        return {
+          wallB: rbWallB(), wallL: rbWallL(), wallR: rbWallR(), screen: rbScreenCanvas(),
+          d_chev: rbChevCanvas(), d_chevG: rbChevGlow(), d_text: rbTextCanvas(), d_textG: rbTextGlow(),
+          d_logo: rbLogoCanvas(), d_logoG: rbLogoGlow(), d_sun: rbSunCanvas(), d_sunW: rbSunWhite(), d_sunG: rbSunGlow(),
+          d_stitch: rbStitchCanvas(), d_x: rbXCanvas(), shadeIn: rbInteriorShadow(), shadeOut: rbGroundShadow()
+        };
+      },
+      shade: function () {
+        groupAt('shade', function () {
+          quad('shadeOut', [RSO[0], -0.058, RSO[3]], [RSO[2], -0.058, RSO[3]], [RSO[2], -0.058, RSO[1]], [RSO[0], -0.058, RSO[1]], FULL, [1, 1, 1], 0);
+          quad('shadeIn', [RSI[0], 0.003, RSI[3]], [RSI[2], 0.003, RSI[3]], [RSI[2], 0.003, RSI[1]], [RSI[0], 0.003, RSI[1]], FULL, [1, 1, 1], 0);
+        });
+      },
+      lights: function () { return [0.14, 2.1, 0.8, 1.6, 1.3, 1.5]; },
+      lightK: 0.16, ao: {}, alpha: {},
+      fov: 20, azLim: 0.64, target: [0.42, 1.3, 0.75], home: { az: 0.02, el: 0.135, zoom: 1 },
+      corn: [[-RHW, RHW, -0.1, 0, RH], [RFL[0] - 0.06, RFL[0], RFL[1] - 0.05, RFL[1], RH], [RFR[0], RFR[0] + 0.06, RFR[1], RFR[1] + 0.06, RH], [-0.1, 0.4, 0.6, 1.0, 3.26]]
+    }
+  };
+
   /* ---------- viewer ---------- */
   var VS = '#version 300 es\n' +
     'in vec3 aPos; in vec3 aNrm; in vec2 aUV; in vec3 aCol; in float aLit;\n' +
@@ -1613,22 +1984,23 @@
     'void main(){ vW=aPos; vN=aNrm; vUV=aUV; vCol=aCol; vLit=aLit; gl_Position=uVP*vec4(aPos,1.0); }';
   var FS = '#version 300 es\nprecision highp float;\n' +
     'in vec3 vW; in vec3 vN; in vec2 vUV; in vec3 vCol; in float vLit;\n' +
-    'uniform sampler2D uTex; uniform float uAlpha; uniform float uAO; uniform vec3 uPt[2]; out vec4 o;\n' +
+    'uniform sampler2D uTex; uniform float uAlpha; uniform float uAO; uniform float uPM; uniform float uPK; uniform vec3 uPt[2]; out vec4 o;\n' +
     'void main(){\n' +
-    '  vec4 t = texture(uTex, vUV); vec3 base = mix(t.rgb, vec3(1.0), uAO) * vCol; vec3 n = normalize(vN);\n' +
+    '  vec4 t = texture(uTex, vUV); vec3 tc = mix(t.rgb, clamp(t.rgb / max(t.a, 0.002), 0.0, 1.0), uPM); vec3 base = mix(tc, vec3(1.0), uAO) * vCol; vec3 n = normalize(vN);\n' +
     '  vec3 k = normalize(vec3(0.35, 0.78, 0.52)); vec3 f = normalize(vec3(-0.6, 0.35, -0.3));\n' +
     '  float amb = 0.74 + 0.08 * n.y;\n' +
     '  float key = max(dot(n, k), 0.0) * 0.24; float fill = max(dot(n, f), 0.0) * 0.06;\n' +
     '  float ao = mix(0.88, 1.0, smoothstep(0.0, 0.7, vW.y)); ao = mix(ao, 1.0, step(0.5, abs(n.y)));\n' +
     '  vec3 pl = vec3(0.0);\n' +
     '  for (int i = 0; i < 2; i++) { vec3 tp = uPt[i] - vW; float d = length(tp); pl += max(dot(n, tp / d), 0.0) / (1.0 + d * d * 0.9); }\n' +
-    '  vec3 light = vec3(amb + key + fill) * ao + vec3(1.0, 0.80, 0.30) * pl * 0.42;\n' +
+    '  vec3 light = vec3(amb + key + fill) * ao + vec3(1.0, 0.80, 0.30) * pl * uPK;\n' +
     '  vec3 col = mix(base, base * light, vLit);\n' +
     '  float a = t.a * uAlpha; o = vec4(col * a, a);\n' +
     '}';
 
   function Viewer(root) {
     var self = this;
+    var SC = SCENES[root.getAttribute('data-s3d-scene') || 'dtek'] || SCENES.dtek;
     var canvas = root.querySelector('canvas');
     var poster = root.querySelector('[data-s3d-poster]');
     var gl = null;
@@ -1648,19 +2020,21 @@
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
-    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uAO = gl.getUniformLocation(prog, 'uAO'), uPt = gl.getUniformLocation(prog, 'uPt');
+    var uVP = gl.getUniformLocation(prog, 'uVP'), uAlpha = gl.getUniformLocation(prog, 'uAlpha'), uAO = gl.getUniformLocation(prog, 'uAO'), uPM = gl.getUniformLocation(prog, 'uPM'), uPK = gl.getUniformLocation(prog, 'uPK'), uPt = gl.getUniformLocation(prog, 'uPt');
     gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0);
-    gl.uniform3fv(uPt, new Float32Array(LAMPS.reduce(function (a, l) { return a.concat(lampHub(l)); }, [])));
+    gl.uniform3fv(uPt, new Float32Array(SC.lights())); gl.uniform1f(uPK, SC.lightK);
 
     /* textures */
     var aniso = gl.getExtension('EXT_texture_filter_anisotropic');
     var maxAni = aniso ? Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)) : 0;
     var tex = {};
-    function mkTex(src, isImg) {
+    function mkTex(src, pm) {
       var t = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, t);
       var okSrc = false;
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, pm ? 1 : 0);
       if (src) { try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src); okSrc = true; } catch (e) { src = null; } }
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
       if (!okSrc) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -1669,22 +2043,19 @@
       return t;
     }
     tex.white = mkTex(null);
-    tex.tv = mkTex(tvCanvas());
-    var lc = lampCanvas(); if (lc) tex.lampT = mkTex(lc);
-    tex.glowW = tex.glowH = mkTex(glowCanvas());
-    tex.shadeIn = mkTex(interiorShadow());
-    tex.shadeOut = mkTex(groundShadow());
-    var pending = Object.keys(FILES).length, base = root.getAttribute('data-s3d-base') || '';
-    Object.keys(FILES).forEach(function (k) {
+    var cvmap = SC.canvases();
+    Object.keys(cvmap).forEach(function (k) { if (cvmap[k]) tex[k] = mkTex(cvmap[k], /^d_/.test(k)); });
+    var FL = SC.files, pending = Object.keys(FL).length, base = root.getAttribute('data-s3d-base') || '';
+    Object.keys(FL).forEach(function (k) {
       tex[k] = tex.white;
       var im = new Image(); im.decoding = 'async'; im.crossOrigin = 'anonymous';
       im.onload = function () { tex[k] = mkTex(im); pending--; self.kick(); };
       im.onerror = function () { pending--; };
-      im.src = base + FILES[k];
+      im.src = base + FL[k];
     });
 
     /* geometry -> GPU */
-    buildScene();
+    SC.build();
     var vaos = [];
     function upload(group, texKey, b, alpha) {
       var data = new Float32Array(b.v), vao = gl.createVertexArray(), buf = gl.createBuffer();
@@ -1695,30 +2066,27 @@
       gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, S, 24);
       gl.enableVertexAttribArray(3); gl.vertexAttribPointer(3, 3, gl.FLOAT, false, S, 32);
       gl.enableVertexAttribArray(4); gl.vertexAttribPointer(4, 1, gl.FLOAT, false, S, 44);
-      vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1 });
+      vaos.push({ group: group, tex: texKey, vao: vao, n: data.length / 12, alpha: alpha || 1, pm: /^d_/.test(texKey) ? 1 : 0, ao: SC.ao[texKey] ? 1 : 0 });
     }
-    ['main', 'fascia', 'glass', 'glow', 'lamp'].forEach(function (g) {
-      Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], g === 'glass' ? 0.30 : g === 'glow' ? (k === 'glowW' ? 0.5 : 0.7) : 1); });
+    ['main', 'fascia', 'deco', 'glass', 'glow', 'lamp'].forEach(function (g) {
+      Object.keys(groups[g]).forEach(function (k) { upload(g, k, groups[g][k], SC.alpha[k] !== undefined ? SC.alpha[k] : g === 'glass' ? 0.30 : g === 'glow' ? 0.7 : 1); });
     });
     /* shadow quads (drawn in the blend pass) */
     resetBuilder();
-    groupAt('shade', function () {
-      quad('shadeOut', [-6, -0.058, 8], [6, -0.058, 8], [6, -0.058, -4], [-6, -0.058, -4], FULL, [1, 1, 1], 0);
-      quad('shadeIn', [-3, 0.003, 5.2], [3, 0.003, 5.2], [3, 0.003, 0], [-3, 0.003, 0], FULL, [1, 1, 1], 0);
-    });
+    SC.shade();
     Object.keys(groups.shade).forEach(function (k) { upload('shade', k, groups.shade[k], 1); });
     gl.bindVertexArray(null);
 
     /* camera state */
-    var home = { az: 0.55, el: 0.5, zoom: 1 };
+    var home = { az: SC.home.az, el: SC.home.el, zoom: SC.home.zoom };
     var cam = { az: home.az, el: home.el, zoom: home.zoom }, vel = { az: 0, el: 0 };
-    var target = [-0.15, 0.75, 2.45], fov = 32 * Math.PI / 180;
+    var target = SC.target, fov = (SC.fov || 32) * Math.PI / 180;
     var showFascia = false, auto = false, active = false, dirty = true, raf = 0, dragging = false, last = 0, firstDrawn = false;
     var W = 0, Hh = 0;
 
     /* camera distance that keeps the whole stand inside the frame for the current direction */
     var CORN = [];
-    [[-3.15, 3.2, -1.05, 5.05, 2.4], [-3.05, -1.3, 5.0, 6.05, 1.2], [-4.05, -3.1, -0.15, 0.0, 2.1]].forEach(function (b) {
+    SC.corn.forEach(function (b) {
       [b[0], b[1]].forEach(function (x) { [0, b[4]].forEach(function (y) { [b[2], b[3]].forEach(function (z) { CORN.push([x, y, z]); }); }); });
     });
     var dist = 0;
@@ -1740,11 +2108,13 @@
     }
     function draw() {
       resize();
+      if (SC.azLim && Math.abs(cam.az) > SC.azLim) { cam.az = clamp(cam.az, -SC.azLim, SC.azLim); vel.az = 0; }
       gl.viewport(0, 0, W, Hh);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       var asp = W / Hh; if (!dist) dist = wantDist(); var d = dist * cam.zoom;
       var ce = Math.cos(cam.el), eye = [target[0] + d * Math.sin(cam.az) * ce, target[1] + d * Math.sin(cam.el), target[2] + d * Math.cos(cam.az) * ce];
       var vp = mul(persp(fov, asp, Math.max(0.3, d * 0.2), d + 14), lookAt(eye, target, [0, 1, 0]));
+      if (dbg) vp = mul(persp(dbg.f, asp, 0.5, 60), lookAt(dbg.e, dbg.t, [0, 1, 0]));
       gl.useProgram(prog); gl.uniformMatrix4fv(uVP, false, vp);
       gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
       function run(list, blend) {
@@ -1753,11 +2123,12 @@
         list.forEach(function (m) {
           if (!blend) { if (m.tex === 'white') gl.disable(gl.POLYGON_OFFSET_FILL); else { gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(-1.5, -1.5); } }
           gl.bindVertexArray(m.vao); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[m.tex] || tex.white);
-          gl.uniform1f(uAlpha, m.alpha); gl.uniform1f(uAO, m.tex === 'lampT' ? 1 : 0); gl.drawArrays(gl.TRIANGLES, 0, m.n);
+          gl.uniform1f(uAlpha, m.alpha); gl.uniform1f(uAO, m.ao); gl.uniform1f(uPM, m.pm); gl.drawArrays(gl.TRIANGLES, 0, m.n);
         });
       }
       run(vaos.filter(function (m) { return m.group === 'main' || (m.group === 'fascia' && showFascia); }), false);
       run(vaos.filter(function (m) { return m.group === 'shade'; }), true);
+      run(vaos.filter(function (m) { return m.group === 'deco'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glass'; }), true);
       run(vaos.filter(function (m) { return m.group === 'glow'; }), true);
       run(vaos.filter(function (m) { return m.group === 'lamp'; }), true);
@@ -1793,6 +2164,7 @@
     this.state = function () { return { az: cam.az, el: cam.el, zoom: cam.zoom }; };
     this.set = function (az, el, zoom) { cam.az = az; cam.el = el; if (zoom) cam.zoom = zoom; auto = false; this.kick(); };
     this.drawn = function () { return firstDrawn; };
+    var dbg = null; this.dbgView = function (e, t, f) { dbg = e ? { e: e, t: t, f: f } : null; this.kick(); };
     if (window.ResizeObserver) new ResizeObserver(function () { self.kick(); }).observe(canvas);
     window.addEventListener('resize', function () { self.kick(); });
 
