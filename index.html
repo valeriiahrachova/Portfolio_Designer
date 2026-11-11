@@ -156,7 +156,6 @@
   .pg-shots.sh-poster { background: linear-gradient(#f5f4ef, #e7e6df); }
   @media (min-width: 900px) { .sh-poster .sh-track { aspect-ratio: 16 / 10.5; } }
   .sh-poster .sh-track img { object-fit: contain; padding: 16px; box-sizing: border-box; filter: drop-shadow(0 10px 22px rgba(0,0,0,.16)); }
-  .pg-shots.sh-touched .s3d-hint { opacity: 0; }
   .pg-shots.is-zoomed { touch-action: none; cursor: grab; }
   .pg-shots.is-drag { cursor: grabbing; }
   .pg-shots.is-drag .sh-track img { transition: none; }
@@ -1201,11 +1200,6 @@
   var bP = root.querySelector('[data-sh="prev"]'), bN = root.querySelector('[data-sh="next"]'), cnt = root.querySelector('.sh-count');
   var bIn = root.querySelector('[data-sh="in"]'), bOut = root.querySelector('[data-sh="out"]');
   var MAX = 4, z = 1, x = 0, y = 0;
-  var hint = document.createElement('div'); hint.className = 's3d-hint'; hint.setAttribute('aria-hidden', 'true');
-  hint.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg>' +
-    '<span class="en"><span class="hm">Browse \u00b7 click the arrows</span><span class="ht">Browse \u00b7 arrows or swipe</span></span>' +
-    '<span class="uk"><span class="hm">Гортайте \u00b7 натискайте стрілки</span><span class="ht">Гортайте \u00b7 стрілки або свайп</span></span>';
-  root.appendChild(hint);
   function apply() {
     if (z <= 1.001) { z = 1; x = 0; y = 0; }
     else { var mx = root.clientWidth * (z - 1) / 2, my = root.clientHeight * (z - 1) / 2; x = Math.max(-mx, Math.min(mx, x)); y = Math.max(-my, Math.min(my, y)); }
@@ -1217,7 +1211,7 @@
     var k = nz / z; x = cx - k * (cx - x); y = cy - k * (cy - y); z = nz; apply();
   }
   function go(i) {
-    cur = Math.max(0, Math.min(N - 1, i)); z = 1; apply(); if (cur > 0) root.classList.add('sh-touched');
+    cur = Math.max(0, Math.min(N - 1, i)); z = 1; apply();
     track.style.transform = 'translateX(' + (-cur * 100) + '%)';
     cnt.textContent = (cur + 1) + ' / ' + N; bP.disabled = cur === 0; bN.disabled = cur === N - 1;
     imgs.forEach(function (im, k) { im.setAttribute('aria-hidden', k === cur ? 'false' : 'true'); });
@@ -1256,7 +1250,7 @@
     e.preventDefault();
   });
   window.addEventListener('resize', apply);
-  modal.addEventListener('pg:close', function () { go(0); root.classList.remove('sh-touched'); });
+  modal.addEventListener('pg:close', function () { go(0); });
   go(0);
 });
 /*PGCAL-END*/
