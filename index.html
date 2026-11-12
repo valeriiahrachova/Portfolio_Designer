@@ -126,7 +126,7 @@
   .rb-bags .pg-photo.rb-bag { aspect-ratio: 16 / 11 !important; background: #e5e5e5; }
   .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
   @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
-  @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: clamp(300px, calc(min(94vh, 1060px) - 300px), 780px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
+  @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: min(var(--fit-h, 600px), 780px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
   @media (min-width: 900px) { .pg-split.pg-pair > .pg-stack.pg-elle { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } .pg-elle { align-items: start; } .pg-stack.pg-elle .sh-elle .sh-track { aspect-ratio: 16 / 10 !important; } .pg-stack.pg-elle > .pg-photo.pg-elle-cover { contain: size; align-self: stretch; } }
   @media (max-width: 899px) { .pg-photo.pg-elle-cover { aspect-ratio: 4 / 5 !important; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
@@ -402,6 +402,20 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   }
+  /* FIT-CSS */
+  @media (min-width: 900px) {
+    .pg-scroll { --fit-h: max(300px, calc(min(94vh, 1060px) - 340px)); }
+    .pg-scroll .pg-shots .sh-track { max-height: var(--fit-h) !important; }
+    .pg-scroll .pg-sport .sh-track { max-height: calc(var(--fit-h) - 70px) !important; }
+    .pg-scroll .pg-shots .sh-track img { object-fit: contain; }
+    .pg-scroll .sh-sportph .sh-track img, .pg-scroll #pg-shots .sh-track img { object-fit: cover; }
+    .pg-scroll .pg-shots:not(.sh-below) { max-height: var(--fit-h); }
+    .pg-scroll .pg-split:not(.pg-pair) > .pg-photo { max-height: var(--fit-h); }
+    .pg-scroll .pg-cal { height: min(var(--fit-h), 580px); }
+    .pg-scroll .pg-infog { max-height: var(--fit-h); }
+    .pg-scroll .stand3d { height: min(var(--fit-h), 620px); }
+  }
+  /* FIT-CSS-END */
 </style>
 
 <main id="app" data-lang="uk" class="overflow-hidden bg-[#f1f0eb] text-[#111]">
