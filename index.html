@@ -175,6 +175,9 @@
   .sh-poster .sh-track img { object-fit: contain; padding: 16px; box-sizing: border-box; filter: drop-shadow(0 10px 22px rgba(0,0,0,.16)); }
   .sh-43.sh-poster .sh-track { aspect-ratio: 4 / 3; }
   @media (min-width: 900px) { .sh-43.sh-poster .sh-track { aspect-ratio: 16 / 10.5; } }
+  .pg-shots.sh-pat { background: #fff; }
+  .sh-pat .sh-track img { filter: none; padding: 22px; }
+  @media (min-width: 900px) { .pg-pair > .pg-stack:has(.sh-pat) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .pg-pair #pg-shots { aspect-ratio: auto; } .pg-pair .sh-pat .sh-track { aspect-ratio: 16 / 10; } }
   .pg-shots.is-zoomed { touch-action: none; cursor: grab; }
   .pg-shots.is-drag { cursor: grabbing; }
   .pg-shots.is-drag .sh-track img { transition: none; }
@@ -821,9 +824,25 @@
           </div>
         </div>
         <h3 id="merch-title-2" class="pg-title pg-title-long pg-title-2"><span class="en">DTEK &ldquo;Світло&rdquo; hoodies</span><span class="uk">ДТЕК &mdash; худі &laquo;Світло&raquo;</span></h3>
-        <p class="pg-sub"><span class="en">Corporate merch for DTEK &middot; three hoodie designs.</span><span class="uk">Корпоративний мерч для ДТЕК &middot; три варіанти худі.</span></p>
+        <div class="pg-subrow"><p class="pg-sub"><span class="en">Corporate merch for DTEK &middot; three hoodie designs.</span><span class="uk">Корпоративний мерч для ДТЕК &middot; три варіанти худі.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-illustrator.svg" width="44" height="44" alt="Adobe Illustrator" title="Adobe Illustrator"></div></div>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-pair">
+          <div class="pg-stack">
+          <figure class="pg-shots sh-below sh-43 sh-poster sh-pat" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Орнаменти для худі ДТЕК: гортайте стрілками · DTEK hoodie ornaments: use arrows">
+            <div class="sh-track">
+              <img src="dtek-pattern-1.webp" width="2400" height="2019" alt="Орнамент-серце у стилі вишивки для худі ДТЕК · Embroidery-style heart ornament for the DTEK hoodie" loading="lazy" decoding="async" draggable="false">
+              <img src="dtek-pattern-2.webp" width="2400" height="2400" alt="Круглий орнамент у стилі вишивки для худі ДТЕК · Round embroidery-style ornament for the DTEK hoodie" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 2</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
           <figure class="pg-shots" id="pg-shots" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Худі ДТЕК: гортайте стрілками або свайпом · DTEK hoodies: use arrows or swipe">
             <div class="sh-track">
               <img src="dtek-hoodie-1.webp" width="1920" height="1080" alt="Худі «Світло у наших серцях» із серцем у стилі вишивки, вигляд спереду і ззаду · “Light in our hearts” hoodie with an embroidery-style heart, front and back" loading="lazy" decoding="async" draggable="false">
@@ -840,6 +859,7 @@
               <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next photo · Наступне фото"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
             </div>
           </figure>
+          </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
         </div>
