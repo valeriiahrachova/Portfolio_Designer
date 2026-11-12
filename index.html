@@ -126,6 +126,8 @@
   .rb-bags .pg-photo.rb-bag { aspect-ratio: 16 / 11 !important; background: #e5e5e5; }
   .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
   @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
+  @media (min-width: 900px) { .pg-split.pg-pair > .pg-stack.pg-elle { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } .pg-elle { align-items: start; } .pg-stack.pg-elle .sh-elle .sh-track { aspect-ratio: 16 / 10 !important; } .pg-stack.pg-elle > .pg-photo.pg-elle-cover { contain: size; align-self: stretch; } }
+  @media (max-width: 899px) { .pg-photo.pg-elle-cover { aspect-ratio: 4 / 5 !important; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
   /* CAL-CSS-START: interactive desk calendar in the "Корпоративний мерч" popup */
   .pg-title-tight { margin-bottom: 12px; }
@@ -714,7 +716,8 @@
         <h3 class="pg-title pg-title-long pg-title-2"><span class="en">Page for ELLE magazine, issue 249/2025</span><span class="uk">Шпальта для журналу ELLE номер 249/2025</span></h3>
         <div class="pg-subrow"><p class="pg-sub"><span class="en">Raiffeisen Bank ad page &ldquo;Give your family a holiday&rdquo;.</span><span class="uk">Рекламна шпальта Raiffeisen Bank &laquo;Подаруйте родині свято&raquo;.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-photoshop.svg" width="44" height="44" alt="Adobe Photoshop" title="Adobe Photoshop"><img src="icon-illustrator.svg" width="44" height="44" alt="Adobe Illustrator" title="Adobe Illustrator"></div></div>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-pair">
+          <div class="pg-stack pg-elle">
           <figure class="pg-shots sh-below sh-43 sh-poster sh-single sh-rb sh-elle" tabindex="0" role="group" aria-label="Шпальта Raiffeisen Bank для ELLE · Raiffeisen Bank page for ELLE">
             <div class="sh-track">
               <img src="print-elle.webp" width="1490" height="2000" alt="Шпальта Raiffeisen Bank «Подаруйте родині свято. Жовтий підкаже!» для журналу ELLE · Raiffeisen Bank page for ELLE magazine" loading="lazy" decoding="async" draggable="false">
@@ -725,6 +728,8 @@
             </div>
             <div class="cal-bar"><button type="button" data-sh="prev" hidden></button><span class="sh-count" hidden></span><button type="button" data-sh="next" hidden></button></div>
           </figure>
+          <figure class="pg-photo pg-elle-cover"><img src="print-elle-cover.webp" width="1200" height="1500" alt="Обкладинка журналу ELLE Україна 249/2025 «Культурний код незламності» · ELLE Ukraine 249/2025 cover" loading="lazy" decoding="async"></figure>
+          </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
         </div>
