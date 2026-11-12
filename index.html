@@ -610,9 +610,22 @@
         <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
           <div class="pg-split">
-          <figure class="pg-shots sh-below sh-43 sh-poster sh-rb" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Стенд Raiffeisen Bank: гортайте стрілками або свайпом · Raiffeisen Bank stand: use arrows or swipe">
+          <div class="pg-stack">
+          <figure class="pg-shots sh-below sh-43 sh-poster sh-single sh-rb" tabindex="0" role="group" aria-label="Візуалізація стенда Raiffeisen Bank · Raiffeisen Bank stand render">
             <div class="sh-track">
               <img src="stand-rb.webp" width="2000" height="1047" alt="Raiffeisen Bank «Разом з Україною» — виставковий стенд (візуалізація) · Raiffeisen Bank “Together with Ukraine” exhibition stand (render)" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <span class="cal-label" style="min-width:0;font-weight:500"><span class="en">3D render</span><span class="uk">3D-візуалізація</span></span>
+              <button type="button" data-sh="prev" hidden></button><span class="sh-count" hidden></span><button type="button" data-sh="next" hidden></button>
+            </div>
+          </figure>
+          <figure class="pg-shots sh-below sh-rb-photos" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Готова студія Raiffeisen Bank: гортайте стрілками або свайпом · The built studio: use arrows or swipe">
+            <div class="sh-track" style="aspect-ratio:3/2">
               <img src="stand-rb-2.webp" width="1800" height="1200" alt="Готова студія Raiffeisen Bank «Разом з Україною» під час запису ефіру · The built Raiffeisen Bank studio during a broadcast" loading="lazy" decoding="async" draggable="false">
               <img src="stand-rb-3.webp" width="1800" height="1200" alt="Готова студія Raiffeisen Bank «Разом з Україною», загальний вигляд · The built Raiffeisen Bank studio, general view" loading="lazy" decoding="async" draggable="false">
             </div>
@@ -621,9 +634,23 @@
               <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
             </div>
             <div class="cal-bar">
-              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 3</span></div>
-              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous photo · Попереднє фото" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" aria-live="polite"><span class="cal-name"><span class="en">The built studio</span><span class="uk">Готова студія</span></span><span class="cal-count sh-count">1 / 2</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next photo · Наступне фото"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
+          </div>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+          </div>
+        </div>
+        <h3 id="stands-title-3" class="pg-title pg-title-long pg-title-2"><span class="en">Naftogaz &ldquo;100 years of gas production in Ukraine&rdquo;</span><span class="uk">Нафтогаз &laquo;100 років газовидобутку в Україні&raquo;</span></h3>
+        <p class="pg-sub"><span class="en">Wall infographic &middot; the history of gas production in Ukraine.</span><span class="uk">Інфографіка на стіну &middot; історія газовидобутку в Україні.</span></p>
+        <div class="pg-body">
+          <div class="pg-split">
+          <figure class="pg-infog" id="pg-infog">
+            <button type="button" class="ig-open" aria-haspopup="dialog" aria-label="Відкрити інфографіку на весь екран · Open the infographic full screen"><img src="stand-ng.webp" width="1800" height="1075" alt="Нафтогаз — інфографіка «100 років газовидобутку в Україні: від Дашави до нових перспектив» · Naftogaz infographic “100 years of gas production in Ukraine: from Dashava to new prospects”" loading="lazy" decoding="async" draggable="false"></button>
+            <div class="s3d-ui">
+              <button type="button" class="s3d-btn" data-ig-open aria-haspopup="dialog"><span class="ig-btn-in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="en">Full screen</span><span class="uk">На весь екран</span></span></button>
             </div>
           </figure>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
