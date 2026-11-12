@@ -221,6 +221,14 @@
   .s3d-btn.is-on { background: #fee600; }
   .pg-split { display: grid; gap: 18px; }
   .pg-stack { display: grid; gap: 18px; min-width: 0; }
+  /* 3D model and the photo side by side, text block underneath */
+  @media (min-width: 900px) {
+    .pg-split.pg-pair { grid-template-columns: minmax(0, 1fr); }
+    .pg-pair > .pg-stack { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: stretch; }
+    .pg-pair > .pg-empty { min-height: 160px; }
+    .pg-pair .sh-single { display: flex; flex-direction: column; }
+    .pg-pair .sh-single .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
+  }
   .pg-split > .pg-empty { min-height: 120px; padding: 20px; font-size: 16px; }
   @media (min-width: 900px) { .pg-split { grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: 28px; align-items: stretch; } .pg-split > .pg-empty { min-height: 0; } }
   /* static render of the second stand: same frame as the 3D viewer, + / - zoom */
@@ -573,7 +581,7 @@
         <h2 id="stands-title" class="pg-title pg-title-long"><span class="en">ReBuild Ukraine 2023 (Warsaw) DTEK Renewables</span><span class="uk">ReBuild Ukraine 2023 (Варшава) ДТЕК ВДЕ</span></h2>
         <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-pair">
           <div class="pg-stack">
           <div class="stand3d" id="stand3d">
             <img class="s3d-poster" data-s3d-poster src="stand-poster.webp" width="1600" height="879" alt="" decoding="async">
