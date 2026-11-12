@@ -221,11 +221,14 @@
   .s3d-btn.is-on { background: #fee600; }
   .pg-split { display: grid; gap: 18px; }
   .pg-stack { display: grid; gap: 18px; min-width: 0; }
+  .pg-photo { margin: 0; overflow: hidden; border-radius: 22px; aspect-ratio: 1280 / 606; background: #e7e6df; }
+  .pg-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
   /* 3D model and the photo side by side, text block underneath */
   @media (min-width: 900px) {
     .pg-split.pg-pair { grid-template-columns: minmax(0, 1fr); }
     .pg-pair > .pg-stack { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: stretch; }
     .pg-pair > .pg-empty { min-height: 160px; }
+    .pg-pair .pg-photo { aspect-ratio: auto; }
     .pg-pair .sh-single { display: flex; flex-direction: column; }
     .pg-pair .sh-single .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
   }
@@ -598,19 +601,7 @@
               <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
             </div>
           </div>
-          <figure class="pg-shots sh-below sh-single" tabindex="0" role="group" aria-label="Фото стенда ДТЕК на виставці · DTEK stand at the exhibition">
-            <div class="sh-track" style="aspect-ratio:1280/606">
-              <img src="stand-dtek-photo.webp" width="1280" height="606" alt="Команда ДТЕК на готовому стенді Tyligulska WPP на виставці · DTEK team at the built Tyligulska WPP stand" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="s3d-ui sh-zoom">
-              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
-              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
-            </div>
-            <div class="cal-bar">
-              <span class="cal-label" style="min-width:0;font-weight:500"><span class="en">The stand at the exhibition</span><span class="uk">Стенд на виставці</span></span>
-              <button type="button" data-sh="prev" hidden></button><span class="sh-count" hidden></span><button type="button" data-sh="next" hidden></button>
-            </div>
-          </figure>
+          <figure class="pg-photo"><img src="stand-dtek-photo.webp" width="1280" height="606" alt="Команда ДТЕК на готовому стенді Tyligulska WPP на виставці · DTEK team at the built Tyligulska WPP stand" loading="lazy" decoding="async"></figure>
           </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
