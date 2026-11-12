@@ -126,6 +126,7 @@
   .rb-bags .pg-photo.rb-bag { aspect-ratio: 16 / 11 !important; background: #e5e5e5; }
   .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
   @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
+  @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: clamp(300px, calc(min(94vh, 1060px) - 300px), 780px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
   @media (min-width: 900px) { .pg-split.pg-pair > .pg-stack.pg-elle { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } .pg-elle { align-items: start; } .pg-stack.pg-elle .sh-elle .sh-track { aspect-ratio: 16 / 10 !important; } .pg-stack.pg-elle > .pg-photo.pg-elle-cover { contain: size; align-self: stretch; } }
   @media (max-width: 899px) { .pg-photo.pg-elle-cover { aspect-ratio: 4 / 5 !important; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
@@ -970,7 +971,7 @@
         <h2 id="ai-title" class="pg-title pg-title-tight"><span class="en">AI in Creativity</span><span class="uk">AI у творчості</span></h2>
         <p class="pg-sub"><span class="en">Concept for 8 March, 2023 (Midjourney)</span><span class="uk">Концепція до 8 березня 2023 рік (Midjourney)</span></p>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-wide pg-fit">
           <figure class="pg-shots sh-below" style="background:#fff" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Концепція до 8 березня: гортайте стрілками або свайпом · 8 March concept: use arrows or swipe">
             <div class="sh-track">
               <img src="ai-8march-1.webp" width="1280" height="720" alt="Концепція до 8 березня для ДТЕК: абстрактний профіль жінки, слоган «Енергія для тих, хто рухається вперед» · 8 March concept for DTEK: abstract profile of a woman, slogan “Energy for those who move forward”" loading="lazy" decoding="async" draggable="false">
