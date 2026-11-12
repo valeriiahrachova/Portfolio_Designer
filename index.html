@@ -221,6 +221,9 @@
   .s3d-btn.is-on { background: #fee600; }
   .pg-split { display: grid; gap: 18px; }
   .pg-stack { display: grid; gap: 18px; min-width: 0; }
+  .sh-rb-photos { aspect-ratio: 3 / 2; }
+  .sh-rb .cal-bar { display: none; }
+  .pg-shots.sh-rb .sh-zoom { bottom: 14px; }
   .pg-photo { margin: 0; overflow: hidden; border-radius: 22px; aspect-ratio: 1280 / 606; background: #e7e6df; }
   .pg-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
   /* 3D model and the photo side by side, text block underneath */
@@ -232,7 +235,7 @@
     .pg-pair .sh-single { display: flex; flex-direction: column; }
     .pg-pair .sh-single .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
     .pg-pair .sh-rb .sh-track { flex: none; aspect-ratio: 16 / 10.5 !important; }
-    .pg-pair .sh-rb-photos { display: flex; flex-direction: column; }
+    .pg-pair .sh-rb-photos { display: flex; flex-direction: column; aspect-ratio: auto; }
     .pg-pair .sh-rb-photos .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
   }
   .pg-split > .pg-empty { min-height: 120px; padding: 20px; font-size: 16px; }
@@ -623,22 +626,18 @@
               <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
             </div>
             <div class="cal-bar">
-              <span class="cal-label" style="min-width:0;font-weight:500"><span class="en">3D render</span><span class="uk">3D-візуалізація</span></span>
               <button type="button" data-sh="prev" hidden></button><span class="sh-count" hidden></span><button type="button" data-sh="next" hidden></button>
             </div>
           </figure>
-          <figure class="pg-shots sh-below sh-rb-photos" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Готова студія Raiffeisen Bank: гортайте стрілками або свайпом · The built studio: use arrows or swipe">
+          <figure class="pg-shots sh-rb-photos" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Готова студія Raiffeisen Bank: гортайте стрілками або свайпом · The built studio: use arrows or swipe">
             <div class="sh-track" style="aspect-ratio:3/2">
               <img src="stand-rb-2.webp" width="1800" height="1200" alt="Готова студія Raiffeisen Bank «Разом з Україною» під час запису ефіру · The built Raiffeisen Bank studio during a broadcast" loading="lazy" decoding="async" draggable="false">
               <img src="stand-rb-3.webp" width="1800" height="1200" alt="Готова студія Raiffeisen Bank «Разом з Україною», загальний вигляд · The built Raiffeisen Bank studio, general view" loading="lazy" decoding="async" draggable="false">
             </div>
-            <div class="s3d-ui sh-zoom">
-              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
-              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
-            </div>
+            <button type="button" data-sh="out" hidden></button><button type="button" data-sh="in" hidden></button>
             <div class="cal-bar">
               <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous photo · Попереднє фото" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-              <div class="cal-label" aria-live="polite"><span class="cal-name"><span class="en">The built studio</span><span class="uk">Готова студія</span></span><span class="cal-count sh-count">1 / 2</span></div>
+              <span class="sh-count" hidden></span>
               <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next photo · Наступне фото"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
             </div>
           </figure>
