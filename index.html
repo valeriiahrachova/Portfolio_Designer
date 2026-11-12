@@ -93,7 +93,7 @@
   .pg-modal { position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center; overflow: hidden; overscroll-behavior: contain; touch-action: none; padding: 12px; background: rgba(17,17,17,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s ease; }
   .pg-modal[hidden] { display: none; }
   .pg-modal.is-open { opacity: 1; }
-  .pg-panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 1440px; height: min(94vh, 980px); border-radius: 26px; background: #f1f0eb; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+  .pg-panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: none; height: min(96vh, 1080px); border-radius: 26px; background: #f1f0eb; box-shadow: 0 30px 80px rgba(0,0,0,.35); transform: translateY(24px) scale(.97); transition: transform .4s cubic-bezier(.22,1,.36,1); }
   .pg-modal.is-open .pg-panel { transform: none; }
   .pg-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; touch-action: pan-y; border-radius: 26px 26px 0 0; padding: 30px 20px 34px; }
   .pg-footer { position: relative; flex: none; padding: 6px 20px 20px; border-radius: 0 0 26px 26px; background: #f1f0eb; }
@@ -109,7 +109,7 @@
   .pg-sub { margin: 0 0 clamp(20px, 3vw, 30px); padding-right: 56px; font-size: clamp(13px, 1.5vw, 15px); line-height: 1.4; color: #8b8b85; font-weight: 400; letter-spacing: -.005em; }
   .pg-body { min-height: 46vh; }
   .pg-empty { display: grid; place-items: center; min-height: 46vh; padding: 24px; border: 2px dashed rgba(17,17,17,.16); border-radius: 22px; color: rgba(17,17,17,.42); font-size: 17px; text-align: center; }
-  @media (min-width: 640px) { .pg-modal { padding: 20px; } .pg-scroll { padding: 40px 44px 44px; } .pg-footer { padding: 6px 44px 28px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
+  @media (min-width: 640px) { .pg-modal { padding: 12px; } .pg-scroll { padding: 40px 32px 44px; } .pg-footer { padding: 6px 32px 24px; } .pg-x { top: 20px; right: 22px; } .pg-title { padding-right: 64px; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
   /* CAL-CSS-START: interactive desk calendar in the "Корпоративний мерч" popup */
   .pg-title-tight { margin-bottom: 12px; }
@@ -232,9 +232,9 @@
   .pg-render.is-drag .pr-stage img { transition: none; }
   .pg-render .s3d-btn[disabled] { opacity: .45; cursor: default; background: rgba(255,255,255,.9); }
   /* scroll buttons inside every popup (same look as the floating ones on the main page) */
-  .pg-cue { position: absolute; right: 24px; top: 50%; z-index: 4; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; transform: translateY(-50%); transition: background-color .2s ease; }
+  .pg-cue { position: absolute; right: 14px; top: 50%; z-index: 4; display: none; flex-direction: column; align-items: center; gap: 14px; padding: 10px; border-radius: 999px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 10px 30px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06); color: #111; transform: translateY(-50%); transition: background-color .2s ease; }
   .pg-cue:hover { background: #fff; }
-  @media (min-width: 1024px) { .pg-cue { display: flex; } .pg-scroll { padding-right: 112px; } .pg-scroll .pg-title, .pg-scroll .pg-sub { padding-right: 0; } }
+  @media (min-width: 1024px) { .pg-cue { display: flex; } .pg-scroll { padding-right: 92px; } .pg-scroll .pg-title, .pg-scroll .pg-sub { padding-right: 0; } }
   @media (max-width: 480px) { .s3d-ui { left: 12px; right: 12px; bottom: 12px; justify-content: flex-end; gap: 6px; } .s3d-btn { height: 40px; min-width: 40px; padding: 0 14px; } .s3d-hint { left: 12px; top: 12px; font-size: 12.5px; } }
   .work-card[data-pg-open] { cursor: pointer; }
   .work-card[data-pg-open]:focus-visible { outline: 3px solid #111; outline-offset: 3px; }
