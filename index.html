@@ -232,6 +232,8 @@
     .pg-pair > .pg-stack { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: stretch; }
     .pg-pair > .pg-empty { min-height: 160px; }
     .pg-pair .pg-photo { aspect-ratio: auto; }
+    .pg-pair .pg-photo-full { display: grid; align-items: center; overflow: visible; border-radius: 0; background: none; }
+    .pg-pair .pg-photo-full img { height: auto; border-radius: 22px; }
     .pg-pair .sh-single { display: flex; flex-direction: column; }
     .pg-pair .sh-single .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
     .pg-pair .sh-rb .sh-track { flex: none; aspect-ratio: 16 / 10.5 !important; }
@@ -607,7 +609,7 @@
               <button type="button" class="s3d-btn s3d-ico" data-s3d="reset" aria-label="Reset view"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
             </div>
           </div>
-          <figure class="pg-photo"><img src="stand-dtek-photo.webp" width="1280" height="606" alt="Команда ДТЕК на готовому стенді Tyligulska WPP на виставці · DTEK team at the built Tyligulska WPP stand" loading="lazy" decoding="async"></figure>
+          <figure class="pg-photo pg-photo-full"><img src="stand-dtek-photo.webp" width="1280" height="606" alt="Команда ДТЕК на готовому стенді Tyligulska WPP на виставці · DTEK team at the built Tyligulska WPP stand" loading="lazy" decoding="async"></figure>
           </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
