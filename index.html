@@ -126,7 +126,7 @@
   .rb-bags .pg-photo.rb-bag { aspect-ratio: 16 / 11 !important; background: #e5e5e5; }
   .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
   @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
-  @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: min(var(--fit-h, 600px), 780px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
+  @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: min(calc(var(--fit-h, 600px) - 50px), 760px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
   @media (min-width: 900px) { .pg-split.pg-pair > .pg-stack.pg-elle { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } .pg-elle { align-items: start; } .pg-stack.pg-elle .sh-elle .sh-track { aspect-ratio: 16 / 10 !important; } .pg-stack.pg-elle > .pg-photo.pg-elle-cover { contain: size; align-self: stretch; } }
   @media (max-width: 899px) { .pg-photo.pg-elle-cover { aspect-ratio: 4 / 5 !important; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
@@ -778,8 +778,29 @@
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
-        <h2 id="digital-title" class="pg-title pg-title-tight"><span class="en">Digital Creatives</span><span class="uk">Діджитал-креативи</span></h2>
-        <p class="pg-sub"><span class="en">Screen for ROSHEN touch-screen stores, 2022</span><span class="uk">Екран для сенсорних магазинів ROSHEN 2022 рік</span></p>
+        <h2 id="digital-title" class="pg-title pg-title-long"><span class="en">Images for ROSHEN store screens, 2024</span><span class="uk">Картинки для екранів магазинів ROSHEN 2024 рік</span></h2>
+        <div class="pg-subrow"><p class="pg-sub"><span class="en">Digital creatives for in-store screens.</span><span class="uk">Діджитал-креативи для екранів у магазинах.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-photoshop.svg" width="44" height="44" alt="Adobe Photoshop" title="Adobe Photoshop"></div></div>
+        <div class="pg-body">
+          <div class="pg-split pg-wide pg-fit">
+          <figure class="pg-shots sh-below" style="background:#1d1e20" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Картинки для екранів ROSHEN: гортайте стрілками або свайпом · ROSHEN screen images: use arrows or swipe">
+            <div class="sh-track">
+              <img src="roshen-coffee-1.webp" width="1760" height="990" alt="Special Coffee ROSHEN — бленд відбірних сортів кави · Special Coffee ROSHEN, a blend of selected coffees" loading="lazy" decoding="async" draggable="false">
+              <img src="roshen-coffee-2.webp" width="1760" height="990" alt="Зимова пропозиція ROSHEN: вишнева кава з медом · ROSHEN winter offer: cherry coffee with honey" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 2</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+          </div>
+        </div>
+        <h3 class="pg-title pg-title-long pg-title-2"><span class="en">Screen for ROSHEN touch-screen stores, 2022</span><span class="uk">Екран для сенсорних магазинів ROSHEN 2022 рік</span></h3>
         <div class="pg-body">
           <div class="pg-split">
           <figure class="pg-shots sh-below sh-43" style="background:#f9f7f3" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Екрани ROSHEN: гортайте стрілками або свайпом · ROSHEN screens: use arrows or swipe">
@@ -796,27 +817,6 @@
             <div class="cal-bar">
               <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
               <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 4</span></div>
-              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-            </div>
-          </figure>
-          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
-          </div>
-        </div>
-        <h3 class="pg-sub" style="margin-top:clamp(40px,6vw,72px)"><span class="en">Images for ROSHEN store screens, 2024</span><span class="uk">Картинки для екранів магазинів ROSHEN 2024 рік</span></h3>
-        <div class="pg-body">
-          <div class="pg-split">
-          <figure class="pg-shots sh-below" style="background:#1d1e20" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Картинки для екранів ROSHEN: гортайте стрілками або свайпом · ROSHEN screen images: use arrows or swipe">
-            <div class="sh-track">
-              <img src="roshen-coffee-1.webp" width="1760" height="990" alt="Special Coffee ROSHEN — бленд відбірних сортів кави · Special Coffee ROSHEN, a blend of selected coffees" loading="lazy" decoding="async" draggable="false">
-              <img src="roshen-coffee-2.webp" width="1760" height="990" alt="Зимова пропозиція ROSHEN: вишнева кава з медом · ROSHEN winter offer: cherry coffee with honey" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="s3d-ui sh-zoom">
-              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
-              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
-            </div>
-            <div class="cal-bar">
-              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 2</span></div>
               <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
             </div>
           </figure>
