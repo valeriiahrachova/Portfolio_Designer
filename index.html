@@ -119,6 +119,14 @@
   .pg-tools img { display: block; width: 44px; height: 44px; border-radius: 11px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
   @media (max-width: 640px) { .pg-tools img { width: 36px; height: 36px; border-radius: 9px; } }
   @media (min-width: 900px) { .pg-split.pg-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); } .pg-split-rev > .pg-empty { order: -1; } }
+  /* MERCH2-CSS */
+  .pg-photo.rb-merch { position: relative; }
+  .pg-photo.rb-merch img { position: absolute; inset: 0; object-position: 50% 45%; }
+  @media (max-width: 899px) { .pg-photo.rb-merch { aspect-ratio: 4 / 3 !important; } }
+  .rb-bags { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .rb-bags .pg-photo.rb-bag { aspect-ratio: 16 / 11 !important; background: #e5e5e5; }
+  .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
+  @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
   /* CAL-CSS-START: interactive desk calendar in the "Корпоративний мерч" popup */
   .pg-title-tight { margin-bottom: 12px; }
   .pg-cal { position: relative; aspect-ratio: .98; border-radius: 22px; overflow: hidden; background: linear-gradient(#f5f4ef, #e7e6df); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
@@ -767,10 +775,11 @@
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
-        <h2 id="merch-title" class="pg-title pg-title-tight"><span class="en">Corporate Merch</span><span class="uk">Корпоративний мерч</span></h2>
-        <p class="pg-sub"><span class="en">Raiffeisen Bank &ldquo;Together with Ukraine&rdquo; desk calendar for 2026 &middot; 205&nbsp;&times;&nbsp;145&nbsp;mm</span><span class="uk">Настільний календар Raiffeisen Bank &laquo;Разом з Україною&raquo; на 2026 рік &middot; 205&nbsp;&times;&nbsp;145&nbsp;мм</span></p>
+        <h2 id="merch-title" class="pg-title pg-title-long"><span class="en">Raiffeisen Bank &ldquo;Together with Ukraine&rdquo; 2026</span><span class="uk">Raiffeisen Bank &laquo;Разом з Україною&raquo; 2026</span></h2>
+        <div class="pg-subrow"><p class="pg-sub"><span class="en">Desk calendar for 2026 &middot; 205&nbsp;&times;&nbsp;145&nbsp;mm, gift bags</span><span class="uk">Настільний календар на 2026 рік &middot; 205&nbsp;&times;&nbsp;145&nbsp;мм, подарункові пакети</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-illustrator.svg" width="44" height="44" alt="Adobe Illustrator" title="Adobe Illustrator"></div></div>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-pair">
+          <div class="pg-stack">
           <div class="pg-cal" id="pg-cal">
             <div class="cal-stage" tabindex="0" role="group" aria-roledescription="calendar" aria-label="Календар Raiffeisen Bank 2026: гортайте стрілками, кліком або свайпом · Raiffeisen Bank 2026 calendar: flip with arrows, click or swipe">
               <div class="cal-box">
@@ -806,6 +815,9 @@
               <button type="button" class="s3d-btn s3d-ico" data-cal="next" aria-label="Next page · Наступна сторінка"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
             </div>
           </div>
+          <figure class="pg-photo rb-merch"><img src="rb-merch-photo.webp" width="937" height="1280" alt="Мерч Raiffeisen Bank «Разом з Україною» 2026: календарі, блокноти, пакети · Raiffeisen Bank 2026 merch: calendars, notebooks, bags" loading="lazy" decoding="async"></figure>
+          </div>
+          <div class="rb-bags"><figure class="pg-photo rb-bag"><img src="rb-bag-1.webp" width="1600" height="1319" alt="Мокап горизонтального пакета Raiffeisen Bank · Raiffeisen Bank landscape gift bag mockup" loading="lazy" decoding="async"></figure><figure class="pg-photo rb-bag"><img src="rb-bag-2.webp" width="1402" height="1600" alt="Мокап вертикального пакета Raiffeisen Bank · Raiffeisen Bank portrait gift bag mockup" loading="lazy" decoding="async"></figure></div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
         </div>
