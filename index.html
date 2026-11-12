@@ -196,6 +196,7 @@
   .ig-btn[disabled]:hover { background: rgba(255,255,255,.9); }
   @media (max-width: 640px) { .ig-ui { bottom: 14px; gap: 6px; } .ig-load { left: 12px; bottom: 66px; } .ig-viewer .pg-x { top: 12px; right: 12px; } }
   @media (prefers-reduced-motion: reduce) { .ig-bg, .ig-img, .ig-open img { transition-duration: .01s !important; } }
+  @media (min-width: 900px) { .pg-split.pg-wide { grid-template-columns: minmax(0, 1fr); } .pg-wide > .pg-empty { min-height: 160px; } .pg-wide .pg-infog { height: auto; aspect-ratio: 1800 / 1075; } .pg-wide .ig-open { padding: 22px 22px 26px; } }
   /* IG-CSS-END */
   /* Interactive 3D stand inside the "Виставкові стенди" popup */
   .pg-title-2 { margin-top: clamp(40px, 6vw, 72px); }
@@ -637,7 +638,7 @@
         <h3 id="stands-title-3" class="pg-title pg-title-long pg-title-2"><span class="en">Naftogaz &ldquo;100 years of gas production in Ukraine&rdquo;</span><span class="uk">Нафтогаз &laquo;100 років газовидобутку в Україні&raquo;</span></h3>
         <p class="pg-sub"><span class="en">Wall infographic &middot; the history of gas production in Ukraine.</span><span class="uk">Інфографіка на стіну &middot; історія газовидобутку в Україні.</span></p>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-wide">
           <figure class="pg-infog" id="pg-infog">
             <button type="button" class="ig-open" aria-haspopup="dialog" aria-label="Відкрити інфографіку на весь екран · Open the infographic full screen"><img src="stand-ng.webp" width="1800" height="1075" alt="Нафтогаз — інфографіка «100 років газовидобутку в Україні: від Дашави до нових перспектив» · Naftogaz infographic “100 years of gas production in Ukraine: from Dashava to new prospects”" loading="lazy" decoding="async" draggable="false"></button>
             <div class="s3d-ui">
