@@ -231,6 +231,9 @@
     .pg-pair .pg-photo { aspect-ratio: auto; }
     .pg-pair .sh-single { display: flex; flex-direction: column; }
     .pg-pair .sh-single .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
+    .pg-pair .sh-rb .sh-track { flex: none; aspect-ratio: 16 / 10.5 !important; }
+    .pg-pair .sh-rb-photos { display: flex; flex-direction: column; }
+    .pg-pair .sh-rb-photos .sh-track { flex: 1 1 auto; min-height: 0; aspect-ratio: auto !important; }
   }
   .pg-split > .pg-empty { min-height: 120px; padding: 20px; font-size: 16px; }
   @media (min-width: 900px) { .pg-split { grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: 28px; align-items: stretch; } .pg-split > .pg-empty { min-height: 0; } }
@@ -609,7 +612,7 @@
         <h3 id="stands-title-2" class="pg-title pg-title-long pg-title-2"><span class="en">Raiffeisen Bank &ldquo;Together with Ukraine&rdquo;</span><span class="uk">Raiffeisen Bank &laquo;Разом з Україною&raquo;</span></h3>
         <p class="pg-sub"><span class="en">Graphic design, 3D visualization (Blender) and print preparation.</span><span class="uk">Графічний дизайн, 3D-візуалізація (Blender) та підготовка до друку.</span></p>
         <div class="pg-body">
-          <div class="pg-split">
+          <div class="pg-split pg-pair">
           <div class="pg-stack">
           <figure class="pg-shots sh-below sh-43 sh-poster sh-single sh-rb" tabindex="0" role="group" aria-label="Візуалізація стенда Raiffeisen Bank · Raiffeisen Bank stand render">
             <div class="sh-track">
