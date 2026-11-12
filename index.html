@@ -196,7 +196,7 @@
   .ig-btn[disabled]:hover { background: rgba(255,255,255,.9); }
   @media (max-width: 640px) { .ig-ui { bottom: 14px; gap: 6px; } .ig-load { left: 12px; bottom: 66px; } .ig-viewer .pg-x { top: 12px; right: 12px; } }
   @media (prefers-reduced-motion: reduce) { .ig-bg, .ig-img, .ig-open img { transition-duration: .01s !important; } }
-  @media (min-width: 900px) { .pg-split.pg-wide { grid-template-columns: minmax(0, 1fr); } .pg-wide > .pg-empty { min-height: 160px; } .pg-wide .pg-infog { height: auto; aspect-ratio: 1800 / 1075; } .pg-wide .ig-open { padding: 22px 22px 26px; } }
+  @media (min-width: 900px) { .pg-split.pg-wide { grid-template-columns: minmax(0, 1fr); } .pg-wide > .pg-empty { min-height: 160px; } .pg-wide .pg-infog { aspect-ratio: auto; height: clamp(320px, calc(min(94vh, 1060px) - 210px), 860px); } .pg-wide .ig-open { padding: 22px 22px 26px; } }
   /* IG-CSS-END */
   /* Interactive 3D stand inside the "Виставкові стенди" popup */
   .pg-title-2 { margin-top: clamp(40px, 6vw, 72px); }
