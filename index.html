@@ -1135,9 +1135,11 @@
     <div class="pg-panel">
       <button type="button" class="pg-x" data-pg-close aria-label="Close"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="pg-scroll">
-        <h2 id="stickers-title" class="pg-title"><span class="en">Stickers</span><span class="uk">Стікери</span></h2>
+        <h2 id="stickers-title" class="pg-title pg-title-long"><span class="en">Raiffeisen Bank New Year Telegram stickers 2026</span><span class="uk">Новорічні стікери Raiffeisen Bank для Telegram 2026</span></h2>
+        <div class="pg-subrow"><p class="pg-sub"><span class="en">A set of 11 animated stickers.</span><span class="uk">Набір з 11 анімованих стікерів.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-illustrator.svg" width="44" height="44" alt="Adobe Illustrator" title="Adobe Illustrator"><img src="icon-aftereffects.svg" width="44" height="44" alt="Adobe After Effects" title="Adobe After Effects"></div></div>
         <div class="pg-body">
-          <div class="pg-empty"><span class="en">Content coming soon</span><span class="uk">Контент скоро з’явиться</span></div>
+          <div class="stk-grid" role="list" aria-label="Анімовані стікери · Animated stickers"><img src="rb-sticker-1.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-2.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-3.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-4.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-5.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-6.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-7.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-8.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-9.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-10.webp" width="384" height="384" alt="" loading="lazy" decoding="async"><img src="rb-sticker-11.webp" width="384" height="384" alt="" loading="lazy" decoding="async"></div>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
         </div>
       </div>
       <div class="pg-footer">
@@ -2677,5 +2679,11 @@
   stage.classList.add('wc-ready'); layout();
 })();
 </script>
+<style id="stk-css">
+  .stk-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 24px); justify-items: center; align-items: center; margin-bottom: 18px; }
+  .stk-grid img { display: block; width: 100%; height: auto; max-width: calc((var(--fit-h, 560px) - 24px) / 2); aspect-ratio: 1; object-fit: contain; transition: transform .35s cubic-bezier(.22,.8,.24,1); }
+  .stk-grid img:hover { transform: scale(1.08) rotate(-3deg); }
+  @media (max-width: 899px) { .stk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .stk-grid img { max-width: 100%; } }
+</style>
 
 </html>
