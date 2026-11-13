@@ -2689,8 +2689,16 @@
   .stk-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 24px); justify-items: center; align-items: center; margin-bottom: 18px; }
   .stk-grid img { display: block; width: 100%; height: auto; max-width: calc((var(--fit-h, 560px) - 24px) / 2); aspect-ratio: 1; object-fit: contain; transition: transform .35s cubic-bezier(.22,.8,.24,1); }
   .stk-white img { filter: drop-shadow(0 8px 14px rgba(0,0,0,.12)); padding: 4%; box-sizing: border-box; }
+  #stickers-modal .pg-empty { min-height: 120px !important; }
   .stk-grid img:hover { transform: scale(1.08) rotate(-3deg); }
   @media (max-width: 899px) { .stk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .stk-grid img { max-width: 100%; } }
 </style>
+<script id="stk-js">
+(function(){var m=document.getElementById('stickers-modal');if(!m)return;var sc=m.querySelector('.pg-scroll');
+function fit(){var h=m.querySelector('h3.pg-title');if(!h||m.hidden)return;sc.style.paddingBottom='';var base=parseFloat(getComputedStyle(sc).paddingBottom)||0;
+var top=h.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop-28;var need=top+sc.clientHeight-sc.scrollHeight;if(need>0)sc.style.setProperty('padding-bottom',(base+need)+'px','important');}
+m.addEventListener('pg:open',function(){fit();requestAnimationFrame(fit);setTimeout(fit,400);});window.addEventListener('resize',fit);
+m.querySelectorAll('img').forEach(function(i){i.addEventListener('load',fit);});})();
+</script>
 
 </html>
