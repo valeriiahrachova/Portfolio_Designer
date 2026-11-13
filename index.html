@@ -2635,6 +2635,7 @@
   var root=document.querySelector('.wc'); if(!root) return;
   var stage=root.querySelector('.wc-stage'), cards=[].slice.call(stage.querySelectorAll('.work-card')), n=cards.length, cur=0;
   var dots=root.querySelector('.wc-dots');
+  cur=Math.max(0, cards.findIndex(function(c){return c.getAttribute('data-pg-open')==='digital-modal';}));
   cards.forEach(function(c){ if(c.querySelector('.wc-cta')) return; var b=document.createElement('span'); b.className='wc-cta'; b.setAttribute('aria-hidden','true'); b.innerHTML='<span class="uk">Переглянути проєкт</span><span class="en">View project</span><i><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></i>'; c.appendChild(b); });
   cards.forEach(function(c,i){ var d=document.createElement('button'); d.type='button'; d.setAttribute('role','tab'); d.setAttribute('aria-label',String(i+1)); d.addEventListener('click',function(){go(i);}); dots.appendChild(d); });
   function rel(i){ var r=((i-cur)%n+n)%n; if(r>n/2) r-=n; return r; }
