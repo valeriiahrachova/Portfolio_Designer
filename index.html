@@ -2770,10 +2770,17 @@ m.querySelectorAll('img').forEach(function(i){i.addEventListener('load',fit);});
 </script>
 <script id="stk-sync">
 (function(){var vs=[].slice.call(document.querySelectorAll('.stk-anim video'));if(vs.length<2)return;
-function go(v){try{v.currentTime=0;}catch(_){}var q=v.play();if(q&&q.catch)q.catch(function(){});}
-function both(){vs.forEach(function(v){var b=v.parentNode.querySelector('.vid-play');if(!b||b.getAttribute('aria-pressed')!=='false')go(v);});}
-vs.forEach(function(v){v.addEventListener('ended',function(){var others=vs.filter(function(o){return o!==v;});if(others.every(function(o){return o.ended||o.paused;}))both();});});
-var box=document.querySelector('.stk-anim');if('IntersectionObserver' in window){var seen=false;new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>.5){if(!seen){seen=true;both();}}else if(!e.isIntersecting)seen=false;});},{threshold:[0,.5,.6]}).observe(box);}
+var box=document.querySelector('.stk-anim'),m=box.closest('.pg-modal'),cur=0,vis=false;
+function btn(v){return v.parentNode.querySelector('.vid-play');}
+function mark(v,on){var b=btn(v);if(b){b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?'Зупинити відео · Pause video':'Відтворити відео · Play video');}}
+function stopAll(){vs.forEach(function(v){v.pause();try{v.currentTime=0;}catch(_){}mark(v,false);});}
+function play(i){cur=i;vs.forEach(function(v,k){if(k!==i){v.pause();try{v.currentTime=0;}catch(_){}mark(v,false);}});var v=vs[i];try{v.currentTime=0;}catch(_){}var q=v.play();if(q&&q.catch)q.catch(function(){});mark(v,true);}
+vs.forEach(function(v,k){v.removeAttribute('autoplay');v.loop=false;
+  v.addEventListener('ended',function(){if(vis)play((k+1)%vs.length);});
+  v.addEventListener('play',function(){vs.forEach(function(o){if(o!==v&&!o.paused){o.pause();mark(o,false);}});cur=k;});});
+if(m)m.addEventListener('pg:open',function(){setTimeout(function(){stopAll();if(vis)play(0);},30);});
+stopAll();
+if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){var now=e.isIntersecting&&e.intersectionRatio>=.5;if(now&&!vis){vis=true;play(0);}else if(!now&&vis&&!e.isIntersecting){vis=false;stopAll();}});},{threshold:[0,.5]}).observe(box);}
 })();
 </script>
 
