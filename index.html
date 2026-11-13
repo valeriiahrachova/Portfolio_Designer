@@ -553,7 +553,7 @@
         <span class="en">Completed projects</span>
         <span class="uk">Реалізовані проєкти</span>
       </h2>
-      <div class="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:mt-20">
+      <div class="wc mt-10 lg:mt-14" role="region" aria-roledescription="carousel" aria-label="Реалізовані проєкти · Completed projects"><button type="button" class="wc-arrow wc-prev" aria-label="Попередній проєкт · Previous project"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" class="wc-arrow wc-next" aria-label="Наступний проєкт · Next project"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button><div class="wc-stage">
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="stands-modal" aria-haspopup="dialog" aria-controls="stands-modal"><img class="work-photo" src="stands-3d-v3.webp" width="900" height="731" alt="" decoding="async"><span class="work-title"><span class="en">Exhibition stands</span><span class="uk">Виставкові стенди</span></span></div>
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="digital-modal" aria-haspopup="dialog" aria-controls="digital-modal"><img class="work-photo" src="branding-3d.webp" width="900" height="1000" alt="" decoding="async"><span class="work-title"><span class="en">Branding &amp; Identity</span><span class="uk">Брендинг та айдентика</span></span></div>
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="print-modal" aria-haspopup="dialog" aria-controls="print-modal"><img class="work-photo" src="print-3d.webp" width="900" height="800" alt="" decoding="async"><span class="work-title"><span class="en">Advertising Print</span><span class="uk">Рекламна поліграфія</span></span></div>
@@ -563,7 +563,7 @@
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="packaging-modal" aria-haspopup="dialog" aria-controls="packaging-modal"><img class="work-photo" src="packaging-3d.webp" width="900" height="864" alt="" decoding="async"><span class="work-title"><span class="en">Packaging Design</span><span class="uk">Дизайн пакування</span></span></div>
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="stickers-modal" aria-haspopup="dialog" aria-controls="stickers-modal"><img class="work-photo" src="stickers-3d.webp" width="900" height="880" alt="" decoding="async"><span class="work-title"><span class="en">Stickers</span><span class="uk">Стікери</span></span></div>
         <div class="work-card has-photo bg-white text-black" role="button" tabindex="0" data-pg-open="presentations-modal" aria-haspopup="dialog" aria-controls="presentations-modal"><img class="work-photo" src="presentations-3d.webp" width="900" height="817" alt="" decoding="async"><span class="work-title"><span class="en">Presentations</span><span class="uk">Презентації</span></span></div>
-      </div>
+      </div><div class="wc-dots" role="tablist" aria-label="Проєкти · Projects"></div></div>
     </div>
   </section>
 
@@ -2584,6 +2584,71 @@
     }
     requestAnimationFrame(frame);
   }
+})();
+</script>
+<style id="wc-css">
+  .wc { position: relative; overflow: hidden; overflow: clip; overflow-clip-margin: 40px; }
+  .wc-stage { position: relative; height: clamp(300px, calc(100vh - 400px), 520px); overflow: visible; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .wc .work-card { position: absolute !important; left: 50%; top: 0; width: min(40%, 520px); height: 100% !important; min-height: 0 !important; margin: 0; background: transparent !important; box-shadow: none !important; border-radius: 0; padding: 0 0 6px !important; transition: transform .65s cubic-bezier(.22,.8,.24,1), opacity .5s ease, filter .5s ease; will-change: transform; }
+  .wc .work-card::after { display: none !important; }
+  .wc .work-card .work-photo { top: 0 !important; height: calc(100% - 64px) !important; max-width: 100% !important; }
+  .wc .work-card:not(.is-active) .work-photo, .wc .work-card:not(.is-active):hover .work-photo { transform: translateX(-50%) !important; }
+  .wc .work-card.is-active:hover .work-photo { transform: translateX(-50%) scale(1.06) !important; }
+  .wc .work-card .work-title { font-size: clamp(22px, 2vw, 32px) !important; transition: opacity .4s ease; }
+  .wc .work-card:not(.is-active) .work-title { opacity: 0; }
+  .wc .work-card:not(.is-active) { cursor: pointer; }
+  .wc .work-card.is-far { filter: saturate(.7); }
+  .wc-arrow { position: absolute; bottom: 0; z-index: 20; display: grid; place-items: center; width: 50px; height: 50px; border: 0; border-radius: 50%; background: #ffe600; color: #111; cursor: pointer; box-shadow: 0 10px 26px -10px rgba(160,130,0,.7); transition: transform .2s ease, background .2s ease; }
+  .wc-arrow:hover { transform: scale(1.08); background: #fff04d; }
+  .wc-arrow:focus-visible { outline: 3px solid #111; outline-offset: 3px; }
+  .wc-prev { left: calc(50% - 160px); } .wc-next { right: calc(50% - 160px); }
+  .wc-dots { display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; margin-top: 16px; }
+  .wc-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: rgba(17,17,17,.18); cursor: pointer; transition: width .3s ease, background .3s ease; }
+  .wc-dots button[aria-selected="true"] { width: 28px; background: #111; }
+  @media (max-width: 639px) { .wc-stage { height: clamp(300px, 62vw + 120px, 460px); } .wc .work-card { width: 64%; } .wc-arrow { width: 46px; height: 46px; } .wc-dots { height: 46px; gap: 6px; } .wc-prev { left: calc(50% - 150px); } .wc-next { right: calc(50% - 150px); } }
+</style>
+<script id="wc-js">
+(function(){
+  var root=document.querySelector('.wc'); if(!root) return;
+  var stage=root.querySelector('.wc-stage'), cards=[].slice.call(stage.querySelectorAll('.work-card')), n=cards.length, cur=0;
+  var dots=root.querySelector('.wc-dots');
+  cards.forEach(function(c,i){ var d=document.createElement('button'); d.type='button'; d.setAttribute('role','tab'); d.setAttribute('aria-label',String(i+1)); d.addEventListener('click',function(){go(i);}); dots.appendChild(d); });
+  function rel(i){ var r=((i-cur)%n+n)%n; if(r>n/2) r-=n; return r; }
+  function layout(){
+    var w=stage.clientWidth, mob=w<640;
+    var X1=mob? .42: .31, X2=mob? .62: .45;
+    cards.forEach(function(c,i){
+      var r=rel(i), a=Math.abs(r), x, sc, op, z;
+      if(a===0){x=0;sc=1;op=1;z=10;}
+      else if(a===1){x=X1*w;sc=mob?.5:.56;op=.95;z=6;}
+      else if(a===2&&!mob){x=X2*w;sc=.36;op=.6;z=3;}
+      else {x=(mob?.8:.62)*w;sc=.2;op=0;z=1;}
+      c.style.transform='translateX(-50%) translateX('+(r<0?-x:x)+'px) scale('+sc+')';
+      c.style.opacity=op; c.style.zIndex=z; c.style.pointerEvents=op? '':'none';
+      c.classList.toggle('is-active',a===0); c.classList.toggle('is-far',a>=2);
+      c.setAttribute('tabindex',a===0?'0':'-1'); c.setAttribute('aria-hidden',a===0?'false':'true');
+    });
+    [].forEach.call(dots.children,function(d,i){d.setAttribute('aria-selected',i===cur?'true':'false');});
+  }
+  function go(i){ cur=((i%n)+n)%n; layout(); }
+  root.querySelector('.wc-prev').addEventListener('click',function(){go(cur-1);});
+  root.querySelector('.wc-next').addEventListener('click',function(){go(cur+1);});
+  var drag=null, moved=false;
+  stage.addEventListener('pointerdown',function(e){ drag={x:e.clientX,y:e.clientY}; moved=false; });
+  stage.addEventListener('pointermove',function(e){ if(drag&&Math.abs(e.clientX-drag.x)>10) moved=true; });
+  window.addEventListener('pointerup',function(e){ if(!drag) return; var dx=e.clientX-drag.x; drag=null; if(Math.abs(dx)>50){ go(cur+(dx<0?1:-1)); } });
+  stage.addEventListener('click',function(e){
+    var c=e.target.closest('.work-card'); if(!c) return;
+    if(moved){ e.preventDefault(); e.stopImmediatePropagation(); moved=false; return; }
+    if(!c.classList.contains('is-active')){ e.preventDefault(); e.stopImmediatePropagation(); go(cards.indexOf(c)); }
+  },true);
+  root.addEventListener('keydown',function(e){
+    if(e.target.closest&&e.target.closest('input,textarea')) return;
+    if(e.key==='ArrowLeft'){go(cur-1);e.preventDefault();e.stopPropagation();}
+    else if(e.key==='ArrowRight'){go(cur+1);e.preventDefault();e.stopPropagation();}
+  });
+  window.addEventListener('resize',layout);
+  stage.classList.add('wc-ready'); layout();
 })();
 </script>
 
