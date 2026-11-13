@@ -127,6 +127,10 @@
   .rb-bags .pg-photo.rb-bag img { object-fit: contain; }
   @media (max-width: 640px) { .rb-bags { gap: 10px; } .pg-subrow { flex-wrap: wrap; } }
   @media (min-width: 900px) { .pg-split.pg-wide.pg-fit { grid-template-columns: minmax(0, 1fr); } .pg-fit > .pg-empty { min-height: 160px; } .pg-fit .sh-track { aspect-ratio: auto !important; height: min(calc(var(--fit-h, 600px) - 50px), 760px) !important; } .pg-fit .sh-track img { object-fit: contain; } }
+  .pg-video video { display: block; width: 100%; height: 100%; object-fit: cover; background: #111; }
+  .sh-roshen .sh-track { aspect-ratio: 16 / 9 !important; }
+  @media (max-width: 899px) { .pg-photo.pg-video { aspect-ratio: 9 / 16 !important; max-width: 420px; justify-self: center; width: 100%; } }
+  @media (min-width: 900px) { .pg-split.pg-pair > .pg-stack.pg-rvid { grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr); align-items: start; } .pg-stack.pg-rvid > .pg-photo.pg-video { contain: size; align-self: stretch; aspect-ratio: auto !important; } .pg-stack.pg-rvid .sh-roshen .sh-track { aspect-ratio: 16 / 9 !important; } }
   .pg-duo { display: grid; grid-template-columns: 1fr; gap: 18px; min-width: 0; }
   .pg-duo .pg-photo { aspect-ratio: 16 / 9 !important; }
   @media (min-width: 900px) { .pg-duo { grid-template-columns: 1fr 1fr; } }
@@ -409,7 +413,7 @@
   @media (min-width: 900px) {
     .pg-scroll { --fit-h: max(300px, calc(min(94vh, 1060px) - 340px)); }
     .pg-scroll .pg-shots .sh-track { max-height: var(--fit-h) !important; }
-    .pg-scroll .pg-sport .sh-track { max-height: calc(var(--fit-h) - 70px) !important; }
+    .pg-scroll .pg-sport .sh-track, .pg-scroll .pg-rvid .sh-track { max-height: calc(var(--fit-h) - 70px) !important; }
     .pg-scroll .pg-shots .sh-track img { object-fit: contain; }
     .pg-scroll .sh-sportph .sh-track img, .pg-scroll #pg-shots .sh-track img { object-fit: cover; }
     .pg-scroll .pg-shots:not(.sh-below) { max-height: var(--fit-h); }
@@ -787,10 +791,25 @@
         <h2 id="digital-title" class="pg-title pg-title-long"><span class="en">Images for ROSHEN store screens, 2024</span><span class="uk">Картинки для екранів магазинів ROSHEN 2024 рік</span></h2>
         <div class="pg-subrow"><p class="pg-sub"><span class="en">Digital creatives for in-store screens.</span><span class="uk">Діджитал-креативи для екранів у магазинах.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-photoshop.svg" width="44" height="44" alt="Adobe Photoshop" title="Adobe Photoshop"></div></div>
         <div class="pg-body">
-          <div class="pg-split pg-wide pg-fit">
-          <div class="pg-duo">
-            <figure class="pg-photo"><img src="roshen-coffee-1.webp" width="1760" height="990" alt="Special Coffee ROSHEN — бленд відбірних сортів кави · Special Coffee ROSHEN, a blend of selected coffees" loading="lazy" decoding="async"></figure>
-            <figure class="pg-photo"><img src="roshen-coffee-2.webp" width="1760" height="990" alt="Зимова пропозиція ROSHEN: вишнева кава з медом · ROSHEN winter offer: cherry coffee with honey" loading="lazy" decoding="async"></figure>
+          <div class="pg-split pg-pair">
+          <div class="pg-stack pg-rvid">
+          <figure class="pg-shots sh-below sh-43 sh-poster sh-roshen" style="background:#1d1e20" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Картинки для екранів ROSHEN: гортайте стрілками · ROSHEN screen images: use arrows">
+            <div class="sh-track">
+              <img src="roshen-choco.webp" width="1760" height="990" alt="Зігріваючий шоколад ROSHEN: з прянощами, з арахісовою пастою, з табаско · ROSHEN warming hot chocolate" loading="lazy" decoding="async" draggable="false">
+              <img src="roshen-coffee-1.webp" width="1760" height="990" alt="Special Coffee ROSHEN — бленд відбірних сортів кави · Special Coffee ROSHEN, a blend of selected coffees" loading="lazy" decoding="async" draggable="false">
+              <img src="roshen-gl.webp" width="1760" height="990" alt="Зігріваючий кавовий глінтвейн ROSHEN · ROSHEN warming coffee mulled wine" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="s3d-ui sh-zoom">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="in" aria-label="Zoom in · Збільшити">+</button>
+            </div>
+            <div class="cal-bar">
+              <button type="button" class="s3d-btn s3d-ico" data-sh="prev" aria-label="Previous image · Попереднє зображення" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <div class="cal-label" style="min-width:86px" aria-live="polite"><span class="cal-count sh-count" style="color:#111">1 / 3</span></div>
+              <button type="button" class="s3d-btn s3d-ico" data-sh="next" aria-label="Next image · Наступне зображення"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </figure>
+          <figure class="pg-photo pg-video"><video src="roshen-video.mp4" poster="roshen-video-poster.webp" width="576" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="Відео з екрана магазину ROSHEN · ROSHEN in-store screen video"></video></figure>
           </div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
           </div>
