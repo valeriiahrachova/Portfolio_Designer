@@ -1172,6 +1172,12 @@
           <div class="stk-grid stk-white" role="list" aria-label="Стікери · Stickers"><img src="rb-sticker2-1.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-2.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-3.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-4.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-5.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-6.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-7.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-8.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-9.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-10.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-11.svg" width="300" height="300" alt="" loading="eager" decoding="sync"><img src="rb-sticker2-12.svg" width="300" height="300" alt="" loading="eager" decoding="sync"></div>
           <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
         </div>
+        <h3 class="pg-title pg-title-long pg-title-2"><span class="en">Raiffeisen Bank animated posts for business</span><span class="uk">Анімовані пости Raiffeisen Bank для бізнесу</span></h3>
+        <div class="pg-subrow"><p class="pg-sub"><span class="en">Two animated posts for social media.</span><span class="uk">Дві анімації для соціальних мереж.</span></p><div class="pg-tools"><span class="pg-tools-label"><span class="en">Tools</span><span class="uk">Інструменти</span></span><img src="icon-illustrator.svg" width="44" height="44" alt="Adobe Illustrator" title="Adobe Illustrator"><img src="icon-aftereffects.svg" width="44" height="44" alt="Adobe After Effects" title="Adobe After Effects"></div></div>
+        <div class="pg-body">
+          <div class="stk-anim"><video src="rb-anim-1.mp4" poster="rb-anim-1-poster.jpg" width="720" height="900" autoplay muted loop playsinline preload="auto" aria-label="Анімація «Еквайринг від Райфу» · “Acquiring from Raif” animation"></video><video src="rb-anim-2.mp4" poster="rb-anim-2-poster.jpg" width="720" height="900" autoplay muted loop playsinline preload="auto" aria-label="Анімація «Новорічні знижки на кредити для бізнесу» · “New Year business loan discounts” animation"></video></div>
+          <div class="pg-empty pg-text"><span class="en">Project description goes here</span><span class="uk">Тут буде опис проєкту</span></div>
+        </div>
       </div>
       <div class="pg-footer">
         <button type="button" class="pg-back" data-pg-close>
@@ -2746,13 +2752,16 @@
   .stk-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 24px); justify-items: center; align-items: center; margin-bottom: 18px; }
   .stk-grid img { display: block; width: 100%; height: auto; max-width: calc((var(--fit-h, 560px) - 24px) / 2); aspect-ratio: 1; object-fit: contain; transition: transform .35s cubic-bezier(.22,.8,.24,1); }
   .stk-white img { filter: drop-shadow(0 8px 14px rgba(0,0,0,.12)); padding: 4%; box-sizing: border-box; }
+  .stk-anim { display: flex; justify-content: center; gap: clamp(12px, 2vw, 28px); margin-bottom: 18px; }
+  .stk-anim video { display: block; height: var(--fit-h, 560px); max-height: 900px; width: auto; aspect-ratio: 4 / 5; border-radius: 22px; background: #ffe600; object-fit: cover; }
+  @media (max-width: 899px) { .stk-anim { flex-direction: column; align-items: center; } .stk-anim video { height: auto; width: 100%; max-width: 420px; } }
   #stickers-modal .pg-empty { min-height: 120px !important; }
   .stk-grid img:hover { transform: scale(1.08) rotate(-3deg); }
   @media (max-width: 899px) { .stk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .stk-grid img { max-width: 100%; } }
 </style>
 <script id="stk-js">
 (function(){var m=document.getElementById('stickers-modal');if(!m)return;var sc=m.querySelector('.pg-scroll');
-function fit(){var h=m.querySelector('h3.pg-title');if(!h||m.hidden)return;sc.style.paddingBottom='';var base=parseFloat(getComputedStyle(sc).paddingBottom)||0;
+function fit(){var hs=m.querySelectorAll('h3.pg-title'),h=hs[hs.length-1];if(!h||m.hidden)return;sc.style.paddingBottom='';var base=parseFloat(getComputedStyle(sc).paddingBottom)||0;
 var top=h.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop-28;var need=top+sc.clientHeight-sc.scrollHeight;if(need>0)sc.style.setProperty('padding-bottom',(base+need)+'px','important');}
 m.addEventListener('pg:open',function(){fit();requestAnimationFrame(fit);setTimeout(fit,400);});window.addEventListener('resize',fit);
 m.querySelectorAll('img').forEach(function(i){i.addEventListener('load',fit);});})();
