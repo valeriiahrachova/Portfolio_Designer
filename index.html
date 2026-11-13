@@ -2591,9 +2591,15 @@
   @media (max-width: 639px) { [aria-label="Trusted by"] > p { font-size: 15px !important; } }
   #site-header.scrolled .hdr-nav, #scroll-cue { background: linear-gradient(160deg, rgba(255,255,255,.66) 0%, rgba(255,255,255,.3) 55%, rgba(255,255,255,.5) 100%) !important; -webkit-backdrop-filter: blur(22px) saturate(1.8) brightness(1.04) !important; backdrop-filter: blur(22px) saturate(1.8) brightness(1.04) !important; box-shadow: inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.5), inset 1px 0 0 rgba(255,255,255,.6), inset -1px 0 0 rgba(255,255,255,.6), inset 0 0 18px rgba(255,255,255,.35), 0 10px 32px rgba(0,0,0,.09), 0 0 0 1px rgba(0,0,0,.06) !important; }
   #scroll-cue:hover { background: linear-gradient(160deg, rgba(255,255,255,.85), rgba(255,255,255,.55)) !important; }
-  .pg-back { background: #ffe600 !important; color: #111 !important; box-shadow: 0 12px 30px -12px rgba(160,130,0,.75) !important; }
-  .pg-back:hover { background: #fff04d !important; }
-  .pg-back .pg-dot { background: #111 !important; color: #ffe600 !important; }
+  .pg-footer { display: none !important; }
+  .pg-x { background: #ffe600 !important; color: #111 !important; box-shadow: 0 8px 22px -10px rgba(160,130,0,.75) !important; }
+  .pg-x:hover { background: #fff04d !important; }
+  a.rounded-full[class*="bg-[#111]"] { background: #ffe600 !important; color: #111 !important; box-shadow: 0 12px 30px -12px rgba(160,130,0,.75) !important; }
+  a.rounded-full[class*="bg-[#111]"]:hover { background: #fff04d !important; }
+  a.rounded-full[class*="bg-[#111]"] .animated-arrow { background: #111 !important; color: #ffe600 !important; }
+  #to-top { background: #ffe600 !important; color: #111 !important; font-weight: 600 !important; box-shadow: 0 12px 30px -12px rgba(160,130,0,.75) !important; }
+  #to-top:hover, #to-top:active { background: #fff04d !important; }
+  .pg-scroll { padding-bottom: 34px !important; }
   .hdr-nav .nav-link { font-size: 16px; letter-spacing: -.01em; }
   .hdr-nav .lang-btn { font-size: 16px !important; font-weight: 400 !important; letter-spacing: -.01em !important; line-height: 1.2; padding: 8px 18px !important; }
   .wc { position: relative; overflow: hidden; overflow: clip; overflow-clip-margin: 40px; }
