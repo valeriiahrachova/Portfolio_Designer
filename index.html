@@ -2591,13 +2591,21 @@
   .wc-stage { position: relative; height: clamp(300px, calc(100vh - 400px), 520px); overflow: visible; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
   .wc .work-card { position: absolute !important; left: 50%; top: 0; width: min(40%, 520px); height: 100% !important; min-height: 0 !important; margin: 0; background: transparent !important; box-shadow: none !important; border-radius: 0; padding: 0 0 6px !important; transition: transform .65s cubic-bezier(.22,.8,.24,1), opacity .5s ease, filter .5s ease; will-change: transform; }
   .wc .work-card::after { display: none !important; }
-  .wc .work-card .work-photo { top: 0 !important; height: calc(100% - 64px) !important; max-width: 100% !important; }
+  .wc .work-card .work-photo { top: 0 !important; height: calc(100% - 128px) !important; max-width: 100% !important; }
   .wc .work-card:not(.is-active) .work-photo, .wc .work-card:not(.is-active):hover .work-photo { transform: translateX(-50%) !important; }
   .wc .work-card.is-active:hover .work-photo { transform: translateX(-50%) scale(1.06) !important; }
   .wc .work-card .work-title { font-size: clamp(22px, 2vw, 32px) !important; transition: opacity .4s ease; }
   .wc .work-card:not(.is-active) .work-title { opacity: 0; }
   .wc .work-card:not(.is-active) { cursor: pointer; }
   .wc .work-card.is-far { filter: saturate(.7); }
+  .wc-cta { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px 10px 20px; border-radius: 999px; background: #ffe600; color: #111; font-size: 15px; font-weight: 600; letter-spacing: -.01em; box-shadow: 0 10px 26px -12px rgba(160,130,0,.75); transition: opacity .4s ease, transform .25s ease; }
+  .wc-cta i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #111; color: #ffe600; font-style: normal; transition: transform .25s ease; }
+  .wc .work-card:not(.is-active) .wc-cta { opacity: 0; }
+  .wc .work-card.is-active:hover .wc-cta { transform: translateY(-2px); }
+  .wc .work-card.is-active:hover .wc-cta i { transform: rotate(45deg); }
+  .wc .work-card.is-active .work-photo { animation: wcbob 3.2s ease-in-out infinite; }
+  @keyframes wcbob { 0%,100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+  @media (prefers-reduced-motion: reduce) { .wc .work-card.is-active .work-photo { animation: none; } }
   .wc-arrow { position: absolute; bottom: 0; z-index: 20; display: grid; place-items: center; width: 50px; height: 50px; border: 0; border-radius: 50%; background: #ffe600; color: #111; cursor: pointer; box-shadow: 0 10px 26px -10px rgba(160,130,0,.7); transition: transform .2s ease, background .2s ease; }
   .wc-arrow:hover { transform: scale(1.08); background: #fff04d; }
   .wc-arrow:focus-visible { outline: 3px solid #111; outline-offset: 3px; }
@@ -2612,6 +2620,7 @@
   var root=document.querySelector('.wc'); if(!root) return;
   var stage=root.querySelector('.wc-stage'), cards=[].slice.call(stage.querySelectorAll('.work-card')), n=cards.length, cur=0;
   var dots=root.querySelector('.wc-dots');
+  cards.forEach(function(c){ if(c.querySelector('.wc-cta')) return; var b=document.createElement('span'); b.className='wc-cta'; b.setAttribute('aria-hidden','true'); b.innerHTML='<span class="uk">Переглянути проєкт</span><span class="en">View project</span><i><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></i>'; c.appendChild(b); });
   cards.forEach(function(c,i){ var d=document.createElement('button'); d.type='button'; d.setAttribute('role','tab'); d.setAttribute('aria-label',String(i+1)); d.addEventListener('click',function(){go(i);}); dots.appendChild(d); });
   function rel(i){ var r=((i-cur)%n+n)%n; if(r>n/2) r-=n; return r; }
   function layout(){
