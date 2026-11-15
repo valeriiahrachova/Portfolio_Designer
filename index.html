@@ -518,7 +518,7 @@
                 <span class="animated-arrow grid h-10 w-10 place-items-center rounded-full bg-[#fee600] text-[#111]" aria-hidden="true"><svg viewBox="0 0 20 20" class="h-5 w-5" fill="none"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></span>
               </a>
               <button type="button" data-reviews-open aria-haspopup="dialog" aria-controls="reviews-modal" class="group flex items-center gap-3 text-base font-medium text-[#111] transition hover:gap-4">
-                <span><span class="en">View reviews</span><span class="uk">Переглянути відгуки</span></span>
+                <span><span class="en">Reviews</span><span class="uk">Відгуки</span></span>
                 <svg viewBox="0 0 20 20" class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg>
               </button>
             </div>
@@ -530,6 +530,7 @@
               <span class="en">I enjoy creating <mark class="hl">convenient, stylish design</mark><br class="hidden lg:inline"> that meets users’ needs.</span>
               <span class="uk">Мені подобається створювати <mark class="hl">зручний і стильний дизайн</mark>,<br class="hidden lg:inline"> що відповідає потребам користувачів.</span>
             </p>
+            <p class="about-tools-h"><span class="en">My toolkit</span><span class="uk">Мій інструментарій</span></p>
             <ul class="about-tags mt-8 flex flex-wrap justify-center gap-2.5 text-sm">
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">Photoshop</span><span class="uk">Photoshop</span></li>
               <li class="rounded-full border border-black/15 px-4 py-2"><span class="en">Illustrator</span><span class="uk">Illustrator</span></li>
@@ -2790,6 +2791,10 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.fo
 })();
 </script>
 <style id="aboutm-css">
+.about-tools-h { margin-top: 32px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(0,0,0,.45); }
+#about .about-tools-h + .about-tags { margin-top: 12px; }
+@media (max-width: 639px) { .about-tools-h { margin-top: 14px; font-size: 11px; } #about .about-tools-h + .about-tags { margin-top: 6px !important; } }
+@media (max-width: 639px) and (max-height: 620px) { .about-tools-h { margin-top: 8px; font-size: 10px; } }
 @media (max-width: 639px) {
   #about .about-col { gap: 0 !important; }
   #about .about-photo { width: min(100%, calc((100svh - 470px) * 1.54)); min-width: 170px; }
