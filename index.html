@@ -2819,11 +2819,31 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.fo
     if (window.innerWidth >= 640) return;
     var sec = document.getElementById('about'); if (!sec) return;
     e.preventDefault();
-    function to(){ var h = document.getElementById('site-header'); var hb = h ? h.getBoundingClientRect().bottom : 70;
-      var y = sec.getBoundingClientRect().top + window.pageYOffset - Math.max(0, hb) - 6;
-      window.scrollTo({ top: y, behavior: 'smooth' }); }
-    setTimeout(to, 350); setTimeout(function(){ document.documentElement.style.scrollBehavior='auto'; to(); document.documentElement.style.scrollBehavior=''; }, 1400);
     if (history.replaceState) history.replaceState(null, '', '#about');
+    var root = document.documentElement, stop = false, t0 = null, y0, dur = 650, hold = 2200;
+    /* stop the moment the visitor touches or scrolls the page themselves */
+    var ev = ['touchstart', 'wheel', 'keydown', 'mousedown'];
+    function user(){ stop = true; }
+    /* the exact spot: top of the block just under the menu bar; recomputed every frame,
+       so images that finish loading above the block cannot push the landing point off */
+    function target(){
+      var h = document.getElementById('site-header'), hb = h ? h.getBoundingClientRect().bottom : 70;
+      return Math.max(0, sec.getBoundingClientRect().top + window.pageYOffset - Math.max(0, hb) - 12);
+    }
+    function ease(x){ return 1 - Math.pow(1 - x, 3); }
+    function frame(ts){
+      if (stop) return done();
+      if (t0 === null) t0 = ts;
+      var k = (ts - t0) / dur, T = target();
+      window.scrollTo(0, k < 1 ? y0 + (T - y0) * ease(k) : T);
+      if (k < 1 + hold / dur) requestAnimationFrame(frame); else done();
+    }
+    function done(){ root.style.scrollBehavior = ''; ev.forEach(function(n){ window.removeEventListener(n, user); }); }
+    setTimeout(function(){
+      root.style.scrollBehavior = 'auto'; y0 = window.pageYOffset;
+      ev.forEach(function(n){ window.addEventListener(n, user, { passive: true }); });
+      requestAnimationFrame(frame);
+    }, 60);
   }
   [].forEach.call(document.querySelectorAll('a[href="#about"]:not(#explore-btn)'), function(a){ a.addEventListener('click', go); });
   var sec = document.getElementById('about');
