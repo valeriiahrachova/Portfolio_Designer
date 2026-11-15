@@ -550,6 +550,10 @@
   
   
   
+  
+  
+  
+  
   <!-- PMQ -->
   <div class="pmq" role="img" aria-label="Добірка робіт · A selection of my work"><ul class="pmq-row pmq-r1" aria-hidden="true"><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul><ul class="pmq-row pmq-r2" aria-hidden="true"><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul></div>
 <!-- /PMQ -->
@@ -2818,13 +2822,14 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.fo
 }
 /* mnav: on phones/tablets the bar shows the three links and the language switch as text, no burger */
 @media (max-width: 1023px) {
-  .hdr-nav { padding-left: 16px !important; padding-right: 10px !important; }
+  .hdr-nav { padding-left: 16px !important; padding-right: 8px !important; }
+  @media (max-width: 639px) { .hdr-nav { width: auto !important; margin-left: 14px !important; margin-right: 14px !important; } }
   .hdr-nav > div.hidden { display: flex !important; position: static !important; transform: none !important; width: 100%; justify-content: space-between; gap: 10px !important; }
   .hdr-nav > div.ml-auto, #mobile-menu { display: none !important; }
-  .hdr-nav .nav-link { font-size: 14px !important; letter-spacing: -.02em; }
+  .hdr-nav .nav-link { font-size: 13.5px !important; letter-spacing: -.02em; }
   .hdr-nav > div.hidden .lang-btn { margin-left: 0 !important; font-size: 14px !important; padding: 7px 13px !important; }
 }
-@media (max-width: 370px) {
+@media (max-width: 380px) {
   .hdr-nav .nav-link, .hdr-nav > div.hidden .lang-btn { font-size: 12.5px !important; }
   .hdr-nav > div.hidden { gap: 6px !important; }
   .hdr-nav > div.hidden .lang-btn { padding: 6px 10px !important; }
