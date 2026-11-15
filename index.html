@@ -570,6 +570,12 @@
   
   
   
+  
+  
+  
+  
+  
+  
   <!-- PMQ -->
   <div class="pmq" role="img" aria-label="Добірка робіт · A selection of my work"><ul class="pmq-row pmq-r1" aria-hidden="true"><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul><ul class="pmq-row pmq-r2" aria-hidden="true"><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul></div>
 <!-- /PMQ -->
@@ -2925,6 +2931,51 @@ html.no-smooth, html.no-smooth body { scroll-behavior: auto !important; }
   @keyframes pmq { from { transform: translateX(0); } to { transform: translateX(calc(-50% - clamp(5px, .7vw, 9px))); } }
   @media (prefers-reduced-motion: reduce) { .pmq-row { animation: none; } }
 </style>
+<style id="pz-css">
+  .pg-modal figure.pg-photo.pz { position: relative; overflow: hidden; }
+  .pg-photo.pz img { transition: transform .25s ease; transform-origin: 50% 50%; will-change: transform; }
+  .pg-photo.pz.is-drag img { transition: none; }
+  .pg-photo.pz.is-zoom { cursor: grab; touch-action: none; }
+  .pg-photo.pz.is-zoom.is-drag { cursor: grabbing; }
+  .pz-ui { position: absolute; right: 12px; bottom: 12px; z-index: 6; display: flex; gap: 8px; }
+  .pz-ui .s3d-btn { position: static; }
+  @media (max-width: 639px) { .pz-ui { right: 8px; bottom: 8px; gap: 6px; } }
+  /* pz-glass: zoom buttons are small and see-through so they do not cover the work */
+  .pz-ui .s3d-btn, .pg-shots .sh-zoom .s3d-btn, .pg-infog .s3d-ui .s3d-btn { width: 34px !important; height: 34px !important; min-width: 0 !important; padding: 0 !important; background: rgba(255,255,255,.42) !important; -webkit-backdrop-filter: blur(8px) saturate(1.4); backdrop-filter: blur(8px) saturate(1.4); box-shadow: 0 0 0 1px rgba(0,0,0,.08) !important; color: #111 !important; opacity: .8; transition: opacity .2s ease, background .2s ease; }
+  .pz-ui .s3d-btn:hover:not([disabled]), .pg-shots .sh-zoom .s3d-btn:hover:not([disabled]), .pg-infog .s3d-ui .s3d-btn:hover:not([disabled]) { background: rgba(255,255,255,.85) !important; opacity: 1; }
+  .pz-ui .s3d-btn[disabled], .pg-shots .sh-zoom .s3d-btn[disabled], .pg-infog .s3d-ui .s3d-btn[disabled] { opacity: .35 !important; background: rgba(255,255,255,.3) !important; }
+  @media (max-width: 640px) {
+    .pg-shots.sh-below .sh-zoom { display: flex !important; top: 8px !important; left: 8px !important; bottom: auto !important; right: auto !important; gap: 6px; }
+    .pz-ui .s3d-btn, .pg-shots .sh-zoom .s3d-btn, .pg-infog .s3d-ui .s3d-btn { width: 30px !important; height: 30px !important; }
+  }
+</style>
+<script id="pz-js">
+(function(){
+  var figs=[].slice.call(document.querySelectorAll('.pg-modal figure.pg-photo:not(.pg-video)'));
+  figs.forEach(function(f){
+    var img=f.querySelector('img'); if(!img||f.classList.contains('pz')) return;
+    f.classList.add('pz');
+    var ui=document.createElement('div'); ui.className='pz-ui';
+    ui.innerHTML='<button type="button" class="s3d-btn s3d-ico" data-pz="out" aria-label="Zoom out · Зменшити" disabled>&minus;</button><button type="button" class="s3d-btn s3d-ico" data-pz="in" aria-label="Zoom in · Збільшити">+</button>';
+    f.appendChild(ui);
+    var bOut=ui.children[0], bIn=ui.children[1], z=1, x=0, y=0, MAX=3, base=getComputedStyle(img).transform;
+    base=(base&&base!=='none')?base+' ':'';
+    function clamp(){ var w=f.clientWidth, h=f.clientHeight, mx=(z-1)*w/2, my=(z-1)*h/2; x=Math.max(-mx,Math.min(mx,x)); y=Math.max(-my,Math.min(my,y)); }
+    function apply(){ clamp(); img.style.transform=z===1?'':('translate('+x+'px,'+y+'px) scale('+z+')'); f.classList.toggle('is-zoom',z>1); bOut.disabled=z<=1; bIn.disabled=z>=MAX; }
+    function set(n){ z=Math.max(1,Math.min(MAX,Math.round(n*100)/100)); if(z===1){x=0;y=0;} apply(); }
+    bIn.addEventListener('click',function(e){ e.stopPropagation(); set(z+.5); });
+    bOut.addEventListener('click',function(e){ e.stopPropagation(); set(z-.5); });
+    f.addEventListener('wheel',function(e){ if(z===1&&!e.ctrlKey) return; e.preventDefault(); set(z+(e.deltaY<0?.25:-.25)); },{passive:false});
+    var d=null;
+    f.addEventListener('pointerdown',function(e){ if(z===1||e.target.closest('.pz-ui')) return; d={px:e.clientX,py:e.clientY,x:x,y:y}; f.classList.add('is-drag'); try{f.setPointerCapture(e.pointerId);}catch(_){} });
+    f.addEventListener('pointermove',function(e){ if(!d) return; x=d.x+e.clientX-d.px; y=d.y+e.clientY-d.py; apply(); });
+    function end(){ d=null; f.classList.remove('is-drag'); }
+    f.addEventListener('pointerup',end); f.addEventListener('pointercancel',end);
+    var m=f.closest('.pg-modal'); if(m) m.addEventListener('pg:close',function(){ set(1); });
+    window.addEventListener('resize',apply);
+  });
+})();
+</script>
 <script id="perf-js">
 (function(){
   var modals=[].slice.call(document.querySelectorAll('.pg-modal'));
