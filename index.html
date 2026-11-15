@@ -2804,6 +2804,19 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.fo
   #about .about-tags li { padding: 4px 10px !important; }
   body.about-in #to-top { opacity: 0 !important; pointer-events: none !important; }
 }
+/* mnav: on phones/tablets the bar shows the three links and the language switch as text, no burger */
+@media (max-width: 1023px) {
+  .hdr-nav { padding-left: 16px !important; padding-right: 10px !important; }
+  .hdr-nav > div.hidden { display: flex !important; position: static !important; transform: none !important; width: 100%; justify-content: space-between; gap: 10px !important; }
+  .hdr-nav > div.ml-auto, #mobile-menu { display: none !important; }
+  .hdr-nav .nav-link { font-size: 14px !important; letter-spacing: -.02em; }
+  .hdr-nav > div.hidden .lang-btn { margin-left: 0 !important; font-size: 14px !important; padding: 7px 13px !important; }
+}
+@media (max-width: 370px) {
+  .hdr-nav .nav-link, .hdr-nav > div.hidden .lang-btn { font-size: 12.5px !important; }
+  .hdr-nav > div.hidden { gap: 6px !important; }
+  .hdr-nav > div.hidden .lang-btn { padding: 6px 10px !important; }
+}
 @media (max-width: 639px) and (max-height: 620px) {
   #about .about-photo { min-width: 140px; }
   #about .about-cta { margin-bottom: 8px !important; }
