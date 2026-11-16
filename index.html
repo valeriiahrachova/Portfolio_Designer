@@ -580,6 +580,8 @@
   
   
   
+  
+  
   <!-- PMQ -->
   <div class="pmq" role="img" aria-label="Добірка робіт · A selection of my work"><ul class="pmq-row pmq-r1" aria-hidden="true"><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-1-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul><ul class="pmq-row pmq-r2" aria-hidden="true"><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-1.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-2.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-3.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-4.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-5.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-6.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li><li><img src="mq-2-7.webp" width="720" height="480" alt="" loading="lazy" decoding="async" draggable="false"></li></ul></div>
 <!-- /PMQ -->
@@ -2952,6 +2954,11 @@ html.no-smooth, html.no-smooth body { scroll-behavior: auto !important; }
     .pg-shots.sh-below .sh-zoom { display: flex !important; top: 8px !important; left: 8px !important; bottom: auto !important; right: auto !important; gap: 6px; }
     .pz-ui .s3d-btn, .pg-shots .sh-zoom .s3d-btn, .pg-infog .s3d-ui .s3d-btn { width: 30px !important; height: 30px !important; }
   }
+  /* FULLW: on phones a slider frame takes the shape of the current picture, so vertical layouts fill the full width */
+  @media (max-width: 639px) {
+    .pg-modal .pg-shots.sh-fw .sh-track { aspect-ratio: var(--sh-ar, 4 / 3) !important; height: auto !important; max-height: none !important; flex: none !important; }
+    .pg-modal .pg-shots.sh-fw .sh-track img { padding: 0 !important; filter: none !important; object-fit: contain !important; }
+  }
   /* NOCROP: on phones every example is shown whole, never cropped */
   @media (max-width: 639px) {
     .pg-modal figure.pg-photo.pz { aspect-ratio: auto !important; height: auto !important; contain: none !important; }
@@ -3001,6 +3008,15 @@ html.no-smooth, html.no-smooth body { scroll-behavior: auto !important; }
       if(r>1.22){ if(!bi.disabled) bi.click(); base=dist(e); } else if(r<0.82){ if(!bo.disabled) bo.click(); base=dist(e); } },{passive:false});
     f.addEventListener('touchend',function(e){ if(e.touches.length<2) base=null; },{passive:true});
     f.addEventListener('gesturestart',function(e){ e.preventDefault(); });
+  });
+  /* FULLW */
+  [].forEach.call(document.querySelectorAll('.pg-modal .pg-shots'),function(f){
+    var tr=f.querySelector('.sh-track'); if(!tr) return; var imgs=[].slice.call(tr.querySelectorAll('img')); if(!imgs.length) return;
+    f.classList.add('sh-fw');
+    function upd(){ var m=/translateX\(\s*(-?[\d.]+)%/.exec(tr.style.transform||''), k=m?Math.round(-parseFloat(m[1])/100):0, im=imgs[Math.max(0,Math.min(imgs.length-1,k))];
+      var w=im.naturalWidth||+im.getAttribute('width'), h=im.naturalHeight||+im.getAttribute('height'); if(w&&h) tr.style.setProperty('--sh-ar', w+' / '+h); }
+    upd(); new MutationObserver(upd).observe(tr,{attributes:true,attributeFilter:['style']});
+    imgs.forEach(function(im){ im.addEventListener('load',upd); });
   });
 })();
 </script>
