@@ -612,6 +612,7 @@
   </footer>
   <div id="reviews-modal" role="dialog" aria-modal="true" aria-labelledby="reviews-title" hidden>
     <div class="rv-panel">
+      <button type="button" class="pg-x rv-x" data-reviews-close aria-label="Close · Закрити"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
       <div class="rv-scroll">
       <h2 id="reviews-title" class="rv-title">
         <span class="rv-soft"><span class="en">And many more.</span><span class="uk">Та багато інших.</span></span>
@@ -3024,6 +3025,17 @@ html.no-smooth, html.no-smooth body { scroll-behavior: auto !important; }
   if(document.readyState==='complete') start(); else window.addEventListener('load',start);
 })();
 </script>
+<style id="close-css">
+  @media (min-width: 900px) {
+    .pg-footer, #reviews-modal .rv-footer { display: none !important; }
+    #reviews-modal .rv-scroll { border-radius: 26px; padding-bottom: 26px; }
+  }
+  @media (max-width: 899px) {
+    .pg-footer { display: block !important; }
+    .pg-back, #reviews-modal .rv-back { outline: none !important; -webkit-tap-highlight-color: transparent; }
+    .pg-modal .pg-panel > .pg-x, #reviews-modal .rv-x { display: none !important; }
+  }
+</style>
 <style id="hero-css">
   .hero-name { margin: 0 0 26px; font-size: 30px; font-weight: 500; letter-spacing: .02em; color: rgba(0,0,0,.6); }
   .hero-t2 { white-space: nowrap; font-size: min(4.9vw, 78px); line-height: 1.1; letter-spacing: .012em !important; word-spacing: .04em; }
