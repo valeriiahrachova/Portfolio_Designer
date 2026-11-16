@@ -7,7 +7,7 @@
 (function(){var h=document.head;if(!h)return;document.querySelectorAll('link[rel="icon"],link[rel="apple-touch-icon"]').forEach(function(l){if(l.parentNode!==h)h.appendChild(l);});})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@500&family=Manrope:wght@500;600;700;800&display=swap">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>
   tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Instrument Serif"', 'Georgia', 'serif'], sans: ['"DM Sans"', 'system-ui', 'sans-serif'] } } } }
@@ -3038,15 +3038,20 @@ html.no-smooth, html.no-smooth body { scroll-behavior: auto !important; }
 </style>
 <style id="hero-css">
   .hero-name { margin: 0 0 26px; font-size: 30px; font-weight: 500; letter-spacing: .02em; color: rgba(0,0,0,.6); }
-  .hero-t2 { white-space: nowrap; font-size: min(4.6vw, 74px); line-height: 1.1; font-weight: 700 !important; letter-spacing: .012em !important; word-spacing: .04em; }
+  .hero-t2 { white-space: nowrap; font-size: min(4.25vw, 68px); line-height: 1.1; font-weight: 700 !important; letter-spacing: .012em !important; word-spacing: .04em; }
   .hero-t2 .hero-dot { font-style: normal; }
   .hero-t2 .hero-br { display: none; }
   @media (max-width: 639px) {
     .hero-name { font-size: 22px; margin-bottom: 18px; }
-    .hero-t2 { font-size: 9.3vw; line-height: 1.22; }
+    .hero-t2 { font-size: 8.7vw; line-height: 1.22; }
     .hero-t2 .hero-dot { display: none; }
     .hero-t2 .hero-br { display: inline; }
   }
+</style>
+<style id="font-css">
+  h1, h2, .hero-display, .hero-name, .pg-title, .rv-title { font-family: 'Manrope', 'Inter Tight', system-ui, sans-serif !important; }
+  h2, .pg-title, .rv-title { font-weight: 600 !important; }
+  .hero-name { font-weight: 600; }
 </style>
 
 </html>
